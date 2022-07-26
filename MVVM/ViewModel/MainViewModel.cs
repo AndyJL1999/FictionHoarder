@@ -9,48 +9,19 @@ namespace FictionHoarder.MVVM.ViewModel
 {
     class MainViewModel : ObservableObject
     {
-        public RelayCommand HomeViewCommand { get; set; }
-        public RelayCommand StoriesViewCommand { get; set; }
-        public RelayCommand HistoryViewCommand { get; set; }
+        private readonly NavigationStore _navigationStore;
+        public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
 
-        public HomeViewModel HomeVM { get; set; }
-        public StoriesViewModel StoriesVM { get; set; }
-        public HistoryViewModel HistoryVM { get; set; }
-
-        private object _currentView;
-
-        public object CurrentView
+        public MainViewModel(NavigationStore navigationStore)
         {
-            get { return _currentView; }
-            set 
-            { 
-                _currentView = value;
-                OnPropertyChanged();
-            }
+            _navigationStore = navigationStore;
+
+            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
         }
 
-        public MainViewModel()
+        private void OnCurrentViewModelChanged()
         {
-            HomeVM = new HomeViewModel();
-            StoriesVM = new StoriesViewModel();
-            HistoryVM = new HistoryViewModel();
-
-            CurrentView = HomeVM;
-
-            HomeViewCommand = new RelayCommand(o =>
-            {
-                CurrentView = HomeVM;
-            });
-
-            StoriesViewCommand = new RelayCommand(o =>
-            {
-                CurrentView = StoriesVM;
-            });
-
-            HistoryViewCommand = new RelayCommand(o =>
-            {
-                CurrentView = HistoryVM;
-            });
+            OnPropertyChanged(nameof(CurrentViewModel));
         }
     }
 }

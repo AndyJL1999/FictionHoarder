@@ -5,42 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FictionHoarder"
         xmlns:viewModel="clr-namespace:FictionHoarder.MVVM.ViewModel"
+        xmlns:view="clr-namespace:FictionHoarder.MVVM.View" 
+        d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
         mc:Ignorable="d"
         Title="FictionHoarder" Height="600" Width="920"
         WindowStyle="None"
         ResizeMode="NoResize"
         Background="Transparent" 
-        AllowsTransparency="True">
+        AllowsTransparency="True"
+        MouseLeftButtonDown="Grid_MouseDown">
 
-    <Window.DataContext>
-        <viewModel:MainViewModel/>
-    </Window.DataContext>
-    
-    <Border Background="#272537" CornerRadius="20" MouseDown="Grid_MouseDown">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+    <ContentControl Content="{Binding CurrentViewModel}"/>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-
-            <TextBlock Text="FictionHoarder" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="21"/>
-
-            <StackPanel Grid.Row="1">
-                <RadioButton Content="Home" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}" IsChecked="True" Command="{Binding HomeViewCommand}"/>
-                <RadioButton Content="Stories" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}" Command="{Binding StoriesViewCommand}"/>
-                <RadioButton Content="History" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}" Command="{Binding HistoryViewCommand}"/>
-            </StackPanel>
-
-            <TextBox Width="250" Height="40" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="5" Grid.Column="1" Style="{StaticResource SearchBox}"/>
-
-            <ContentControl Grid.Row="1" Grid.Column="1" Margin="10" Content="{Binding CurrentView}"/>
-        </Grid>
-    </Border>
-        
-    
 </Window>

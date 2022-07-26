@@ -8,11 +8,11 @@ using System.Windows.Input;
 
 namespace FictionHoarder.MVVM.ViewModel
 {
-    class StoriesViewModel : ObservableObject
+    class SearchViewModel : ObservableObject
     {
         public ICommand ToReadCommand { get; }
 
-        public StoriesViewModel(NavigationStore navigationStore)
+        public SearchViewModel(NavigationStore navigationStore)
         {
             ToReadCommand = new NavigateCommand<ReadPageModel>(navigationStore, () => new ReadPageModel(navigationStore), false);
         }

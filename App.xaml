@@ -24,6 +24,14 @@
             <DataTemplate DataType="{x:Type viewModel:HistoryViewModel}">
                 <view:HistoryView/>
             </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:SearchViewModel}">
+                <view:SearchView/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:MainPageModel}">
+                <view:MainPage/>
+            </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

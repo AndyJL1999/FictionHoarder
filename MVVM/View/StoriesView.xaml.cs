@@ -24,5 +24,6 @@ namespace FictionHoarder.MVVM.View
         {
             InitializeComponent();
         }
+
     }
 }
