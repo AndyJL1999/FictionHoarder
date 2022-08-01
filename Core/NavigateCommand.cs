@@ -25,13 +25,17 @@ namespace FictionHoarder.Core
 
         public override void Execute(object parameter)
         {
-            if(_createViewModel is null)
+            if (_createViewModel is null)
             {
                 _navigationStore.CurrentViewModel = _navigationStore.CurrentViewModel;
                 _navigationStore.CurrentSubViewModel = _createSubViewModel();
+                Console.WriteLine("hi");
             }
             else
+            {
                 _navigationStore.CurrentViewModel = _createViewModel();
+                Console.WriteLine("Yo~");
+            }
         }
     }
 }

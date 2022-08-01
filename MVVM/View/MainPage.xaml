@@ -6,8 +6,7 @@
       xmlns:local="clr-namespace:FictionHoarder.MVVM.View"
       xmlns:viewModel="clr-namespace:FictionHoarder.MVVM.ViewModel"
       mc:Ignorable="d" 
-      d:DesignHeight="600" d:DesignWidth="920"
-      >
+      d:DesignHeight="600" d:DesignWidth="920">
 
     <Border Background="#272537" CornerRadius="20" >
         <Grid>

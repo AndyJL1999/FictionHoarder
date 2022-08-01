@@ -3,7 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FictionHoarder.MVVM.View"
+             xmlns:local="clr-namespace:FictionHoarder.MVVM.View" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
+             xmlns:viewmodel="clr-namespace:FictionHoarder.MVVM.ViewModel" 
+             d:DataContext="{d:DesignInstance Type=viewmodel:StoriesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
     <StackPanel>
@@ -11,6 +14,8 @@
                    HorizontalAlignment="Left" Margin="0,0,0,20"/>
 
         <ListBox Height="390" Background="#272537">
+
+
             <ListBoxItem Height="80">
                 <TextBlock x:Name="Title" MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
                             Margin="10,0,0,45"/>

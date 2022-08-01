@@ -1,4 +1,7 @@
-﻿using System;
+﻿using FictionHoarder.Core;
+using FictionHoarder.MVVM.ViewModel;
+using FictionHoarder.MVVM.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,5 +28,12 @@ namespace FictionHoarder.MVVM.View
             InitializeComponent();
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //var viewModel = (StoriesViewModel)DataContext;
+            //if (viewModel.ToReadCommand.CanExecute(null))
+            //    viewModel.ToReadCommand.Execute(null);
+            
+        }
     }
 }

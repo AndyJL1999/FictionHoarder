@@ -15,6 +15,9 @@ namespace FictionHoarder.MVVM.ViewModel
         public ReadPageModel(NavigationStore navigationStore)
         {
             ToHomeCommand = new NavigateCommand<MainPageModel>(navigationStore, () => new MainPageModel(navigationStore), false);
+            navigationStore.CurrentSubViewModel = new HomeViewModel(navigationStore);
+            navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
         }
+
     }
 }

@@ -4,13 +4,15 @@
              xmlns:local="clr-namespace:FictionHoarder"
              xmlns:viewModel="clr-namespace:FictionHoarder.MVVM.ViewModel"
              xmlns:view="clr-namespace:FictionHoarder.MVVM.View"
+             xmlns:model="clr-namespace:FictionHoarder.MVVM.Model"
              StartupUri="MainWindow.xaml">
     
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Theme/MenuButtons.xaml"/>
-                <ResourceDictionary Source="Theme/TextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Themes/MenuButtonsTheme.xaml"/>
+                <ResourceDictionary Source="Themes/SearchBoxTheme.xaml"/>
+                <ResourceDictionary Source="Themes/MenuListItems.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
@@ -31,6 +33,10 @@
 
             <DataTemplate DataType="{x:Type viewModel:MainPageModel}">
                 <view:MainPage/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type viewModel:ReadPageModel}">
+                <view:ReadingPage/>
             </DataTemplate>
         </ResourceDictionary>
     </Application.Resources>
