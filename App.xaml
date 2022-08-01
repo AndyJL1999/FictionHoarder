@@ -4,8 +4,7 @@
              xmlns:local="clr-namespace:FictionHoarder"
              xmlns:viewModel="clr-namespace:FictionHoarder.MVVM.ViewModel"
              xmlns:view="clr-namespace:FictionHoarder.MVVM.View"
-             xmlns:model="clr-namespace:FictionHoarder.MVVM.Model"
-             StartupUri="MainWindow.xaml">
+             xmlns:model="clr-namespace:FictionHoarder.MVVM.Model">
     
     <Application.Resources>
         <ResourceDictionary>

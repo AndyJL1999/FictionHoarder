@@ -27,7 +27,6 @@ namespace FictionHoarder.Core
         {
             if (_createViewModel is null)
             {
-                _navigationStore.CurrentViewModel = _navigationStore.CurrentViewModel;
                 _navigationStore.CurrentSubViewModel = _createSubViewModel();
                 Console.WriteLine("hi");
             }
