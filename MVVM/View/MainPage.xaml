@@ -20,7 +20,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Button Content="❌" Foreground="#CFCFCF" Style="{StaticResource ExitButtonTheme}" Grid.Column="1" Width="35" Height="35" 
+            <Button Content="❌" Foreground="#CFCFCF" Style="{StaticResource ButtonTheme}" Grid.Column="1" Width="35" Height="35" 
                     HorizontalAlignment="Right" Margin="0,0,15,15" Click="Button_Click" BorderThickness="0"
                     /> 
 
