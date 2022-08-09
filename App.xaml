@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:FictionHoarder"
              xmlns:viewModel="clr-namespace:FictionHoarder.MVVM.ViewModel"
-             xmlns:view="clr-namespace:FictionHoarder.MVVM.View"
-             xmlns:model="clr-namespace:FictionHoarder.MVVM.Model">
+             xmlns:view="clr-namespace:FictionHoarder.MVVM.View">
     
     <Application.Resources>
         <ResourceDictionary>
@@ -12,6 +11,7 @@
                 <ResourceDictionary Source="Themes/MenuButtonsTheme.xaml"/>
                 <ResourceDictionary Source="Themes/SearchBoxTheme.xaml"/>
                 <ResourceDictionary Source="Themes/MenuListItems.xaml"/>
+                <ResourceDictionary Source="Themes/ExitButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">

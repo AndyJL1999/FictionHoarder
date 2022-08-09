@@ -42,5 +42,10 @@ namespace FictionHoarder.MVVM.View
                 "Orci a scelerisque purus semper.Eget gravida cum sociis natoque penatibus et magnis dis.Diam quam nulla porttitor massa id neque aliquam. Odio pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus. Urna porttitor rhoncus dolor purus non. Turpis egestas maecenas pharetra convallis." +
                 "Non diam phasellus vestibulum lorem.Tortor dignissim convallis aenean et tortor at risus viverra.Malesuada fames ac turpis egestas sed tempus urna et.Ultrices vitae auctor eu augue ut lectus.Faucibus vitae aliquet nec ullamcorper sit amet risus. Gravida rutrum quisque non tellus orci ac auctor augue mauris.";
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
+        }
     }
 }

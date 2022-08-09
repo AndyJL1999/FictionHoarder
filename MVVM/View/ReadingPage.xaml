@@ -26,6 +26,10 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
+            <Button Content="❌" Foreground="#CFCFCF" Style="{StaticResource ExitButtonTheme}" Grid.Column="5" Width="35" Height="35" 
+                    HorizontalAlignment="Right" Margin="0,0,15,15" Click="Button_Click" BorderThickness="0"
+                    />
+
             <TextBlock Text="FictionHoarder" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="White" FontSize="21"/>
 
@@ -34,8 +38,8 @@
             <TextBlock Text="Chapter 1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="White" FontSize="18"/>
 
-            <Button Grid.Column="2" Margin="25,25,25,25" Content="◀" FontSize="18"/>
-            <Button Grid.Column="4" Margin="25,25,25,25" Content="▶" FontSize="18"/>
+            <Button Grid.Column="2" Margin="40,25,40,25" Content="◀" FontSize="18"/>
+            <Button Grid.Column="4" Margin="40,25,40,25" Content="▶" FontSize="18"/>
 
 
             <Grid Grid.Row="1" Grid.ColumnSpan="6" Width="auto" Height="auto" >

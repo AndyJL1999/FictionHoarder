@@ -58,15 +58,15 @@
     <Folder Include="Properties" />
     <Folder Include="dbo" />
     <Folder Include="dbo\Tables" />
-    <Folder Include="StoredProcedures" />
+    <Folder Include="dbo\StoredProcedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Story.sql" />
-    <Build Include="StoredProcedures\spStory_GetAll.sql" />
-    <Build Include="StoredProcedures\spStory_Get.sql" />
-    <Build Include="StoredProcedures\spStory_Delete.sql" />
-    <Build Include="StoredProcedures\spStory_Insert.sql" />
-    <Build Include="StoredProcedures\spStory_Update.sql" />
+    <Build Include="dbo\StoredProcedures\spStory_Delete.sql" />
+    <Build Include="dbo\StoredProcedures\spStory_Get.sql" />
+    <Build Include="dbo\StoredProcedures\spStory_GetAll.sql" />
+    <Build Include="dbo\StoredProcedures\spStory_Insert.sql" />
+    <Build Include="dbo\StoredProcedures\spStory_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MyFictionDB.publish.xml" />
