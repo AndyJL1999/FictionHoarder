@@ -8,7 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
 
-
     <StackPanel>
         <TextBlock Text="Stories" Foreground="White" FontSize="30"
                    HorizontalAlignment="Left" Margin="0,0,0,20"/>
