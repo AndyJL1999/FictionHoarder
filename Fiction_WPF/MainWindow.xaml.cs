@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using FictionHoarder.Core;
+using FictionHoarder.MVVM.View;
 
 namespace FictionHoarder
 {
@@ -26,11 +27,32 @@ namespace FictionHoarder
             InitializeComponent();
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            WindowState = WindowState.Minimized;
+        }
+
+        private void MaximizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+            }
+            else if (WindowState == WindowState.Normal)
+            {
+                WindowState = WindowState.Maximized;
+            }
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.Close();
+        }
+
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
                 DragMove();
         }
-
     }
 }

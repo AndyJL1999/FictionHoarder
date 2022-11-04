@@ -9,33 +9,42 @@
              d:DataContext="{d:DesignInstance Type=viewmodel:StoriesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
-    <StackPanel>
+
+    <Grid Name="MainGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.1*"/>
+            <RowDefinition Height="0.9*"/>
+        </Grid.RowDefinitions>
+
         <TextBlock Text="History" Foreground="White" FontSize="30"
-                   HorizontalAlignment="Left" Margin="0,0,0,20"/>
+                   HorizontalAlignment="Left" Margin="0,0,0,5" Grid.Row="0"/>
 
-        <ListBox Height="390" Background="#272537">
+        <ListView Background="Transparent" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  Grid.Row="1"
+                  BorderThickness="0">
 
-
-            <ListBoxItem Height="80">
+            <ListViewItem Height="80">
                 <TextBlock x:Name="Title" MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
                             Margin="10,0,0,45"/>
-            </ListBoxItem>
-            <ListBoxItem Height="80">
+            </ListViewItem>
+            <ListViewItem Height="80">
                 <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
                             Margin="10,0,0,45"/>
-            </ListBoxItem>
-            <ListBoxItem Height="80">
+            </ListViewItem>
+            <ListViewItem Height="80">
                 <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
                             Margin="10,0,0,45"/>
-            </ListBoxItem>
-            <ListBoxItem Height="80">
+            </ListViewItem>
+            <ListViewItem Height="80">
                 <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
                             Margin="10,0,0,45"/>
-            </ListBoxItem>
-            <ListBoxItem Height="80">
+            </ListViewItem>
+            <ListViewItem Height="80">
                 <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
                             Margin="10,0,0,45"/>
-            </ListBoxItem>
-        </ListBox>
-    </StackPanel>
+            </ListViewItem>
+        </ListView>
+
+    </Grid>
 </UserControl>

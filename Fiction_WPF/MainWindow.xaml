@@ -6,13 +6,50 @@
         xmlns:viewModel="clr-namespace:FictionHoarder.MVVM.ViewModel"
         d:DataContext="{d:DesignInstance Type=viewModel:MainViewModel}"
         mc:Ignorable="d"
-        Title="FictionHoarder" Height="600" Width="920"
+        Title="FictionHoarder"
         WindowStyle="None"
-        ResizeMode="NoResize"
-        Background="Transparent" 
         AllowsTransparency="True"
-        MouseLeftButtonDown="Grid_MouseDown">
+        ResizeMode="CanResizeWithGrip"
+        MouseDown="Window_MouseDown"
+        MinHeight="600" MinWidth="920" 
+        Background="#272537">
 
-    <ContentControl Content="{Binding CurrentViewModel}"/>
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"/>
+    </WindowChrome.WindowChrome>
+
+    <DockPanel HorizontalAlignment="Stretch"
+                LastChildFill="True">
+
+        <Grid DockPanel.Dock="Right" Margin="0,1"
+              HorizontalAlignment="Right" VerticalAlignment="Top">
+
+            <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center" Height="30">
+
+                <Button x:Name="MinimizeButton"
+                        Click="MinimizeButton_Click"
+                        Content="➖" Foreground="White"
+                        FontSize="14" BorderThickness="0" Width="50"
+                        Style="{StaticResource ButtonTheme}"/>
+
+                <Button x:Name="MaximizeButton"
+                        Click="MaximizeButton_Click" 
+                        Content="⬛" Foreground="White"
+                        FontSize="14" BorderThickness="0" Width="50"
+                        Style="{StaticResource ButtonTheme}"/>
+
+                <Button x:Name="CloseButton"
+                        Click="CloseButton_Click"
+                        Content="❌" Foreground="White"
+                        FontSize="14" BorderThickness="0" Width="50"
+                        Style="{StaticResource ButtonTheme}"/>
+
+            </StackPanel>
+        </Grid>
+
+        <ContentControl Content="{Binding CurrentViewModel}"/>
+    </DockPanel>
 
 </Window>

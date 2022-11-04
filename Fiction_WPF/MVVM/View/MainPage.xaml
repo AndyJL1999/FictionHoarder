@@ -8,7 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="920">
 
-    <Border Background="#272537" CornerRadius="20" >
+    <Border>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -16,13 +16,9 @@
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-
-            <Button Content="❌" Foreground="#CFCFCF" Style="{StaticResource ButtonTheme}" Grid.Column="1" Width="35" Height="35" 
-                    HorizontalAlignment="Right" Margin="0,0,15,15" Click="Button_Click" BorderThickness="0"
-                    /> 
 
             <TextBlock Text="FictionHoarder" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="21"/>
 
@@ -33,7 +29,8 @@
                 <RadioButton Content="History" Height="50" Foreground="White" FontSize="14" Style="{StaticResource MenuButtonTheme}" Command="{Binding HistoryViewCommand}"/>
             </StackPanel>
 
-            <ContentControl Grid.Row="1" Grid.Column="1" Margin="10" Content="{Binding CurrentView}"/>
+            <ContentControl Grid.Row="1" Grid.Column="1" Margin="10" 
+                            Content="{Binding CurrentView}"/>
         </Grid>
     </Border>
 
