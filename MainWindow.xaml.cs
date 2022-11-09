@@ -22,6 +22,8 @@ namespace FictionHoarder
     /// </summary>
     public partial class MainWindow : Window
     {
+        ReadingPage rp;
+
         public MainWindow()
         {
             InitializeComponent();

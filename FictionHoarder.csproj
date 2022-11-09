@@ -22,12 +22,6 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
-    <Page Remove="Fiction_WPF\App.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ApplicationDefinition Include="Fiction_WPF\App.xaml" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="System.Data.Linq" />
   </ItemGroup>
   <ItemGroup>
