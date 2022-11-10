@@ -1,4 +1,5 @@
 ﻿using FictionHoarder.Core;
+using FictionHoarder.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,8 @@ using System.Windows.Input;
 
 namespace FictionHoarder.MVVM.ViewModel
 {
-    class HistoryViewModel : ObservableObject
+    class HistoryViewModel : ObservableObject, IViewModel
     {
-        public ICommand ToReadCommand { get; }
-
-        public HistoryViewModel(NavigationStore navigationStore)
-        {
-            ToReadCommand = new NavigateCommand<ReadPageModel>(navigationStore, () => new ReadPageModel(navigationStore), false);
-        }
+        public string Name => "History";
     }
 }

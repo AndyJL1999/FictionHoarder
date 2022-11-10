@@ -9,19 +9,11 @@ namespace FictionHoarder.MVVM.ViewModel
 {
     class MainViewModel : ObservableObject
     {
-        private readonly NavigationStore _navigationStore;
-        public ObservableObject CurrentViewModel => _navigationStore.CurrentViewModel;
+        public ObservableObject CurrentViewModel { get; set; }
 
-        public MainViewModel(NavigationStore navigationStore)
+        public MainViewModel()
         {
-            _navigationStore = navigationStore;
-
-            _navigationStore.CurrentViewModelChanged += OnCurrentViewModelChanged;
-        }
-
-        private void OnCurrentViewModelChanged()
-        {
-            OnPropertyChanged(nameof(CurrentViewModel));
+            CurrentViewModel = new MainPageModel();
         }
     }
 }

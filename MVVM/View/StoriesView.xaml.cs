@@ -1,6 +1,6 @@
 ﻿using FictionHoarder.Core;
 using FictionHoarder.MVVM.ViewModel;
-using FictionHoarder.MVVM.Model;
+using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

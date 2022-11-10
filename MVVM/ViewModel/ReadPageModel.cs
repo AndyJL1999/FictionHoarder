@@ -10,13 +10,9 @@ namespace FictionHoarder.MVVM.ViewModel
 {
     class ReadPageModel : ObservableObject
     {
-        public ICommand ToHomeCommand { get; }
-
-        public ReadPageModel(NavigationStore navigationStore)
+        public ReadPageModel()
         {
-            ToHomeCommand = new NavigateCommand<MainPageModel>(navigationStore, () => new MainPageModel(navigationStore), false);
-            navigationStore.CurrentSubViewModel = new HomeViewModel(navigationStore);
-            navigationStore.CurrentViewModel = new HomeViewModel(navigationStore);
+
         }
 
     }

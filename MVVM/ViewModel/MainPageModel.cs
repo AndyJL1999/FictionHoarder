@@ -1,4 +1,5 @@
 ﻿using FictionHoarder.Core;
+using FictionHoarder.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,30 +11,68 @@ namespace FictionHoarder.MVVM.ViewModel
 {
     class MainPageModel : ObservableObject
     {
-        public ICommand HomeViewCommand { get; set; }
-        public ICommand StoriesViewCommand { get; set; }
-        public ICommand HistoryViewCommand { get; set; }
-        public ICommand SearchViewCommand { get; set; }
+        private ICommand _changeViewCommand;
+        private IViewModel _currentViewModel;
+        private List<IViewModel> _viewModels;
 
-        private NavigationStore _navigationStore;
-
-        public ObservableObject CurrentView => _navigationStore.CurrentSubViewModel;
-
-        public MainPageModel(NavigationStore navigationStore)
+        public MainPageModel()
         {
-            _navigationStore = navigationStore;
+            ViewModels.Add(new HomeViewModel());
+            ViewModels.Add(new SearchViewModel());
+            ViewModels.Add(new StoriesViewModel());
+            ViewModels.Add(new HistoryViewModel());
+            
 
-            _navigationStore.CurrentSubViewModelChanged += OnCurrentSubViewModelChanged;
-
-            HomeViewCommand = new NavigateCommand<HomeViewModel>(navigationStore, () => new HomeViewModel(navigationStore), true);
-            StoriesViewCommand = new NavigateCommand<StoriesViewModel>(navigationStore, () => new StoriesViewModel(navigationStore), true);
-            HistoryViewCommand = new NavigateCommand<HistoryViewModel>(navigationStore, () => new HistoryViewModel(navigationStore), true);
-            SearchViewCommand = new NavigateCommand<SearchViewModel>(navigationStore, () => new SearchViewModel(navigationStore), true);
+            CurrentViewModel = ViewModels.FirstOrDefault();
         }
 
-        private void OnCurrentSubViewModelChanged()
+        public ICommand ChangeViewCommand
         {
-            OnPropertyChanged(nameof(CurrentView));
+            get
+            {
+                if(_changeViewCommand is null)
+                {
+                    _changeViewCommand = new RelayCommand(p => ChangeViewModel((IViewModel)p), p => p is IViewModel);
+                }
+
+                return _changeViewCommand;
+            }
+        }
+
+        public List<IViewModel> ViewModels
+        {
+            get
+            {
+                if (_viewModels is null)
+                {
+                    _viewModels = new List<IViewModel>();
+                }
+
+                return _viewModels;
+            }
+        }
+
+        public IViewModel CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set
+            {
+                if(_currentViewModel != value)
+                {
+                    _currentViewModel = value;
+                    OnPropertyChanged(nameof(CurrentViewModel));
+                }
+            }
+        }
+
+        private void ChangeViewModel(IViewModel viewModel)
+        {
+            if(!ViewModels.Contains(viewModel))
+            {
+                ViewModels.Add(viewModel);
+            }
+
+            CurrentViewModel = ViewModels.FirstOrDefault(vm => vm == viewModel);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FictionHoarder.Core;
+using FictionHoarder.MVVM.View;
 using FictionHoarder.MVVM.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -17,14 +18,9 @@ namespace FictionHoarder
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            NavigationStore navigationStore = new NavigationStore();
-
-            navigationStore.CurrentViewModel = new MainPageModel(navigationStore);
-            navigationStore.CurrentSubViewModel = new HomeViewModel(navigationStore);
-
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(navigationStore)
+                DataContext = new MainViewModel()
             };
             MainWindow.Show();
 

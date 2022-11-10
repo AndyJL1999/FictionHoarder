@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FictionHoarder.MVVM.Model
+namespace FictionDataAccessLibrary.Models
 {
     public class Story : INotifyPropertyChanged
     {
@@ -28,9 +27,9 @@ namespace FictionHoarder.MVVM.Model
                 INotifyPropertyChanged("Command");
             }
         }
-        public string Title 
-        { 
-            get { return _title; } 
+        public string Title
+        {
+            get { return _title; }
             set
             {
                 _title = value;
@@ -38,27 +37,27 @@ namespace FictionHoarder.MVVM.Model
             }
 
         }
-        public string Author 
-        { 
-            get { return _author; } 
+        public string Author
+        {
+            get { return _author; }
             set
             {
                 _author = value;
                 INotifyPropertyChanged("Author");
             }
         }
-        public string Chapters 
-        { 
-            get { return _chapters; } 
+        public string Chapters
+        {
+            get { return _chapters; }
             set
             {
                 _chapters = value;
                 INotifyPropertyChanged("Chapters");
             }
         }
-        public string Summary 
-        { 
-            get { return _summary; } 
+        public string Summary
+        {
+            get { return _summary; }
             set
             {
                 _summary = value;
@@ -75,7 +74,5 @@ namespace FictionHoarder.MVVM.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(v));
             }
         }
-
     }
-
 }
