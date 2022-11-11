@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FictionHoarder.Core;
+using FictionHoarderWPF.Core;
 
-namespace FictionHoarder.MVVM.ViewModel
+namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class MainViewModel : ObservableObject
     {

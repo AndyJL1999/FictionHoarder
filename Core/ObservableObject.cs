@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace FictionHoarder.Core
+namespace FictionHoarderWPF.Core
 {
     public class ObservableObject : INotifyPropertyChanged
     {

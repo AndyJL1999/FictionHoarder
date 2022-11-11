@@ -12,17 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using FictionHoarder.Core;
-using FictionHoarder.MVVM.View;
+using FictionHoarderWPF.Core;
+using FictionHoarderWPF.MVVM.View;
 
-namespace FictionHoarder
+namespace FictionHoarderWPF
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        ReadingPage rp;
+        //ReadingPage rp;
 
         public MainWindow()
         {

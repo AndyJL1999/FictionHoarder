@@ -23,16 +23,25 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="FictionDataAccessLibrary\**" />
+    <Compile Remove="FictionDb\**" />
+    <EmbeddedResource Remove="FictionDataAccessLibrary\**" />
+    <EmbeddedResource Remove="FictionDb\**" />
+    <None Remove="FictionDataAccessLibrary\**" />
+    <None Remove="FictionDb\**" />
+    <Page Remove="FictionDataAccessLibrary\**" />
+    <Page Remove="FictionDb\**" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Data.Linq" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Fiction_WPF\Connected Services\" />
   </ItemGroup>
   <ItemGroup>
-
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.355802">
@@ -42,5 +51,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MVVM\Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="FictionDataAccessLibrary\FictionDataAccessLibrary.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

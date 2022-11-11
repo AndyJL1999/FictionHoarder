@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 
-namespace FictionHoarder.Core.Interfaces
+namespace FictionHoarderWPF.Core.Interfaces
 {
     public interface IViewModel
     {

@@ -1,5 +1,5 @@
-﻿using FictionHoarder.Core;
-using FictionHoarder.MVVM.ViewModel;
+﻿using FictionHoarderWPF.Core;
+using FictionHoarderWPF.MVVM.ViewModel;
 using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace FictionHoarder.MVVM.View
+namespace FictionHoarderWPF.MVVM.View
 {
     /// <summary>
     /// Interaction logic for StoriesView.xaml

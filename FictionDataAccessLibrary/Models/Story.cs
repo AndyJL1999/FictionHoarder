@@ -11,22 +11,14 @@ namespace FictionDataAccessLibrary.Models
     public class Story : INotifyPropertyChanged
     {
         private readonly int _id;
-        private string _title;
-        private string _author;
-        private string _chapters;
-        private string _summary;
-        private ICommand _command;
+        private string _title = string.Empty;
+        private string _author = string.Empty ;
+        private string _chapters = string.Empty;
+        private string _summary = string.Empty;
+
+
         public int ID { get; }
 
-        public ICommand Command
-        {
-            get { return _command; }
-            set
-            {
-                _command = value;
-                INotifyPropertyChanged("Command");
-            }
-        }
         public string Title
         {
             get { return _title; }
