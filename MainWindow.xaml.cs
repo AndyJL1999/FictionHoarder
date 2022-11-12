@@ -12,8 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using FictionDataAccessLibrary.Data;
+using FictionDataAccessLibrary.DbAccess;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.MVVM.View;
+using FictionHoarderWPF.MVVM.ViewModel;
 
 namespace FictionHoarderWPF
 {
@@ -22,11 +25,14 @@ namespace FictionHoarderWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IStoryData _storyData;
         //ReadingPage rp;
 
-        public MainWindow()
+        public MainWindow(IStoryData storyData)
         {
             InitializeComponent();
+            _storyData = storyData;
+            DataContext = new MainViewModel(_storyData);
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

@@ -5,6 +5,8 @@ using Dapper;
 using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
+using Microsoft.VisualBasic;
+using System.Configuration;
 
 namespace FictionDataAccessLibrary.DbAccess
 {
@@ -22,7 +24,7 @@ namespace FictionDataAccessLibrary.DbAccess
             U parameters,
             string connectionId = "Default")
         {
-            using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
+            using IDbConnection connection = new SqlConnection(GetConnection(connectionId));
 
             return await connection.QueryAsync<T>(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
@@ -32,10 +34,22 @@ namespace FictionDataAccessLibrary.DbAccess
             T parameters,
             string connectionId = "Default")
         {
-            using IDbConnection connection = new SqlConnection(_config.GetConnectionString(connectionId));
+            using IDbConnection connection = new SqlConnection(GetConnection(connectionId));
 
             await connection.ExecuteAsync(storedProcedure, parameters, commandType: CommandType.StoredProcedure);
         }
 
+        private string GetConnection(string nameOfConnection)
+        {
+            var connectionString = _config.GetConnectionString(nameOfConnection);
+
+            if(connectionString == null)
+            {
+                connectionString = ConfigurationManager.ConnectionStrings[nameOfConnection].ConnectionString;
+                return connectionString;
+            }
+
+            return connectionString;
+        }
     }
 }

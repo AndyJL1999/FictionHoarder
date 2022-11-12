@@ -8,11 +8,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="920">
 
-    <UserControl.Resources>
-        <viewModel:MainPageModel x:Key="vm"/>
-    </UserControl.Resources>
-
-    <Border DataContext="{StaticResource vm}">
+    <Border>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200"/>
@@ -44,7 +40,7 @@
                         <DataTemplate>
                             <RadioButton Content="{Binding Name}" Height="50" Foreground="White" FontSize="14" 
                                          Style="{StaticResource MenuButtonTheme}" 
-                                         Command="{Binding Source={StaticResource vm}, Path=ChangeViewCommand}" 
+                                         Command="{Binding Path=DataContext.ChangeViewCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type UserControl}}}" 
                                          CommandParameter="{Binding}" GroupName="Name"/>
                         </DataTemplate>
                     </ListView.ItemTemplate>
