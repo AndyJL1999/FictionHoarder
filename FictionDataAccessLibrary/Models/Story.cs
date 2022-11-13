@@ -11,13 +11,15 @@ namespace FictionDataAccessLibrary.Models
     public class Story : INotifyPropertyChanged
     {
         private readonly int _id;
+        private readonly int _userId;
         private string _title = string.Empty;
         private string _author = string.Empty ;
         private string _chapters = string.Empty;
         private string _summary = string.Empty;
 
 
-        public int ID { get; }
+        public int Id { get; }
+        public int UserId { get; }
 
         public string Title
         {
@@ -25,7 +27,7 @@ namespace FictionDataAccessLibrary.Models
             set
             {
                 _title = value;
-                INotifyPropertyChanged("Title");
+                INotifyPropertyChanged(nameof(Title));
             }
 
         }
@@ -35,7 +37,7 @@ namespace FictionDataAccessLibrary.Models
             set
             {
                 _author = value;
-                INotifyPropertyChanged("Author");
+                INotifyPropertyChanged(nameof(Author));
             }
         }
         public string Chapters
@@ -44,7 +46,7 @@ namespace FictionDataAccessLibrary.Models
             set
             {
                 _chapters = value;
-                INotifyPropertyChanged("Chapters");
+                INotifyPropertyChanged(nameof(Chapters));
             }
         }
         public string Summary
@@ -53,7 +55,7 @@ namespace FictionDataAccessLibrary.Models
             set
             {
                 _summary = value;
-                INotifyPropertyChanged("Summary");
+                INotifyPropertyChanged(nameof(Summary));
             }
         }
 

@@ -12,22 +12,20 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class MainPageModel : ObservableObject
     {
-        private readonly IStoryData _storyData;
         private ICommand _changeViewCommand;
-        private IViewModel _currentViewModel;
+        private IViewModel _currentSubViewModel;
         private List<IViewModel> _viewModels;
 
-        public MainPageModel(IStoryData storyData)
+        public MainPageModel()
         {
-            _storyData = storyData;
 
             ViewModels.Add(new HomeViewModel());
             ViewModels.Add(new SearchViewModel());
-            ViewModels.Add(new StoriesViewModel(_storyData));
+            ViewModels.Add(new StoriesViewModel());
             ViewModels.Add(new HistoryViewModel());
             
 
-            CurrentViewModel = ViewModels.FirstOrDefault();
+            CurrentSubViewModel = ViewModels.FirstOrDefault();
         }
 
         public ICommand ChangeViewCommand
@@ -56,15 +54,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
-        public IViewModel CurrentViewModel
+        public IViewModel CurrentSubViewModel
         {
-            get { return _currentViewModel; }
+            get { return _currentSubViewModel; }
             set
             {
-                if(_currentViewModel != value)
+                if(_currentSubViewModel != value)
                 {
-                    _currentViewModel = value;
-                    OnPropertyChanged(nameof(CurrentViewModel));
+                    _currentSubViewModel = value;
+                    OnPropertyChanged(nameof(CurrentSubViewModel));
                 }
             }
         }
@@ -76,7 +74,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 ViewModels.Add(viewModel);
             }
 
-            CurrentViewModel = ViewModels.FirstOrDefault(vm => vm == viewModel);
+            CurrentSubViewModel = ViewModels.FirstOrDefault(vm => vm == viewModel);
         }
     }
 }

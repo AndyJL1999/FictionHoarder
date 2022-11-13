@@ -16,13 +16,22 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     public class StoriesViewModel : ObservableObject, IViewModel
     {
-        private readonly IStoryData _storyData;
         private ObservableCollection<Story> _stories;
+        private Story _selectedStory;
 
-        public StoriesViewModel(IStoryData storyData)
+        public string Name => "Stories";
+        public event EventHandler? ChangeToReadView;
+
+        public StoriesViewModel()
         {
-            _storyData = storyData;
+            ChangeToReadView += StoriesViewModel_ChangeToReadView;
+
             SetStories();
+        }
+
+        private void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
+        {
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(SelectedStory));
         }
 
         public ObservableCollection<Story> Stories
@@ -31,20 +40,26 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             set
             {
                 _stories = value;
-
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Stories)));
+                OnPropertyChanged(nameof(Stories));
             }
         }
 
-        public string Name => "Stories";
-
-        new public event PropertyChangedEventHandler PropertyChanged;
+        public Story SelectedStory 
+        {
+            get { return _selectedStory; }
+            set
+            {
+                _selectedStory = value;
+                OnPropertyChanged(nameof(SelectedStory));
+                ChangeToReadView?.Invoke(this, new EventArgs());
+            } 
+        }
 
         public async void SetStories()
         {
-            var response = await _storyData.GetStories();
+            //var response = await _storyData.GetStories();
 
-            Stories = new ObservableCollection<Story>(response);
+            //Stories = new ObservableCollection<Story>(response);
         }
     }
 }

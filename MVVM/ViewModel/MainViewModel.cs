@@ -10,15 +10,11 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class MainViewModel : ObservableObject
     {
-        private readonly IStoryData _storyData;
-
         public ObservableObject CurrentViewModel { get; set; }
 
-        public MainViewModel(IStoryData storyData)
+        public MainViewModel(ObservableObject viewModel)
         {
-            _storyData = storyData;
-
-            CurrentViewModel = new MainPageModel(_storyData);
+            CurrentViewModel = viewModel;
         }
     }
 }

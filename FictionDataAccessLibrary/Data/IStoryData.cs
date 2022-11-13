@@ -7,7 +7,7 @@ namespace FictionDataAccessLibrary.Data
     public interface IStoryData
     {
         Task DeleteStory(int id);
-        Task<IEnumerable<Story>> GetStories();
+        Task<IEnumerable<Story>> GetStoriesForUser(int userId);
         Task<Story?> GetStory(int id);
         Task InsertStory(Story story);
         Task UpdateStory(Story story);

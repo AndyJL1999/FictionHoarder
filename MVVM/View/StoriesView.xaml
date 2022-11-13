@@ -21,7 +21,8 @@
         <ListView ItemsSource="{Binding Stories}" Background="Transparent" 
                   ScrollViewer.VerticalScrollBarVisibility="Auto" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                  Grid.Row="1" BorderThickness="0" x:Name="MainListView">
+                  Grid.Row="1" BorderThickness="0" x:Name="MainListView"
+                  SelectedValue="{Binding SelectedStory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
             <ListView.ItemTemplate>
                 <DataTemplate>

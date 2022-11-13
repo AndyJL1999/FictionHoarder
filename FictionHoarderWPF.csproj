@@ -23,12 +23,16 @@
     <ImportWindowsDesktopTargets>true</ImportWindowsDesktopTargets>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Remove="FictionAPI\**" />
     <Compile Remove="FictionDataAccessLibrary\**" />
     <Compile Remove="FictionDb\**" />
+    <EmbeddedResource Remove="FictionAPI\**" />
     <EmbeddedResource Remove="FictionDataAccessLibrary\**" />
     <EmbeddedResource Remove="FictionDb\**" />
+    <None Remove="FictionAPI\**" />
     <None Remove="FictionDataAccessLibrary\**" />
     <None Remove="FictionDb\**" />
+    <Page Remove="FictionAPI\**" />
     <Page Remove="FictionDataAccessLibrary\**" />
     <Page Remove="FictionDb\**" />
   </ItemGroup>
@@ -42,6 +46,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
     <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.4.355802">
@@ -53,7 +58,7 @@
     <Folder Include="MVVM\Model\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="FictionDataAccessLibrary\FictionDataAccessLibrary.csproj" />
+    <ProjectReference Include="FictionAPI\FictionAPI.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">
@@ -67,5 +72,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Themes\RegularTextBoxTheme.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 </Project>

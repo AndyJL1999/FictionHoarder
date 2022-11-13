@@ -25,14 +25,12 @@ namespace FictionHoarderWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IStoryData _storyData;
         //ReadingPage rp;
 
-        public MainWindow(IStoryData storyData)
+        public MainWindow()
         {
             InitializeComponent();
-            _storyData = storyData;
-            DataContext = new MainViewModel(_storyData);
+            DataContext = new MainViewModel(new StartUpModel());
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

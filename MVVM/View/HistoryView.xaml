@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:FictionHoarderWPF.MVVM.View" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:viewmodel="clr-namespace:FictionHoarderWPF.MVVM.ViewModel" 
+             xmlns:uc="clr-namespace:FictionHoarderWPF.MVVM.View.UserControls"
              d:DataContext="{d:DesignInstance Type=viewmodel:StoriesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
@@ -19,31 +20,18 @@
         <TextBlock Text="History" Foreground="White" FontSize="30"
                    HorizontalAlignment="Left" Margin="0,0,0,5" Grid.Row="0"/>
 
-        <ListView Background="Transparent" 
-                  ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  Grid.Row="1"
-                  BorderThickness="0">
+        <ListView ItemsSource="{Binding StoriesRead}" Background="Transparent" 
+                  ScrollViewer.VerticalScrollBarVisibility="Auto" 
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                  Grid.Row="1" BorderThickness="0" x:Name="MainListView"
+                  SelectedValue="{Binding SelectedStory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
 
-            <ListViewItem Height="80">
-                <TextBlock x:Name="Title" MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
-                            Margin="10,0,0,45"/>
-            </ListViewItem>
-            <ListViewItem Height="80">
-                <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
-                            Margin="10,0,0,45"/>
-            </ListViewItem>
-            <ListViewItem Height="80">
-                <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
-                            Margin="10,0,0,45"/>
-            </ListViewItem>
-            <ListViewItem Height="80">
-                <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
-                            Margin="10,0,0,45"/>
-            </ListViewItem>
-            <ListViewItem Height="80">
-                <TextBlock MaxWidth="400" Text="Title" Foreground="White" FontSize="24"
-                            Margin="10,0,0,45"/>
-            </ListViewItem>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <uc:ListItemControl Story="{Binding}"/>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
         </ListView>
 
     </Grid>

@@ -52,7 +52,7 @@
             </StackPanel>
         </Grid>
 
-        <ContentControl x:Name="View" Content="{Binding CurrentViewModel}"/>
+        <ContentControl Content="{Binding CurrentViewModel}"/>
     </DockPanel>
 
 </Window>

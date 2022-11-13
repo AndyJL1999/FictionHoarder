@@ -10,8 +10,13 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/MenuButtonsTheme.xaml"/>
                 <ResourceDictionary Source="Themes/SearchBoxTheme.xaml"/>
+                <ResourceDictionary Source="Themes/RegularTextBoxTheme.xaml"/>
                 <ResourceDictionary Source="Themes/ButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate DataType="{x:Type viewModel:StartUpModel}">
+                <view:StartUpView/>
+            </DataTemplate>
 
             <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
                 <view:HomeView/>

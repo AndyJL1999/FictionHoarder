@@ -30,8 +30,6 @@ namespace FictionHoarderWPF
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<MainWindow>();
-                    services.AddTransient<IStoryData, StoryData>();
-                    services.AddTransient<ISqlDataAccess, SqlDataAccess>();
 
                 }).Build();
         }

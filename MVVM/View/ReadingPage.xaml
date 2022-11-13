@@ -5,7 +5,6 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:FictionHoarderWPF.MVVM.View" 
       xmlns:viewmodel="clr-namespace:FictionHoarderWPF.MVVM.ViewModel"
-      d:DataContext="{d:DesignInstance Type=viewmodel:ReadPageModel}"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800">
 
@@ -28,8 +27,11 @@
             <TextBlock Text="FictionHoarder" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="White" FontSize="21"/>
 
-            <Button Style="{StaticResource ButtonTheme}" Foreground="#CFCFCF" Grid.Column="1" Margin="30,0,30,0" Content="🏠" FontSize="18" 
-                    Command="{Binding ToHomeCommand}" BorderThickness="0"/>
+            <Button Style="{StaticResource ButtonTheme}" Foreground="#CFCFCF" Grid.Column="1" 
+                    Margin="30,0,30,0" Content="🏠" FontSize="18" 
+                    Command="{Binding Path=DataContext.GoToHomeCommand, 
+                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" 
+                    BorderThickness="0" CommandParameter="{Binding}"/>
 
             <TextBlock Text="Chapter 1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="White" FontSize="18"/>
@@ -40,7 +42,7 @@
                     Margin="40,0,40,0" Content="▶" FontSize="18" BorderThickness="0"/>
 
 
-            <Grid Grid.Row="1" Grid.ColumnSpan="6" Width="auto" Height="auto" >
+            <Grid Grid.Row="1" Grid.ColumnSpan="6" Width="auto" Height="auto" DataContext="{Binding Story}" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -51,9 +53,9 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 
-                <TextBlock Grid.Column="1" Text="Title" HorizontalAlignment="Center" 
+                <TextBlock Grid.Column="1" Text="{Binding Title}" HorizontalAlignment="Center" 
                            Foreground="White" FontSize="30" FontWeight="Bold"/>
-                <TextBlock Grid.Column="1" Text="Author" HorizontalAlignment="Center" 
+                <TextBlock Grid.Column="1" Text="{Binding Author}" HorizontalAlignment="Center" 
                            VerticalAlignment="Bottom" Foreground="White" FontSize="15" Margin="0,35,0,0"/>
 
                 <ScrollViewer Grid.ColumnSpan="3" Grid.Row="1" CanContentScroll="true"

@@ -1,7 +1,4 @@
-﻿using FictionHoarderWPF.Core;
-using FictionHoarderWPF.MVVM.ViewModel;
-using FictionDataAccessLibrary.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,14 +16,13 @@ using System.Windows.Shapes;
 namespace FictionHoarderWPF.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for StoriesView.xaml
+    /// Interaction logic for StartUpView.xaml
     /// </summary>
-    public partial class StoriesView : UserControl
+    public partial class StartUpView : UserControl
     {
-        public StoriesView()
+        public StartUpView()
         {
             InitializeComponent();
         }
-
     }
 }
