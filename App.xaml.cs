@@ -1,7 +1,10 @@
-﻿using FictionDataAccessLibrary.Data;
+﻿using AutoMapper;
+using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DbAccess;
+using FictionDataAccessLibrary.Models;
 using FictionHoarder;
 using FictionHoarderWPF.Core;
+using FictionHoarderWPF.MVVM.Model;
 using FictionHoarderWPF.MVVM.View;
 using FictionHoarderWPF.MVVM.ViewModel;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +32,16 @@ namespace FictionHoarderWPF
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    var config = new MapperConfiguration(myConfig =>
+                    {
+                        myConfig.CreateMap<Story, StoryDisplayModel>();
+                    });
+
+                    var mapper = config.CreateMapper();
+
+                    services.AddSingleton(mapper);
                     services.AddSingleton<MainWindow>();
+
 
                 }).Build();
         }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using AutoMapper;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DbAccess;
 using FictionHoarderWPF.Core;
@@ -25,12 +26,16 @@ namespace FictionHoarderWPF
     /// </summary>
     public partial class MainWindow : Window
     {
+        private readonly IMapper _mapper;
+
         //ReadingPage rp;
 
-        public MainWindow()
+        public MainWindow(IMapper mapper)
         {
             InitializeComponent();
-            DataContext = new MainViewModel(new StartUpModel());
+
+            _mapper = mapper;
+            DataContext = new MainViewModel(new StartUpModel(_mapper));
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

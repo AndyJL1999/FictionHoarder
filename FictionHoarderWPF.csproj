@@ -43,6 +43,7 @@
     <WCFMetadata Include="Fiction_WPF\Connected Services\" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
@@ -53,9 +54,6 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="MVVM\Model\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="FictionAPI\FictionAPI.csproj" />

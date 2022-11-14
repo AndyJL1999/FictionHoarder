@@ -1,4 +1,5 @@
-﻿using FictionDataAccessLibrary.Data;
+﻿using AutoMapper;
+using FictionDataAccessLibrary.Data;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
 using System;
@@ -12,16 +13,18 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class MainPageModel : ObservableObject
     {
+        private readonly IMapper _mapper;
         private ICommand _changeViewCommand;
         private IViewModel _currentSubViewModel;
         private List<IViewModel> _viewModels;
 
-        public MainPageModel()
+        public MainPageModel(IMapper mapper)
         {
+            _mapper = mapper;
 
             ViewModels.Add(new HomeViewModel());
             ViewModels.Add(new SearchViewModel());
-            ViewModels.Add(new StoriesViewModel());
+            ViewModels.Add(new StoriesViewModel(_mapper));
             ViewModels.Add(new HistoryViewModel());
             
 

@@ -47,7 +47,8 @@
                          HorizontalAlignment="Center"/>
 
                     <Button HorizontalAlignment="Center" Height="35" 
-                        Width="75" Margin="0,25,0,5" Content="Sign Up"/>
+                        Width="75" Margin="0,25,0,5" Content="Sign Up" 
+                        Command="{Binding EnterMainPageCommand}" CommandParameter="{Binding}"/>
 
                     <TextBlock Text="Login" Foreground="DodgerBlue" 
                            TextDecorations="Underline"
@@ -80,7 +81,8 @@
                          HorizontalAlignment="Center"/>
 
                     <Button HorizontalAlignment="Center" Height="35" 
-                        Width="75" Margin="0,25,0,5" Content="Login"/>
+                        Width="75" Margin="0,25,0,5" Content="Login"
+                        Command="{Binding EnterMainPageCommand}" CommandParameter="{Binding}"/>
 
                     <TextBlock Text="Sign Up" Foreground="DodgerBlue" 
                            TextDecorations="Underline"

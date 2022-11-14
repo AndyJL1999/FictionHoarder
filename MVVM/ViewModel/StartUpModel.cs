@@ -1,4 +1,5 @@
-﻿using FictionHoarderWPF.Core;
+﻿using AutoMapper;
+using FictionHoarderWPF.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,13 +15,17 @@ namespace FictionHoarderWPF.MVVM.ViewModel
     {
         private bool _onLoginForm = false;
         private ICommand _showHiddenFormCommand;
+        private ICommand _enterMainPageCommand;
         private Visibility _signUpVisibility;
         private Visibility _loginVisibility;
+        private readonly IMapper _mapper;
 
         new public event PropertyChangedEventHandler PropertyChanged;
 
-        public StartUpModel()
+        public StartUpModel(IMapper mapper)
         {
+            _mapper = mapper;
+
             _signUpVisibility = Visibility.Visible;
             _loginVisibility = Visibility.Collapsed;
         }
@@ -55,6 +60,25 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
                 return _showHiddenFormCommand;
             }
+        }
+
+        public ICommand EnterMainPageCommand
+        {
+            get
+            {
+                if (_enterMainPageCommand is null)
+                {
+                    _enterMainPageCommand = new RelayCommand(p => ChangeViewModel((ObservableObject)p), p => p is ObservableObject);
+                }
+
+                return _enterMainPageCommand;
+            }
+        }
+
+        private void ChangeViewModel(ObservableObject p)
+        {
+            p = new MainPageModel(_mapper);
+            App.Current.MainWindow.DataContext = new MainViewModel(p);
         }
 
         private void ShowForm()

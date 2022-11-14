@@ -29,8 +29,7 @@
 
             <Button Style="{StaticResource ButtonTheme}" Foreground="#CFCFCF" Grid.Column="1" 
                     Margin="30,0,30,0" Content="🏠" FontSize="18" 
-                    Command="{Binding Path=DataContext.GoToHomeCommand, 
-                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" 
+                    Command="{Binding GoToHomeCommand}" 
                     BorderThickness="0" CommandParameter="{Binding}"/>
 
             <TextBlock Text="Chapter 1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
