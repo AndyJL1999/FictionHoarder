@@ -1,4 +1,5 @@
-using FictionAPI.Data;
+using FictionAPI.Extentions;
+using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
@@ -7,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FictionAPI.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class StoryController : Controller
@@ -19,10 +20,14 @@ namespace FictionAPI.Controllers
             _storyRepo = storyRepo;
         }
 
-        [HttpGet("{userId}")]
-        public async Task<ActionResult<IEnumerable<Story>>> GetStories(int userId)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Story>>> GetStories()
         {
-            return Ok(await _storyRepo.GetStories(userId));
+            var id = User.GetUserId();
+
+            var stories = await _storyRepo.GetStories(id); 
+
+            return Ok(stories);
         }
 
         [HttpPost]

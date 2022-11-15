@@ -1,7 +1,7 @@
 ﻿using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
 
-namespace FictionAPI.Data
+namespace FictionAPI.Interfaces
 {
     public interface IStoryRepository
     {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using FictionAPI.DTOs;
+using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
@@ -23,42 +25,41 @@ namespace FictionAPI.Data
             _config = config;
         }
 
-        public async Task<string> Register(User register, string password)
+        public async Task<string> Register(User registerUser, string password)
         {
-            if(await DoesUserExist(register.Username))
+            if(await DoesUserExist(registerUser.Username))
             {
                 return "User already exists";
             }
 
             CreatePasswordHash(password, out byte[] passwordHash, out byte[] passwordSalt);
 
-            register.PasswordHash = passwordHash;
-            register.PasswordSalt = passwordSalt;
+            registerUser.PasswordHash = passwordHash;
+            registerUser.PasswordSalt = passwordSalt;
 
-            await _authData.RegisterUser(register);
+            await _authData.RegisterUser(registerUser);
 
             return "User has been registered";
         }
 
-        public async Task<string> Login(LoginDto loginDto)
+        public async Task<UserDto> Login(LoginDto loginDto)
         {
             var user = await _authData.GetUserByNameOrEmail(loginDto.Email);
 
-            if (user == null)
+
+            if (user == null || !VerifyPasswordHash(loginDto.Password, user.PasswordHash, user.PasswordSalt))
             {
-                return "User does not exist";
-            }
-            else if(!VerifyPasswordHash(loginDto.Password, user.PasswordHash, user.PasswordSalt))
-            {
-                return "Wrong Password!";
+                return null;
             }
 
-            _mapper.Map<LoginDto>(user);
-
-            return "Success! You are logged in.";
+            return new UserDto
+            {
+                Username = user.Username,
+                Token = CreateToken(user)
+            };
         }
 
-        private void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
+        public void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt)
         {
             using (var hmac = new HMACSHA512())
             {
@@ -69,8 +70,7 @@ namespace FictionAPI.Data
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
-            using (
-                var hmac = new HMACSHA512(passwordSalt))
+            using (var hmac = new HMACSHA512(passwordSalt))
             {
                 var computeHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
 

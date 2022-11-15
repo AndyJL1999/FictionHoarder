@@ -1,5 +1,5 @@
-﻿using FictionAPI.Data;
-using FictionAPI.DTOs;
+﻿using FictionAPI.DTOs;
+using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
@@ -15,11 +15,11 @@ namespace FictionAPI.Controllers
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IAuthRepository _auth;
+        private readonly IAuthRepository _authRepo;
 
         public AccountController(IAuthRepository auth)
         {
-            _auth = auth;
+            _authRepo = auth;
         }
 
 
@@ -27,7 +27,7 @@ namespace FictionAPI.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDto user)
         {
-            await _auth.Register(new User
+            await _authRepo.Register(new User
             {
                 Username = user.Username,
                 Email = user.Email,
@@ -37,9 +37,14 @@ namespace FictionAPI.Controllers
         }
 
        [HttpPost("login")]
-       public async Task<ActionResult<string>> Login(LoginDto user)
+       public async Task<ActionResult<UserDto>> Login(LoginDto user)
        {
-            return Ok(await _auth.Login(user));
+            var userLogin = await _authRepo.Login(user);
+
+            if (userLogin == null)
+                return Unauthorized("Invalid user");
+
+            return Ok(userLogin);
        }
     }
 }
