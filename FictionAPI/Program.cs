@@ -1,5 +1,12 @@
+using AutoMapper;
+using FictionAPI.Data;
+using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DbAccess;
+using FictionDataAccessLibrary.DTOs;
+using FictionDataAccessLibrary.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +22,18 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<IStoryData, StoryData>();
+builder.Services.AddSingleton<IAuthData, AuthData>();
+
+var config = new MapperConfiguration(myConfig =>
+{
+    myConfig.CreateMap<User, LoginDto>();
+    myConfig.CreateMap<User, RegisterDto>();
+});
+var mapper = config.CreateMapper();
+
+builder.Services.AddSingleton(mapper);
+builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+builder.Services.AddScoped<IStoryRepository, StoryRepository>();
 
 var app = builder.Build();
 

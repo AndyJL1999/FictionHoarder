@@ -13,13 +13,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     public class StoriesViewModel : ObservableObject, IViewModel
     {
+        #region Fields
         private ObservableCollection<StoryDisplayModel> _stories;
         private StoryDisplayModel _selectedStory;
         private readonly IMapper _mapper;
+        #endregion
 
-        public string Name => "Stories";
         public event EventHandler? ChangeToReadView;
 
+        //Constructor
         public StoriesViewModel(IMapper mapper)
         {
             _mapper = mapper;
@@ -29,10 +31,9 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             SetStories();
         }
 
-        private void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
-        {
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, SelectedStory));
-        }
+
+        #region Properties
+        public string Name => "Stories";
 
         public ObservableCollection<StoryDisplayModel> Stories
         {
@@ -54,6 +55,13 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 ChangeToReadView?.Invoke(this, new EventArgs());
             } 
         }
+        #endregion
+
+        #region Methods
+        private void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
+        {
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, SelectedStory));
+        }
 
         public async void SetStories()
         {
@@ -69,5 +77,6 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
 
         }
+        #endregion
     }
 }

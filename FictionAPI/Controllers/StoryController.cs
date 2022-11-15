@@ -1,3 +1,4 @@
+using FictionAPI.Data;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
@@ -11,30 +12,30 @@ namespace FictionAPI.Controllers
     [Route("api/[controller]")]
     public class StoryController : Controller
     {
-        private readonly IStoryData _storyData;
+        private readonly IStoryRepository _storyRepo;
 
-        public StoryController(IStoryData storyData)
+        public StoryController(IStoryRepository storyRepo)
         {
-            _storyData = storyData;
+            _storyRepo = storyRepo;
         }
 
         [HttpGet("{userId}")]
         public async Task<ActionResult<IEnumerable<Story>>> GetStories(int userId)
         {
-            return Ok(await _storyData.GetStoriesForUser(userId));
+            return Ok(await _storyRepo.GetStories(userId));
         }
 
         [HttpPost]
         public async Task<ActionResult> InsertStory(AddStoryDto story)
         {
-            await _storyData.InsertStory(story);
+            await _storyRepo.InsertStory(story);
             return Ok();
         }
 
         [HttpPut]
         public async Task<ActionResult> UpdateStory(UpdateStoryDto story)
         {
-            await _storyData.UpdateStory(story);
+            await _storyRepo.UpdateStory(story);
 
             return Ok();
         }

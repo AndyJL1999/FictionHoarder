@@ -1,5 +1,4 @@
 ﻿using FictionDataAccessLibrary.DbAccess;
-using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -29,10 +28,10 @@ namespace FictionDataAccessLibrary.Data
             return result.FirstOrDefault();
         }
 
-        public Task InsertStory(AddStoryDto story) =>
+        public Task InsertStory(Story story) =>
             _db.SaveData(storedProcedure: "spStory_Insert", new { story.UserId, story.Title, story.Author, story.Summary, story.Chapters });
 
-        public Task UpdateStory(UpdateStoryDto story) => 
+        public Task UpdateStory(Story story) => 
             _db.SaveData(storedProcedure: "spStory_Update", new { story.Id, story.Title, story.Author, story.Summary, story.Chapters});
 
         public Task DeleteStory(int id) =>

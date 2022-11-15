@@ -1,9 +1,10 @@
 ﻿CREATE PROCEDURE [dbo].[spUser_UserLogin]
 	@Email nvarchar(50),
-	@Password nvarchar(100)
+	@PasswordHash varbinary(max),
+	@PasswordSalt varbinary(max)
 AS
 begin
-	select [User].[Id], [User].[Username], [User].[Password], [User].[Email]
+	select [User].[Id], [User].[Username], [User].[PasswordHash], [User].[PasswordSalt], [User].[Email]
 	from dbo.[User]
-	where Email = @Email and [Password] = @Password;
+	where Email = @Email and [PasswordHash] = @PasswordHash and [PasswordSalt] = @PasswordSalt
 end

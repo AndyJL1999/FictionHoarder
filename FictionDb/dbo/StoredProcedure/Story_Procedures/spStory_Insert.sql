@@ -1,9 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[spStory_Insert]
 	@UserId int,
-	@Title NVARCHAR(50),
-	@Author NVARCHAR(50), 
-    @Summary NVARCHAR(1000), 
-    @Chapters VARCHAR(3)
+	@Title nvarchar(50),
+	@Author nvarchar(50), 
+    @Summary nvarchar(1000), 
+    @Chapters varchar(3)
 
 AS
 begin

@@ -1,4 +1,6 @@
-﻿using FictionDataAccessLibrary.Data;
+﻿using FictionAPI.Data;
+using FictionAPI.DTOs;
+using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -8,16 +10,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FictionAPI.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class AccountController : ControllerBase
     {
-        private readonly IAuthData _authData;
+        private readonly IAuthRepository _auth;
 
-        public AccountController(IAuthData authData)
+        public AccountController(IAuthRepository auth)
         {
-            _authData = authData;
+            _auth = auth;
         }
 
 
@@ -25,19 +27,19 @@ namespace FictionAPI.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register(RegisterDto user)
         {
-            await _authData.RegisterUser(user);
+            await _auth.Register(new User
+            {
+                Username = user.Username,
+                Email = user.Email,
+            }, user.Password);
+            
             return Ok();
         }
 
        [HttpPost("login")]
-       public async Task<ActionResult<User>> Login(LoginDto user)
+       public async Task<ActionResult<string>> Login(LoginDto user)
        {
-            var returnedUser = await _authData.LoginUser(user);
-
-            if (returnedUser == null)
-                return BadRequest("User does not exist")
-;
-            return Ok();
+            return Ok(await _auth.Login(user));
        }
     }
 }

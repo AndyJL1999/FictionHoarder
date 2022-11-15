@@ -72,8 +72,13 @@
     <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_Update.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UserLogin.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UserRegister.sql" />
+    <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByNameOrEmail.sql" />
+    <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UpdateUser.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FictionDb.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="FictionDb.refactorlog" />
   </ItemGroup>
 </Project>
