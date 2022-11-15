@@ -74,6 +74,7 @@
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UserRegister.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByNameOrEmail.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UpdateUser.sql" />
+    <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserById.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FictionDb.publish.xml" />
