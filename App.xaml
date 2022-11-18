@@ -14,6 +14,8 @@
                 <ResourceDictionary Source="Themes/ButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+
             <DataTemplate DataType="{x:Type viewModel:StartUpModel}">
                 <view:StartUpView/>
             </DataTemplate>

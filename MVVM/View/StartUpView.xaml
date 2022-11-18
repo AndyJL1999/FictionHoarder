@@ -31,19 +31,24 @@
                        VerticalAlignment="Top" FontSize="50"/>
 
 
+                    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="14"
+                               HorizontalAlignment="Center" MaxWidth="250" TextWrapping="Wrap"
+                               Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    
+                    
                     <TextBlock Text="Username" Foreground="White" FontSize="16" 
                            Margin="5" HorizontalAlignment="Center"/>
-                    <TextBox Margin="5, 0" Style="{StaticResource RegularTextBox}" 
+                    <TextBox Text="{Binding Username}" Margin="5, 0" Style="{StaticResource RegularTextBox}" 
                          HorizontalAlignment="Center"/>
 
                     <TextBlock Text="Password" Foreground="White" FontSize="16" 
                            Margin="5" HorizontalAlignment="Center"/>
-                    <TextBox Margin="5, 0" Style="{StaticResource RegularTextBox}" 
+                    <TextBox Text="{Binding Password}" Margin="5, 0" Style="{StaticResource RegularTextBox}" 
                          HorizontalAlignment="Center"/>
 
                     <TextBlock Text="Email" Foreground="White" FontSize="16" 
                            Margin="5" HorizontalAlignment="Center"/>
-                    <TextBox Margin="5, 0" Style="{StaticResource RegularTextBox}" 
+                    <TextBox Text="{Binding Email}" Margin="5, 0" Style="{StaticResource RegularTextBox}" 
                          HorizontalAlignment="Center"/>
 
                     <Button HorizontalAlignment="Center" Height="35" 
@@ -70,15 +75,22 @@
                        HorizontalAlignment="Center" Margin="0,0,0,5"
                        VerticalAlignment="Top" FontSize="50"/>
 
+                    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="14"
+                               HorizontalAlignment="Center" MaxWidth="250" TextWrapping="Wrap"
+                               Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    
+
                     <TextBlock Text="Email" Foreground="White" FontSize="16" 
                            Margin="5" HorizontalAlignment="Center"/>
-                    <TextBox Margin="5, 0" Style="{StaticResource RegularTextBox}" 
-                         HorizontalAlignment="Center"/>
+                    <TextBox Text="{Binding Email}"
+                             Style="{StaticResource RegularTextBox}" 
+                             HorizontalAlignment="Center" Margin="5, 0"/>
 
                     <TextBlock Text="Password" Foreground="White" FontSize="16" 
                            Margin="5" HorizontalAlignment="Center"/>
-                    <TextBox Margin="5, 0" Style="{StaticResource RegularTextBox}" 
-                         HorizontalAlignment="Center"/>
+                    <TextBox Text="{Binding Password}"
+                             Style="{StaticResource RegularTextBox}"
+                             HorizontalAlignment="Center" Margin="5, 0"/>
 
                     <Button HorizontalAlignment="Center" Height="35" 
                         Width="75" Margin="0,25,0,5" Content="Login"

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FictionDataAccessLibrary.DTOs
+namespace FictionAPI.DTOs
 {
     public class AddStoryDto
     {

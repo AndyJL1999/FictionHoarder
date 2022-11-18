@@ -1,4 +1,4 @@
-﻿using FictionDataAccessLibrary.DTOs;
+﻿using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 
 namespace FictionAPI.Interfaces

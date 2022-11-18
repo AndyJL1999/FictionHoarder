@@ -2,7 +2,7 @@
 using FictionAPI.DTOs;
 using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
-using FictionDataAccessLibrary.DTOs;
+using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

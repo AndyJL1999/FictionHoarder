@@ -1,7 +1,7 @@
 using FictionAPI.Extentions;
 using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
-using FictionDataAccessLibrary.DTOs;
+using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

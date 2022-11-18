@@ -1,5 +1,4 @@
 ﻿using FictionAPI.DTOs;
-using FictionDataAccessLibrary.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;

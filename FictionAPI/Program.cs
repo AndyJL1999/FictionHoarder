@@ -5,7 +5,7 @@ using FictionAPI.DTOs;
 using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DbAccess;
-using FictionDataAccessLibrary.DTOs;
+using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

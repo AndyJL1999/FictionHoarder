@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
-using FictionDataAccessLibrary.DTOs;
+using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -27,7 +27,7 @@ namespace FictionAPI.Data
 
         public async Task InsertStory(AddStoryDto storyDto)
         {
-            var story = _mapper.Map<AddStoryDto,Story>(storyDto);
+            var story = _mapper.Map<AddStoryDto, Story>(storyDto);
             await _storyData.InsertStory(story);
         }
 

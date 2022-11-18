@@ -4,6 +4,7 @@ using FictionDataAccessLibrary.Models;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
 using FictionHoarderWPF.MVVM.Model;
+using FictionUI_Library.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +17,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
     class ReadPageModel : ObservableObject
     {
         private readonly IMapper _mapper;
+        private readonly IApiHelper _apiHelper;
         private readonly StoryDisplayModel _story;
         private ICommand _goToHomeCommand;
 
-        public ReadPageModel(IMapper mapper,StoryDisplayModel story)
+        public ReadPageModel(IMapper mapper, IApiHelper apiHelper,StoryDisplayModel story)
         {
             _mapper = mapper;
+            _apiHelper = apiHelper;
             _story = story;
         }
 
@@ -45,7 +48,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void ChangeViewModel(ObservableObject p)
         {
-            p = new MainPageModel(_mapper);
+            p = new MainPageModel(_mapper, _apiHelper);
             App.Current.MainWindow.DataContext = new MainViewModel(p);
         }
     }

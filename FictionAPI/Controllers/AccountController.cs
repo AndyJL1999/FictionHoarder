@@ -1,7 +1,7 @@
 ﻿using FictionAPI.DTOs;
 using FictionAPI.Interfaces;
 using FictionDataAccessLibrary.Data;
-using FictionDataAccessLibrary.DTOs;
+using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +24,7 @@ namespace FictionAPI.Controllers
 
 
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto user)
         {
             await _authRepo.Register(new User

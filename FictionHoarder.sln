@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FictionDataAccessLibrary", 
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FictionDb", "FictionDb\FictionDb.sqlproj", "{5C70E71B-1E34-43D0-911F-CBDB2667AD67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionAPI", "FictionAPI\FictionAPI.csproj", "{0B618C57-6C38-4193-8388-BE08EC116AF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FictionAPI", "FictionAPI\FictionAPI.csproj", "{0B618C57-6C38-4193-8388-BE08EC116AF7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionUI_Library", "FictionUI_Library\FictionUI_Library.csproj", "{290ED300-6D33-442F-8DAC-E312F230FB4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +37,10 @@ Global
 		{0B618C57-6C38-4193-8388-BE08EC116AF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B618C57-6C38-4193-8388-BE08EC116AF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B618C57-6C38-4193-8388-BE08EC116AF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{290ED300-6D33-442F-8DAC-E312F230FB4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{290ED300-6D33-442F-8DAC-E312F230FB4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{290ED300-6D33-442F-8DAC-E312F230FB4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{290ED300-6D33-442F-8DAC-E312F230FB4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

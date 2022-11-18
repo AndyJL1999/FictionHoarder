@@ -26,15 +26,19 @@
     <Compile Remove="FictionAPI\**" />
     <Compile Remove="FictionDataAccessLibrary\**" />
     <Compile Remove="FictionDb\**" />
+    <Compile Remove="FictionUI_Library\**" />
     <EmbeddedResource Remove="FictionAPI\**" />
     <EmbeddedResource Remove="FictionDataAccessLibrary\**" />
     <EmbeddedResource Remove="FictionDb\**" />
+    <EmbeddedResource Remove="FictionUI_Library\**" />
     <None Remove="FictionAPI\**" />
     <None Remove="FictionDataAccessLibrary\**" />
     <None Remove="FictionDb\**" />
+    <None Remove="FictionUI_Library\**" />
     <Page Remove="FictionAPI\**" />
     <Page Remove="FictionDataAccessLibrary\**" />
     <Page Remove="FictionDb\**" />
+    <Page Remove="FictionUI_Library\**" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Data.Linq" />
@@ -56,7 +60,7 @@
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="FictionAPI\FictionAPI.csproj" />
+    <ProjectReference Include="FictionUI_Library\FictionUI_Library.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Properties\Settings.Designer.cs">

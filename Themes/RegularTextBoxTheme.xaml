@@ -9,7 +9,7 @@
 
                         <Grid>
                             <Rectangle StrokeThickness="1"/>
-                            <TextBox Margin="1" Text="{TemplateBinding Text}" BorderThickness="0" Background="Transparent" 
+                            <TextBox Margin="1" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" BorderThickness="0" Background="Transparent" 
                                      VerticalContentAlignment="Center" Padding="5" Foreground="#CFCFCF" x:Name="SearchBox"/>
 
                             <TextBlock IsHitTestVisible="False" VerticalAlignment="Center" HorizontalAlignment="Left" 

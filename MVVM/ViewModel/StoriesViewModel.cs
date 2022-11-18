@@ -8,6 +8,11 @@ using FictionHoarderWPF.MVVM.Model;
 using System.Net.Http;
 using System.Net.Http.Json;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using Microsoft.IdentityModel.Protocols;
+using FictionUI_Library.API;
+using FictionUI_Library.Models;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -17,14 +22,16 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private ObservableCollection<StoryDisplayModel> _stories;
         private StoryDisplayModel _selectedStory;
         private readonly IMapper _mapper;
+        private readonly IApiHelper _apiHelper;
         #endregion
 
         public event EventHandler? ChangeToReadView;
 
         //Constructor
-        public StoriesViewModel(IMapper mapper)
+        public StoriesViewModel(IMapper mapper, IApiHelper apiHelper)
         {
             _mapper = mapper;
+            _apiHelper = apiHelper;
 
             ChangeToReadView += StoriesViewModel_ChangeToReadView;
 
@@ -60,22 +67,16 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #region Methods
         private void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
         {
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, SelectedStory));
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, SelectedStory));
         }
 
         public async void SetStories()
         {
-            //TODO - Replace SetStories Code
-            var client = new HttpClient();
-            using(HttpResponseMessage response = await client.GetAsync("https://localhost:7267/api/Story/2"))
-            {
-                var payload = await response.Content.ReadFromJsonAsync<IEnumerable<Story>>();
-                var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
+            var payload = await _apiHelper.GetUserStories();
 
+            var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
 
-                Stories = new ObservableCollection<StoryDisplayModel>(stories);
-            }
-
+            Stories = new ObservableCollection<StoryDisplayModel>(stories);
         }
         #endregion
     }

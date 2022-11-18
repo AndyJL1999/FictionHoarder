@@ -4,6 +4,7 @@ using FictionDataAccessLibrary.DbAccess;
 using FictionDataAccessLibrary.Models;
 using FictionHoarder;
 using FictionHoarderWPF.Core;
+using FictionUI_Library.API;
 using FictionHoarderWPF.MVVM.Model;
 using FictionHoarderWPF.MVVM.View;
 using FictionHoarderWPF.MVVM.ViewModel;
@@ -17,6 +18,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using FictionUI_Library.Models;
 
 namespace FictionHoarderWPF
 {
@@ -34,14 +36,15 @@ namespace FictionHoarderWPF
                 {
                     var config = new MapperConfiguration(myConfig =>
                     {
-                        myConfig.CreateMap<Story, StoryDisplayModel>();
+                        myConfig.CreateMap<StoryModel, StoryDisplayModel>();
                     });
 
                     var mapper = config.CreateMapper();
 
                     services.AddSingleton(mapper);
                     services.AddSingleton<MainWindow>();
-
+                    services.AddSingleton<ILoggedInUser, LoggedInUser>();
+                    services.AddSingleton<IApiHelper, ApiHelper>();
 
                 }).Build();
         }

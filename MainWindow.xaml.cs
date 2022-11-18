@@ -16,6 +16,7 @@ using AutoMapper;
 using FictionDataAccessLibrary.Data;
 using FictionDataAccessLibrary.DbAccess;
 using FictionHoarderWPF.Core;
+using FictionUI_Library.API;
 using FictionHoarderWPF.MVVM.View;
 using FictionHoarderWPF.MVVM.ViewModel;
 
@@ -26,16 +27,13 @@ namespace FictionHoarderWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly IMapper _mapper;
-
         //ReadingPage rp;
 
-        public MainWindow(IMapper mapper)
+        public MainWindow(IMapper mapper, IApiHelper apiHelper)
         {
             InitializeComponent();
 
-            _mapper = mapper;
-            DataContext = new MainViewModel(new StartUpModel(_mapper));
+            DataContext = new MainViewModel(new StartUpModel(mapper, apiHelper));
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
