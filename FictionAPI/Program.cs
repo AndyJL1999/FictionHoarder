@@ -15,6 +15,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Configuration;
 using System.Text;
 using System.Text.Unicode;
+using FictionDataAccessLibrary.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,7 @@ builder.Services.AddSingleton<ISqlDataAccess, SqlDataAccess>();
 builder.Services.AddSingleton<IStoryData, StoryData>();
 builder.Services.AddSingleton<IAuthData, AuthData>();
 builder.Services.AddSingleton<IUserData, UserData>();
+builder.Services.AddSingleton<IStoryUserData, StoryUserData>();
 
 var config = new MapperConfiguration(myConfig =>
 {

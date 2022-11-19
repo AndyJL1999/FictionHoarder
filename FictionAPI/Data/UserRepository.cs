@@ -1,6 +1,6 @@
 ﻿using FictionAPI.DTOs;
 using FictionAPI.Interfaces;
-using FictionDataAccessLibrary.Data;
+using FictionDataAccessLibrary.Interfaces;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.SignalR;
 

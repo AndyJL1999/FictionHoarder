@@ -1,4 +1,5 @@
 ﻿using FictionDataAccessLibrary.DbAccess;
+using FictionDataAccessLibrary.Interfaces;
 using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace FictionDataAccessLibrary.Data
         }
 
         public Task<IEnumerable<Story>> GetStoriesForUser(int userId) =>
-            _db.LoadData<Story, dynamic>(storedProcedure: "spStory_GetAll", new { UserId = userId });
+             _db.LoadData<Story, dynamic>(storedProcedure: "spStory_GetAll", new { UserId = userId });
 
         public async Task<Story?> GetStory(int id)
         {
@@ -29,7 +30,7 @@ namespace FictionDataAccessLibrary.Data
         }
 
         public Task InsertStory(Story story) =>
-            _db.SaveData(storedProcedure: "spStory_Insert", new { story.UserId, story.Title, story.Author, story.Summary, story.Chapters });
+            _db.SaveData(storedProcedure: "spStory_Insert", new { story.Title, story.Author, story.Summary, story.Chapters });
 
         public Task UpdateStory(Story story) => 
             _db.SaveData(storedProcedure: "spStory_Update", new { story.Id, story.Title, story.Author, story.Summary, story.Chapters});

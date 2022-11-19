@@ -1,4 +1,5 @@
 ﻿using FictionDataAccessLibrary.DbAccess;
+using FictionDataAccessLibrary.Interfaces;
 using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;

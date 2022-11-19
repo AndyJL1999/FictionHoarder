@@ -1,7 +1,7 @@
 ﻿using FictionDataAccessLibrary.Models;
 using System.Threading.Tasks;
 
-namespace FictionDataAccessLibrary.Data
+namespace FictionDataAccessLibrary.Interfaces
 {
     public interface IUserData
     {

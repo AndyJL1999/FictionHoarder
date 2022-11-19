@@ -37,6 +37,13 @@ namespace FictionAPI.Controllers
             return Ok();
         }
 
+        [HttpPost("User")]
+        public async Task<ActionResult> AddStoryToUser(AddStoryUserDto storyUserDto)
+        {
+            await _storyRepo.InsertStoryUser(storyUserDto);
+            return Ok();
+        }
+
         [HttpPut]
         public async Task<ActionResult> UpdateStory(UpdateStoryDto story)
         {

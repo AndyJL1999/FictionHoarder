@@ -1,5 +1,4 @@
 ﻿CREATE PROCEDURE [dbo].[spStory_Insert]
-	@UserId int,
 	@Title nvarchar(50),
 	@Author nvarchar(50), 
     @Summary nvarchar(1000), 
@@ -7,6 +6,13 @@
 
 AS
 begin
-	insert into dbo.[Story] (UserId, Title, Author, Summary, Chapters)
-	values (@UserId, @Title, @Author, @Summary, @Chapters);
+if not exists (select 1 from [Story] 
+				where Title = @Title 
+				and Author = @Author 
+				and Summary = @Summary 
+				and Chapters = @Chapters)
+	begin
+		insert into dbo.[Story] (Title, Author, Summary, Chapters)
+		values (@Title, @Author, @Summary, @Chapters)
+	end
 end

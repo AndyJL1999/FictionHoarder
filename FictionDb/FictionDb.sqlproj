@@ -61,6 +61,7 @@
     <Folder Include="dbo\StoredProcedure" />
     <Folder Include="dbo\StoredProcedure\Story_Procedures" />
     <Folder Include="dbo\StoredProcedure\User_Procedures" />
+    <Folder Include="dbo\StoredProcedure\StoryUser_Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Story.sql" />
@@ -75,6 +76,8 @@
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByNameOrEmail.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UpdateUser.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserById.sql" />
+    <Build Include="dbo\Tables\StoryUser.sql" />
+    <Build Include="dbo\StoredProcedure\StoryUser_Procedures\spStoryUser_InsertRelationship.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FictionDb.publish.xml" />

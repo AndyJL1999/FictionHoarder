@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FictionDataAccessLibrary.Data
+namespace FictionDataAccessLibrary.Interfaces
 {
     public interface IStoryData
     {
         Task DeleteStory(int id);
         Task<IEnumerable<Story>> GetStoriesForUser(int userId);
-        Task<Story?> GetStory(int id);
+        Task<Story> GetStory(int id);
         Task InsertStory(Story story);
         Task UpdateStory(Story story);
     }

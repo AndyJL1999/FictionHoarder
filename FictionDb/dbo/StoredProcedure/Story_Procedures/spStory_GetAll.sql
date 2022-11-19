@@ -4,6 +4,9 @@
 AS
 begin
 	select *
-	from dbo.[Story]
-	where UserId = @UserId;
+	from dbo.[StoryUser]
+	inner join dbo.[Story]
+	on [StoryUser].StoryId = [Story].Id
+	where UserId = @UserId
+	order by [Story].Title;
 end
