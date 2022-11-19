@@ -34,6 +34,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             CurrentSubViewModel = ViewModels.FirstOrDefault();
         }
 
+        public string UserWelcome { get => $"Welcome! {_apiHelper.User}"; }
+
         public ICommand ChangeViewCommand
         {
             get

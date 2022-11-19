@@ -8,7 +8,9 @@ namespace FictionUI_Library.API
     public interface IApiHelper
     {
         Task<AuthenticatedUser> Authenticate(string email, string password);
+        Task Register(string username, string password, string email);
         Task GetUserInfo(string token);
         Task<IEnumerable<StoryModel>> GetUserStories();
+        string User { get; }
     }
 }

@@ -58,6 +58,7 @@
                     <TextBlock Text="Login" Foreground="DodgerBlue" 
                            TextDecorations="Underline"
                            HorizontalAlignment="Center">
+                        
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding ShowHiddenFormCommand}"/>
@@ -99,6 +100,7 @@
                     <TextBlock Text="Sign Up" Foreground="DodgerBlue" 
                            TextDecorations="Underline"
                            HorizontalAlignment="Center">
+                        
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
                             <i:InvokeCommandAction Command="{Binding ShowHiddenFormCommand}"/>

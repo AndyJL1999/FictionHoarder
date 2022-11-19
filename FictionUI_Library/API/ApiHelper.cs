@@ -26,6 +26,8 @@ namespace FictionUI_Library.API
             _loggedInUser = loggedInUser;
         }
 
+        public string User { get => _loggedInUser.Username; }
+
         private void InitializeClient()
         {
             string api = ConfigurationManager.AppSettings["ApiUrl"];
@@ -51,6 +53,30 @@ namespace FictionUI_Library.API
                     var result = await response.Content.ReadFromJsonAsync<AuthenticatedUser>();
 
                     return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task Register(string username, string password, string email)
+        {
+            var data = JsonContent.Create(new RegisterDto
+            {
+                Username = username,
+                Password = password,
+                Email = email
+            });
+
+            using (HttpResponseMessage response = await _apiClient.PostAsync(_apiClient.BaseAddress + "Account/register", data))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+
+                    //return result;
                 }
                 else
                 {

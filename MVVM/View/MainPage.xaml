@@ -21,6 +21,8 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="FictionHoarder" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="21"/>
+            <TextBlock Text="{Binding UserWelcome}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White"
+                       FontSize="18" Margin="10,0"/>
 
             <StackPanel Grid.Row="1" >
                 <ListView ItemsSource="{Binding ViewModels}" Background="Transparent" BorderThickness="0">

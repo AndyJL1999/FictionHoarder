@@ -1,6 +1,7 @@
-﻿using FictionDataAccessLibrary.Models;
-using FictionHoarderWPF.Core;
+﻿using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
+using FictionHoarderWPF.MVVM.Model;
+using FictionUI_Library.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,19 +15,22 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class HistoryViewModel : ObservableObject, IViewModel
     {
-        private ObservableCollection<Story> _storiesRead;
+        private ObservableCollection<StoryDisplayModel> _storiesRead;
+
+        public HistoryViewModel()
+        {
+
+        }
 
         public string Name => "History";
 
-        new public event PropertyChangedEventHandler PropertyChanged;
-
-        public ObservableCollection<Story> StoriesRead
+        public ObservableCollection<StoryDisplayModel> StoriesRead
         {
             get { return _storiesRead; }
             set 
             { 
                 _storiesRead = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StoriesRead)));
+                OnPropertyChanged(nameof(StoriesRead));
             }
         }
 

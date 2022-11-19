@@ -146,12 +146,21 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         {
             try
             {
-                var result = await _apiHelper.Authenticate(Email, Password);
+                if(_onLoginForm)
+                {
+                    var result = await _apiHelper.Authenticate(Email, Password);
 
-                await _apiHelper.GetUserInfo(result.Token);
+                    await _apiHelper.GetUserInfo(result.Token);
 
-                p = new MainPageModel(_mapper, _apiHelper);
-                App.Current.MainWindow.DataContext = new MainViewModel(p);
+                    p = new MainPageModel(_mapper, _apiHelper);
+                    App.Current.MainWindow.DataContext = new MainViewModel(p);
+                }
+                else
+                {
+                    await _apiHelper.Register(Username, Password, Email);
+                    ShowForm();
+                }
+                
             }
             catch(Exception ex)
             {
