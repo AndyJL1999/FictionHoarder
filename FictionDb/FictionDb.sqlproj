@@ -62,13 +62,14 @@
     <Folder Include="dbo\StoredProcedure\Story_Procedures" />
     <Folder Include="dbo\StoredProcedure\User_Procedures" />
     <Folder Include="dbo\StoredProcedure\StoryUser_Procedures" />
+    <Folder Include="dbo\StoredProcedure\UserStoryHistory_Procedures" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\Story.sql" />
     <Build Include="dbo\Tables\User.sql" />
     <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_Delete.sql" />
     <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_Get.sql" />
-    <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_GetAll.sql" />
+    <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_GetAllForUser.sql" />
     <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_Insert.sql" />
     <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_Update.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UserLogin.sql" />
@@ -78,6 +79,10 @@
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserById.sql" />
     <Build Include="dbo\Tables\StoryUser.sql" />
     <Build Include="dbo\StoredProcedure\StoryUser_Procedures\spStoryUser_InsertRelationship.sql" />
+    <Build Include="dbo\Tables\UserStoryHistory.sql" />
+    <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_Insert.sql" />
+    <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_GetHistory.sql" />
+    <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_Update.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FictionDb.publish.xml" />
