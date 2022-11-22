@@ -16,25 +16,28 @@ namespace FictionHoarderWPF.MVVM.ViewModel
     {
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
+        private readonly IStoryEndpoint _storyEndpoint;
         private ICommand _changeViewCommand;
         private IViewModel _currentSubViewModel;
         private List<IViewModel> _viewModels;
 
-        public MainPageModel(IMapper mapper, IApiHelper apiHelper)
+        public MainPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
+            _storyEndpoint = storyEndpoint;
 
             ViewModels.Add(new HomeViewModel());
             ViewModels.Add(new SearchViewModel());
-            ViewModels.Add(new StoriesViewModel(_mapper, _apiHelper));
-            ViewModels.Add(new HistoryViewModel(_mapper, _apiHelper));
+            ViewModels.Add(new StoriesViewModel(_mapper, _apiHelper, _storyEndpoint));
+            ViewModels.Add(new HistoryViewModel(_mapper, _apiHelper, _storyEndpoint));
+            ViewModels.Add(new AccountViewModel(_apiHelper));
             
 
             CurrentSubViewModel = ViewModels.FirstOrDefault();
         }
 
-        public string UserWelcome { get => $"Welcome! {_apiHelper.User}"; }
+        public string UserWelcome { get => $"Welcome! {_apiHelper.LoggedInUser.Username}"; }
 
         public ICommand ChangeViewCommand
         {

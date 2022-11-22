@@ -23,15 +23,17 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private StoryDisplayModel _selectedStory;
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
+        private readonly IStoryEndpoint _storyEndpoint;
         #endregion
 
         public event EventHandler? ChangeToReadView;
 
         //Constructor
-        public StoriesViewModel(IMapper mapper, IApiHelper apiHelper)
+        public StoriesViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
+            _storyEndpoint = storyEndpoint;
 
             ChangeToReadView += StoriesViewModel_ChangeToReadView;
 
@@ -67,13 +69,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #region Methods
         private async void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
         {
-            await _apiHelper.AddToStoryHistory(SelectedStory.Id);
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, SelectedStory));
+            await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
+            _storyEndpoint.StoryForCache = _mapper.Map<StoryModel>(SelectedStory);
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory));
         }
 
         private async void SetStories()
         {
-            var payload = await _apiHelper.GetUserStories();
+            var payload = await _storyEndpoint.GetUserStories();
 
             var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
 

@@ -27,13 +27,12 @@ namespace FictionHoarderWPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        //ReadingPage rp;
 
-        public MainWindow(IMapper mapper, IApiHelper apiHelper)
+        public MainWindow(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
         {
             InitializeComponent();
 
-            DataContext = new MainViewModel(new StartUpModel(mapper, apiHelper));
+            DataContext = new MainViewModel(new StartUpModel(mapper, apiHelper, storyEndpoint));
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

@@ -18,13 +18,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
     {
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
+        private readonly IStoryEndpoint _storyEndpoint;
         private readonly StoryDisplayModel _story;
         private ICommand _goToHomeCommand;
 
-        public ReadPageModel(IMapper mapper, IApiHelper apiHelper,StoryDisplayModel story)
+        public ReadPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, StoryDisplayModel story)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
+            _storyEndpoint = storyEndpoint;
             _story = story;
         }
 
@@ -48,7 +50,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void ChangeViewModel(ObservableObject p)
         {
-            p = new MainPageModel(_mapper, _apiHelper);
+            p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint);
             App.Current.MainWindow.DataContext = new MainViewModel(p);
         }
     }

@@ -18,7 +18,7 @@ namespace FictionUI_Library.API
     public class ApiHelper : IApiHelper
     {
         private HttpClient _apiClient;
-        private readonly ILoggedInUser _loggedInUser;
+        private ILoggedInUser _loggedInUser;
 
         public ApiHelper(ILoggedInUser loggedInUser)
         {
@@ -26,7 +26,18 @@ namespace FictionUI_Library.API
             _loggedInUser = loggedInUser;
         }
 
-        public string User { get => _loggedInUser.Username; }
+        public ILoggedInUser LoggedInUser 
+        { 
+            get { return _loggedInUser; }
+            set
+            {
+                _loggedInUser = value;
+            }
+        }
+        public HttpClient ApiClient 
+        { 
+            get { return _apiClient; } 
+        }
 
         private void InitializeClient()
         {
@@ -101,57 +112,6 @@ namespace FictionUI_Library.API
                     _loggedInUser.Email = result.Email;
                     _loggedInUser.Id = result.Id;
                     _loggedInUser.Token = token;
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
-        }
-
-        public async Task<IEnumerable<StoryModel>> GetUserStories()
-        {
-            using (HttpResponseMessage response = await _apiClient.GetAsync(_apiClient.BaseAddress + "Story"))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadFromJsonAsync<IEnumerable<StoryModel>>();
-
-                    return result;
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
-        }
-
-        public async Task<IEnumerable<StoryModel>> GetUserStoryHistory()
-        {
-            using (HttpResponseMessage response = await _apiClient.GetAsync(_apiClient.BaseAddress + "Story/History"))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    var result = await response.Content.ReadFromJsonAsync<IEnumerable<StoryModel>>();
-
-                    return result;
-                }
-                else
-                {
-                    throw new Exception(response.ReasonPhrase);
-                }
-            }
-        }
-
-        public async Task AddToStoryHistory(int storyId)
-        {
-            var content = JsonContent.Create(storyId);
-
-            using (HttpResponseMessage response = await _apiClient.PostAsync(_apiClient.BaseAddress + "Story/History", content))
-            {
-                if (response.IsSuccessStatusCode)
-                {
-                    Console.WriteLine("Success!");
                 }
                 else
                 {

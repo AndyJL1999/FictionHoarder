@@ -1,6 +1,8 @@
 ﻿using FictionUI_Library.Models;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace FictionUI_Library.API
@@ -10,9 +12,7 @@ namespace FictionUI_Library.API
         Task<AuthenticatedUser> Authenticate(string email, string password);
         Task Register(string username, string password, string email);
         Task GetUserInfo(string token);
-        Task<IEnumerable<StoryModel>> GetUserStories();
-        Task<IEnumerable<StoryModel>> GetUserStoryHistory();
-        Task AddToStoryHistory(int storyId);
-        string User { get; }
+        ILoggedInUser LoggedInUser { get; set; }
+        HttpClient ApiClient { get; }
     }
 }

@@ -36,6 +36,10 @@
                 <view:SearchView/>
             </DataTemplate>
 
+            <DataTemplate DataType="{x:Type viewModel:AccountViewModel}">
+                <view:AccountView/>
+            </DataTemplate>
+
             <DataTemplate DataType="{x:Type viewModel:MainPageModel}">
                 <view:MainPage/>
             </DataTemplate>

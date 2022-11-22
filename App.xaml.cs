@@ -37,6 +37,7 @@ namespace FictionHoarderWPF
                     var config = new MapperConfiguration(myConfig =>
                     {
                         myConfig.CreateMap<StoryModel, StoryDisplayModel>();
+                        myConfig.CreateMap<StoryDisplayModel, StoryModel>();
                     });
 
                     var mapper = config.CreateMapper();
@@ -45,6 +46,8 @@ namespace FictionHoarderWPF
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<ILoggedInUser, LoggedInUser>();
                     services.AddSingleton<IApiHelper, ApiHelper>();
+                    services.AddScoped<IStoryEndpoint, StoryEndpoint>();
+                    services.AddMemoryCache();
 
                 }).Build();
         }

@@ -19,16 +19,17 @@ namespace FictionHoarderWPF.MVVM.ViewModel
     {
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
+        private readonly IStoryEndpoint _storyEndpoint;
         private ObservableCollection<StoryDisplayModel> _storiesRead;
         private StoryDisplayModel _selectedStory;
 
         public event EventHandler? ChangeToReadView;
 
-        public HistoryViewModel(IMapper mapper, IApiHelper apiHelper)
+        public HistoryViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
-
+            _storyEndpoint = storyEndpoint;
             ChangeToReadView += StoriesViewModel_ChangeToReadView;
 
             SetHistory();
@@ -59,13 +60,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private async void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
         {
-            await _apiHelper.AddToStoryHistory(SelectedStory.Id);
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, SelectedStory));
+            await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
+            _storyEndpoint.StoryForCache = _mapper.Map<StoryModel>(SelectedStory);
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory));
         }
 
         private async void SetHistory()
         {
-            var payload = await _apiHelper.GetUserStoryHistory();
+            var payload = await _storyEndpoint.GetUserStoryHistory();
 
             var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
 

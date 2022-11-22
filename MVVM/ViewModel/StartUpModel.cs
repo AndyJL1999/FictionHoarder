@@ -26,14 +26,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private Visibility _loginVisibility;
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
+        private readonly IStoryEndpoint _storyEndpoint;
 
         #endregion
 
-        public StartUpModel(IMapper mapper, IApiHelper apiHelper)
+        public StartUpModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
-
+            _storyEndpoint = storyEndpoint;
             _signUpVisibility = Visibility.Visible;
             _loginVisibility = Visibility.Collapsed;
         }
@@ -152,7 +153,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
                     await _apiHelper.GetUserInfo(result.Token);
 
-                    p = new MainPageModel(_mapper, _apiHelper);
+                    p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint);
                     App.Current.MainWindow.DataContext = new MainViewModel(p);
                 }
                 else
