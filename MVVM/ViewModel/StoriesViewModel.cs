@@ -65,12 +65,13 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #endregion
 
         #region Methods
-        private void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
+        private async void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
         {
+            await _apiHelper.AddToStoryHistory(SelectedStory.Id);
             App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, SelectedStory));
         }
 
-        public async void SetStories()
+        private async void SetStories()
         {
             var payload = await _apiHelper.GetUserStories();
 

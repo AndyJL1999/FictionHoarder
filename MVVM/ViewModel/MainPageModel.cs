@@ -28,7 +28,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             ViewModels.Add(new HomeViewModel());
             ViewModels.Add(new SearchViewModel());
             ViewModels.Add(new StoriesViewModel(_mapper, _apiHelper));
-            ViewModels.Add(new HistoryViewModel());
+            ViewModels.Add(new HistoryViewModel(_mapper, _apiHelper));
             
 
             CurrentSubViewModel = ViewModels.FirstOrDefault();

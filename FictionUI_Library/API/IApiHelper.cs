@@ -11,6 +11,8 @@ namespace FictionUI_Library.API
         Task Register(string username, string password, string email);
         Task GetUserInfo(string token);
         Task<IEnumerable<StoryModel>> GetUserStories();
+        Task<IEnumerable<StoryModel>> GetUserStoryHistory();
+        Task AddToStoryHistory(int storyId);
         string User { get; }
     }
 }

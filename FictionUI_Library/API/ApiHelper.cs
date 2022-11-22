@@ -126,5 +126,39 @@ namespace FictionUI_Library.API
             }
         }
 
+        public async Task<IEnumerable<StoryModel>> GetUserStoryHistory()
+        {
+            using (HttpResponseMessage response = await _apiClient.GetAsync(_apiClient.BaseAddress + "Story/History"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadFromJsonAsync<IEnumerable<StoryModel>>();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task AddToStoryHistory(int storyId)
+        {
+            var content = JsonContent.Create(storyId);
+
+            using (HttpResponseMessage response = await _apiClient.PostAsync(_apiClient.BaseAddress + "Story/History", content))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Success!");
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
     }
 }

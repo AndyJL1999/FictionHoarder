@@ -17,8 +17,8 @@ namespace FictionHoarderWPF.MVVM.Model
         private string _summary = string.Empty;
 
 
-        public int Id { get; }
-        public int UserId { get; }
+        public int Id { get; set; }
+        public int UserId { get; set; }
 
         public string Title
         {
