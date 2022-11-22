@@ -4,6 +4,7 @@ using FictionAPI.DTOs;
 using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.Mvc;
 using FictionDataAccessLibrary.Interfaces;
+using FictionAPI.Extentions;
 
 namespace FictionAPI.Data
 {
@@ -11,13 +12,16 @@ namespace FictionAPI.Data
     {
         private readonly IStoryData _storyData;
         private readonly IStoryUserData _storyUserData;
+        private readonly IHistoryData _historyData;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
 
-        public StoryRepository(IStoryData storyData, IStoryUserData storyUserData, IMapper mapper, IConfiguration config)
+        public StoryRepository(IStoryData storyData, IStoryUserData storyUserData, IHistoryData historyData,
+            IMapper mapper, IConfiguration config)
         {
             _storyData = storyData;
             _storyUserData = storyUserData;
+            _historyData = historyData;
             _mapper = mapper;
             _config = config;
         }
@@ -27,15 +31,25 @@ namespace FictionAPI.Data
             return await _storyData.GetStoriesForUser(userId);
         }
 
+        public async Task<IEnumerable<Story>> GetHistory(int userId)
+        {
+            return await _historyData.GetHistoryForUser(userId);
+        }
+
         public async Task InsertStory(AddStoryDto storyDto)
         {
             var story = _mapper.Map<AddStoryDto, Story>(storyDto);
             await _storyData.InsertStory(story);
         }
 
-        public async Task InsertStoryUser(AddStoryUserDto storyUserDto)
+        public async Task InsertStoryUser(int storyId, int userId)
         {
-            await _storyUserData.InsertStoryUser(storyUserDto.StoryId, storyUserDto.UserId);
+            await _storyUserData.InsertStoryUser(storyId, userId);
+        }
+
+        public async Task InsertIntoHistory(int storyId, int userId)
+        {
+            await _historyData.InsertStoryIntoHistory(storyId, userId);
         }
 
         public async Task UpdateStory(UpdateStoryDto storyDto)

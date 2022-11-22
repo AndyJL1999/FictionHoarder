@@ -30,6 +30,16 @@ namespace FictionAPI.Controllers
             return Ok(stories);
         }
 
+        [HttpGet("History")]
+        public async Task<ActionResult<IEnumerable<Story>>> GetHistory()
+        {
+            var id = User.GetUserId();
+
+            var stories = await _storyRepo.GetHistory(id);
+
+            return Ok(stories);
+        }
+
         [HttpPost]
         public async Task<ActionResult> InsertStory(AddStoryDto story)
         {
@@ -37,10 +47,20 @@ namespace FictionAPI.Controllers
             return Ok();
         }
 
-        [HttpPost("User")]
-        public async Task<ActionResult> AddStoryToUser(AddStoryUserDto storyUserDto)
+        [HttpPost("User/{storyId}")]
+        public async Task<ActionResult> AddStoryToUser(int storyId)
         {
-            await _storyRepo.InsertStoryUser(storyUserDto);
+            int userId = User.GetUserId();
+            await _storyRepo.InsertStoryUser(storyId, userId);
+            return Ok();
+        }
+
+        [HttpPost("History")]
+        public async Task<ActionResult> AddToStoryHistory([FromBody]int storyId)
+        {
+            int userId = User.GetUserId();
+
+            await _storyRepo.InsertIntoHistory(storyId, userId);
             return Ok();
         }
 

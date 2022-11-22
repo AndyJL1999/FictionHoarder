@@ -19,7 +19,7 @@ namespace FictionDataAccessLibrary.Data
         }
 
         public Task<IEnumerable<Story>> GetStoriesForUser(int userId) =>
-             _db.LoadData<Story, dynamic>(storedProcedure: "spStory_GetAll", new { UserId = userId });
+             _db.LoadData<Story, dynamic>(storedProcedure: "spStory_GetAllForUser", new { UserId = userId });
 
         public async Task<Story?> GetStory(int id)
         {

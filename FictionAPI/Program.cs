@@ -42,6 +42,7 @@ builder.Services.AddSingleton<IStoryData, StoryData>();
 builder.Services.AddSingleton<IAuthData, AuthData>();
 builder.Services.AddSingleton<IUserData, UserData>();
 builder.Services.AddSingleton<IStoryUserData, StoryUserData>();
+builder.Services.AddSingleton<IHistoryData, HistoryData>();
 
 var config = new MapperConfiguration(myConfig =>
 {
