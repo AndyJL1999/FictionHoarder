@@ -32,16 +32,18 @@
                     Command="{Binding GoToHomeCommand}" 
                     BorderThickness="0" CommandParameter="{Binding}"/>
 
-            <TextBlock Text="Chapter 1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
+            <TextBlock Text="{Binding ChapterHeader}" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center"
                        Foreground="White" FontSize="18"/>
 
             <Button Style="{StaticResource ButtonTheme}" Foreground="#CFCFCF" Grid.Column="2" 
-                    Margin="40,0,40,0" Content="◀" FontSize="18" BorderThickness="0"/>
+                    Margin="40,0,40,0" Content="◀" FontSize="18" BorderThickness="0"
+                    Command="{Binding ChangeChapterCommand}" CommandParameter="false"/>
             <Button Style="{StaticResource ButtonTheme}" Foreground="#CFCFCF" Grid.Column="4" 
-                    Margin="40,0,40,0" Content="▶" FontSize="18" BorderThickness="0"/>
+                    Margin="40,0,40,0" Content="▶" FontSize="18" BorderThickness="0"
+                    Command="{Binding ChangeChapterCommand}" CommandParameter="true"/>
 
 
-            <Grid Grid.Row="1" Grid.ColumnSpan="6" Width="auto" Height="auto" DataContext="{Binding Story}" >
+            <Grid Grid.Row="1" Grid.ColumnSpan="6" Width="auto" Height="auto" DataContext="{Binding StoryInfo}" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -57,13 +59,14 @@
                 <TextBlock Grid.Column="1" Text="{Binding Author}" HorizontalAlignment="Center" 
                            VerticalAlignment="Bottom" Foreground="White" FontSize="15" Margin="0,35,0,0"/>
 
-                <ScrollViewer Grid.ColumnSpan="3" Grid.Row="1" CanContentScroll="true"
-                              VerticalScrollBarVisibility="auto" Margin="0,10,0,0">
                     
-                    <TextBlock x:Name="textSum" Background="Transparent" Foreground="White" FontSize="18"
-                             Height="auto" TextWrapping="Wrap" Margin="35,0,35,0" />
-                    
-                </ScrollViewer>
+                <FlowDocumentReader x:Name="flowDoc" ViewingMode="Scroll" IsFindEnabled="False"
+                                    Grid.Row="1" Grid.ColumnSpan="3" IsPageViewEnabled="False"
+                                    IsTwoPageViewEnabled="False" Foreground="White"
+                                    Document="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                                                AncestorType=local:ReadingPage}, 
+                                                Path=DataContext.(viewmodel:ReadPageModel.StoryDocument)}" />
+
             </Grid>
             
         </Grid>
