@@ -3,7 +3,7 @@
 
 AS
 begin
-	select [Story].Id, [Story].Title, [Story].Author, [Story].Summary, [Story].Chapters
+	select [Story].Id, [Story].Title, [Story].Author, [Story].Summary, [Story].Chapters, [Story].EpubFile
 	from dbo.[StoryUser]
 	inner join dbo.[Story]
 	on [StoryUser].StoryId = [Story].Id
