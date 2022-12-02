@@ -13,5 +13,6 @@ namespace FictionAPI.DTOs
         public string Author { get; set; }
         public string Chapters { get; set; }
         public string Summary { get; set; }
+        public string EpubFile { get; set; }
     }
 }

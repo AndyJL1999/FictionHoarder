@@ -14,5 +14,6 @@ namespace FictionUI_Library.Models
         public string Author { get; set; }
         public string Chapters { get; set; }
         public string Summary { get; set; }
+        public string EpubFile { get; set; }
     }
 }

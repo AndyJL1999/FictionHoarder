@@ -9,7 +9,7 @@ namespace FictionDataAccessLibrary.Interfaces
         Task DeleteStory(int id);
         Task<IEnumerable<Story>> GetStoriesForUser(int userId);
         Task<Story> GetStory(int id);
-        Task InsertStory(Story story);
+        Task InsertStory(int userId, Story story);
         Task UpdateStory(Story story);
     }
 }

@@ -1,4 +1,5 @@
 ﻿CREATE PROCEDURE [dbo].[spStory_Insert]
+	@UserId int,
 	@Title nvarchar(50),
 	@Author nvarchar(50), 
     @Summary nvarchar(1000), 
@@ -6,14 +7,26 @@
 	@EpubFile nvarchar(max)
 
 AS
-begin
 if not exists (select 1 from [Story] 
-				where Title = @Title 
-				and Author = @Author 
+				where Title = @Title
+				and Author = @Author
 				and Summary = @Summary 
 				and Chapters = @Chapters)
-	begin
-		insert into dbo.[Story] (Title, Author, Summary, Chapters, EpubFile)
-		values (@Title, @Author, @Summary, @Chapters,@EpubFile)
-	end
+begin
+	insert into dbo.[Story] (Title, Author, Summary, Chapters, EpubFile)
+	values (@Title, @Author, @Summary, @Chapters, @EpubFile)
+
+	exec spStoryUser_InsertRelationship @@IDENTITY, @UserId
+end
+
+else
+begin
+	declare @storyId int
+	set @storyId = (select Id from [Story]
+				where Title = @Title
+				and Author = @Author
+				and Summary = @Summary 
+				and Chapters = @Chapters)
+
+	exec spStoryUser_InsertRelationship @storyId, @UserId
 end

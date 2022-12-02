@@ -29,8 +29,8 @@ namespace FictionDataAccessLibrary.Data
             return result.FirstOrDefault();
         }
 
-        public Task InsertStory(Story story) =>
-            _db.SaveData(storedProcedure: "spStory_Insert", new { story.Title, story.Author, story.Summary, story.Chapters });
+        public Task InsertStory(int userId, Story story) =>
+            _db.SaveData(storedProcedure: "spStory_Insert", new { userId, story.Title, story.Author, story.Summary, story.Chapters, story.EpubFile });
 
         public Task UpdateStory(Story story) => 
             _db.SaveData(storedProcedure: "spStory_Update", new { story.Id, story.Title, story.Author, story.Summary, story.Chapters});

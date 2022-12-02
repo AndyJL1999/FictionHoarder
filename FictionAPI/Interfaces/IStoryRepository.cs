@@ -8,7 +8,7 @@ namespace FictionAPI.Interfaces
     {
         Task<IEnumerable<Story>> GetStories(int userId);
         Task<IEnumerable<Story>> GetHistory(int userId);
-        Task InsertStory(AddStoryDto story);
+        Task InsertStory(int userId, AddStoryDto story);
         Task InsertStoryUser(int storyId, int userId);
         Task InsertIntoHistory(int storyId, int userId);
         Task UpdateStory(UpdateStoryDto story);

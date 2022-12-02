@@ -36,10 +36,10 @@ namespace FictionAPI.Data
             return await _historyData.GetHistoryForUser(userId);
         }
 
-        public async Task InsertStory(AddStoryDto storyDto)
+        public async Task InsertStory(int userId, AddStoryDto storyDto)
         {
             var story = _mapper.Map<AddStoryDto, Story>(storyDto);
-            await _storyData.InsertStory(story);
+            await _storyData.InsertStory(userId, story);
         }
 
         public async Task InsertStoryUser(int storyId, int userId)

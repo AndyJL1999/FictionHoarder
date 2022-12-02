@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
+using System.Reflection.Metadata;
+using FictionAPI.DTOs;
 
 namespace FictionUI_Library.API
 {
@@ -18,6 +20,7 @@ namespace FictionUI_Library.API
         private readonly string _storyCacheKey = "Stories";
         private readonly string _historyCacheKey = "History";
 
+        //Used to append the cache lists of stories (stories & history)
         public StoryModel StoryForCache { get; set; }
 
         public StoryEndpoint(IApiHelper apiHelper, IMemoryCache memoryCache)
@@ -26,19 +29,19 @@ namespace FictionUI_Library.API
             _memoryCache = memoryCache;
         }
 
-        public async Task<IEnumerable<StoryModel>> GetUserStories()
+        public async Task<IEnumerable<StoryModel>> GetUserStories(bool comingFromSearch)
         {
-            IEnumerable<StoryModel> output;
+            List<StoryModel> output;
 
-            output = _memoryCache.Get<IEnumerable<StoryModel>>(_storyCacheKey);
+            output = _memoryCache.Get<List<StoryModel>>(_storyCacheKey);
 
-            if(output is null)
+            if(output is null || comingFromSearch == true)
             {
                 using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(_apiHelper.ApiClient.BaseAddress + "Story"))
                 {
                     if (response.IsSuccessStatusCode)
                     {
-                        output = await response.Content.ReadFromJsonAsync<IEnumerable<StoryModel>>();
+                        output = await response.Content.ReadFromJsonAsync<List<StoryModel>>();
 
                         _memoryCache.Set(_storyCacheKey, output, new MemoryCacheEntryOptions
                         {
@@ -54,6 +57,9 @@ namespace FictionUI_Library.API
                     }
                 }
             }
+
+            //Update the cache list
+            output.Add(StoryForCache);
 
             return output;
             
@@ -89,13 +95,15 @@ namespace FictionUI_Library.API
                 }
             }
 
+            //TODO - Cache doesn't retrieve new story's Id
+            //TODO - Figure out if 'spStory_get' change is worth it
+
             //Find former story position for removal
             var match = output.Find(s => s.Id == StoryForCache.Id);
             output.Remove(match);
 
             //Re-adding story to the top of the list
             output.Insert(0, StoryForCache);
-            
 
             return output;
         }
@@ -105,6 +113,30 @@ namespace FictionUI_Library.API
             var content = JsonContent.Create(storyId);
 
             using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsync(_apiHelper.ApiClient.BaseAddress + "Story/History", content))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    Console.WriteLine("Success!");
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task InsertNewStory(StoryModel story)
+        {
+            var content = JsonContent.Create(new AddStoryDto
+            {
+                Title = story.Title,
+                Author = story.Author,
+                Chapters = story.Chapters,
+                Summary = story.Summary,
+                EpubFile = story.EpubFile
+            });
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsync(_apiHelper.ApiClient.BaseAddress + "Story", content))
             {
                 if (response.IsSuccessStatusCode)
                 {

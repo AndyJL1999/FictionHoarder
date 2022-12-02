@@ -48,6 +48,7 @@ var config = new MapperConfiguration(myConfig =>
 {
     myConfig.CreateMap<User, LoginDto>();
     myConfig.CreateMap<User, RegisterDto>();
+    myConfig.CreateMap<AddStoryDto, Story>();
 });
 var mapper = config.CreateMapper();
 
