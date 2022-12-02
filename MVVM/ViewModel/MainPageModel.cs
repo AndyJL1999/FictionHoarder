@@ -2,7 +2,9 @@
 using FictionDataAccessLibrary.Data;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
+using FictionUI_Library;
 using FictionUI_Library.API;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,24 +16,23 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class MainPageModel : ObservableObject
     {
-        private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
-        private readonly IStoryEndpoint _storyEndpoint;
+        private readonly IEventAggregator _eventAggregator;
         private ICommand _changeViewCommand;
         private IViewModel _currentSubViewModel;
         private List<IViewModel> _viewModels;
 
-        public MainPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
+        public MainPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
+            IEventAggregator eventAggregator)
         {
-            _mapper = mapper;
             _apiHelper = apiHelper;
-            _storyEndpoint = storyEndpoint;
+            _eventAggregator = eventAggregator;
 
             ViewModels.Add(new HomeViewModel());
-            ViewModels.Add(new SearchViewModel());
-            ViewModels.Add(new StoriesViewModel(_mapper, _apiHelper, _storyEndpoint));
-            ViewModels.Add(new HistoryViewModel(_mapper, _apiHelper, _storyEndpoint));
-            ViewModels.Add(new AccountViewModel(_apiHelper));
+            ViewModels.Add(new SearchViewModel(mapper, storyEndpoint, eventAggregator));
+            ViewModels.Add(new StoriesViewModel(mapper, apiHelper, storyEndpoint, eventAggregator));
+            ViewModels.Add(new HistoryViewModel(mapper, apiHelper, storyEndpoint, eventAggregator));
+            ViewModels.Add(new AccountViewModel(apiHelper));
             
 
             CurrentSubViewModel = ViewModels.FirstOrDefault();

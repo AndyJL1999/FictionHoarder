@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FictionHoarderWPF.Core;
 using FictionUI_Library.API;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,14 +28,18 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
+        private readonly IEventAggregator _eventAggregator;
 
         #endregion
 
-        public StartUpModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
+        public StartUpModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
+            IEventAggregator eventAggregator)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
             _storyEndpoint = storyEndpoint;
+            _eventAggregator = eventAggregator;
+
             _signUpVisibility = Visibility.Visible;
             _loginVisibility = Visibility.Collapsed;
         }
@@ -153,7 +158,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
                     await _apiHelper.GetUserInfo(result.Token);
 
-                    p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint);
+                    p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator);
                     App.Current.MainWindow.DataContext = new MainViewModel(p);
                 }
                 else

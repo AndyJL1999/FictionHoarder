@@ -58,6 +58,8 @@ namespace FictionHoarderWPF.MVVM.Model
             }
         }
 
+        public string EpubFile { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void INotifyPropertyChanged(string v)

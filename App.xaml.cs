@@ -19,6 +19,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using FictionUI_Library.Models;
+using Prism.Events;
 
 namespace FictionHoarderWPF
 {
@@ -44,6 +45,7 @@ namespace FictionHoarderWPF
 
                     services.AddSingleton(mapper);
                     services.AddSingleton<MainWindow>();
+                    services.AddSingleton<IEventAggregator, EventAggregator>();
                     services.AddSingleton<ILoggedInUser, LoggedInUser>();
                     services.AddSingleton<IApiHelper, ApiHelper>();
                     services.AddScoped<IStoryEndpoint, StoryEndpoint>();

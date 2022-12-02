@@ -19,6 +19,7 @@ using FictionHoarderWPF.Core;
 using FictionUI_Library.API;
 using FictionHoarderWPF.MVVM.View;
 using FictionHoarderWPF.MVVM.ViewModel;
+using Prism.Events;
 
 namespace FictionHoarderWPF
 {
@@ -28,11 +29,12 @@ namespace FictionHoarderWPF
     public partial class MainWindow : Window
     {
 
-        public MainWindow(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
+        public MainWindow(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
+            IEventAggregator eventAggregator)
         {
             InitializeComponent();
 
-            DataContext = new MainViewModel(new StartUpModel(mapper, apiHelper, storyEndpoint));
+            DataContext = new MainViewModel(new StartUpModel(mapper, apiHelper, storyEndpoint, eventAggregator));
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)

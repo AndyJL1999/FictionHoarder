@@ -4,6 +4,7 @@ using FictionHoarderWPF.Core.Interfaces;
 using FictionHoarderWPF.MVVM.Model;
 using FictionUI_Library.API;
 using FictionUI_Library.Models;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,16 +21,20 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
+        private readonly IEventAggregator _eventAggregator;
         private ObservableCollection<StoryDisplayModel> _storiesRead;
         private StoryDisplayModel _selectedStory;
 
         public event EventHandler? ChangeToReadView;
 
-        public HistoryViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
+        public HistoryViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
+            IEventAggregator eventAggregator)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
             _storyEndpoint = storyEndpoint;
+            _eventAggregator = eventAggregator;
+
             ChangeToReadView += StoriesViewModel_ChangeToReadView;
 
             SetHistory();
@@ -62,7 +67,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         {
             await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
             _storyEndpoint.StoryForCache = _mapper.Map<StoryModel>(SelectedStory);
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory));
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory, _eventAggregator));
         }
 
         private async void SetHistory()

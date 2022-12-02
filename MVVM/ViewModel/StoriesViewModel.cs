@@ -13,6 +13,8 @@ using System.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using FictionUI_Library.API;
 using FictionUI_Library.Models;
+using Prism.Events;
+using FictionUI_Library;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -24,24 +26,33 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
+        private readonly IEventAggregator _eventAggregator;
         #endregion
 
         public event EventHandler? ChangeToReadView;
 
         //Constructor
-        public StoriesViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint)
+        public StoriesViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
+            IEventAggregator eventAggregator)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
             _storyEndpoint = storyEndpoint;
-
+            _eventAggregator = eventAggregator;
             ChangeToReadView += StoriesViewModel_ChangeToReadView;
 
             SetStories();
+
+            _eventAggregator.GetEvent<RefreshStoriesEvent>().Subscribe(() => 
+            {
+                ComingFromSearch = true;
+                SetStories();
+            });
         }
 
-
         #region Properties
+        private bool ComingFromSearch { get; set; } = false;
+
         public string Name => "Stories";
 
         public ObservableCollection<StoryDisplayModel> Stories
@@ -71,12 +82,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         {
             await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
             _storyEndpoint.StoryForCache = _mapper.Map<StoryModel>(SelectedStory);
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory));
+
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory, _eventAggregator));
         }
 
         private async void SetStories()
         {
-            var payload = await _storyEndpoint.GetUserStories();
+            var payload = await _storyEndpoint.GetUserStories(ComingFromSearch);
+            ComingFromSearch = false;
 
             var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
 

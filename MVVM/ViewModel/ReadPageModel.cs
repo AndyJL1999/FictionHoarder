@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using EpubSharp;
 using FictionHoarderWPF.Core;
-using FictionHoarderWPF.Core.Interfaces;
 using FictionHoarderWPF.MVVM.Model;
 using FictionUI_Library.API;
 using HTMLConverter;
+using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,6 +28,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
         private readonly StoryDisplayModel _storyInfo;
+        private readonly IEventAggregator _eventAggregator;
         private EpubBook _book;
         private FlowDocument _storyDocument;
         private ICommand _goToHomeCommand;
@@ -36,12 +37,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         #endregion
 
-        public ReadPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, StoryDisplayModel storyInfo)
+        public ReadPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, 
+            StoryDisplayModel storyInfo, IEventAggregator eventAggregator)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
             _storyEndpoint = storyEndpoint;
             _storyInfo = storyInfo;
+            _eventAggregator = eventAggregator;
+
             SetBook();
         }
 
@@ -110,17 +114,23 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void SetBook()
         {
-            _book = EpubReader.Read(@"C:\\Users\\andyl\\OneDrive\\Uploads\\Documents\\ePub files\\HP\\HP - Other\A Flower for the Soul - TheBlack'sResurgence.epub");
+            if (StoryInfo != null)
+            {
+                _book = EpubReader.Read(StoryInfo.EpubFile);
 
-            var chapters = _book.Resources.Html;
-            var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(chapters.ElementAt(ChapterNumber).TextContent, true);
+                //Gets all html files in epub file
+                var chapters = _book.Resources.Html;
 
-            SetDoc(xamlForFlowDoc);
+                //Converting html to xaml for flow document
+                var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(chapters.ElementAt(ChapterNumber).TextContent, true);
+
+                SetDoc(xamlForFlowDoc);
+            }
         }
 
         private void ChangeViewModel(ObservableObject p)
         {
-            p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint);
+            p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator);
             App.Current.MainWindow.DataContext = new MainViewModel(p);
         }
 
@@ -128,7 +138,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         {
             bool movingForward = Convert.ToBoolean(isMovingForward);
 
-            if (_book.Resources.Html.Count != ChapterNumber && movingForward == true)
+            //Logic for moving forward or backward in chapters
+            if (_book.Resources.Html.Count - 1 != ChapterNumber && movingForward == true)
             {
                 ChapterNumber++;
                 var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(_book.Resources.Html.ElementAt(ChapterNumber).TextContent, true);
@@ -143,6 +154,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 SetDoc(xamlForFlowDoc);
             }
 
+            //Go to the top of the document when chapter changes
             StoryDocument.BringIntoView();
         }
 
