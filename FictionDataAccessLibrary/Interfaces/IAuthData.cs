@@ -8,6 +8,7 @@ namespace FictionDataAccessLibrary.Interfaces
         Task<User> LoginUser(User user);
         Task RegisterUser(User user);
 
-        Task<User> GetUserByNameOrEmail(string username);
+        Task<User> GetUserByEmail(string email);
+        Task<User> GetUserByUsername(string username);
     }
 }

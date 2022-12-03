@@ -44,7 +44,7 @@ namespace FictionAPI.Data
 
         public async Task<UserDto> Login(LoginDto loginDto)
         {
-            var user = await _authData.GetUserByNameOrEmail(loginDto.Email);
+            var user = await _authData.GetUserByEmail(loginDto.Email);
 
 
             if (user == null || !VerifyPasswordHash(loginDto.Password, user.PasswordHash, user.PasswordSalt))
@@ -83,7 +83,7 @@ namespace FictionAPI.Data
 
         private async Task<bool> DoesUserExist(string username)
         {
-            var user = await _authData.GetUserByNameOrEmail(username);
+            var user = await _authData.GetUserByUsername(username);
 
             if (user != null)
             {

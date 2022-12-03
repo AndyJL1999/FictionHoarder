@@ -74,7 +74,7 @@
     <Build Include="dbo\StoredProcedure\Story_Procedures\spStory_Update.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UserLogin.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UserRegister.sql" />
-    <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByNameOrEmail.sql" />
+    <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByEmail.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_UpdateUser.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserById.sql" />
     <Build Include="dbo\Tables\StoryUser.sql" />
@@ -83,6 +83,7 @@
     <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_Insert.sql" />
     <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_GetHistory.sql" />
     <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_Update.sql" />
+    <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByUsername.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FictionDb.publish.xml" />

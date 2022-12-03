@@ -29,13 +29,21 @@ namespace FictionDataAccessLibrary.Data
         public Task RegisterUser(User user) =>
             _db.SaveData(storedProcedure: "spUser_UserRegister", new { user.Username, user.Email, user.PasswordHash, user.PasswordSalt });
 
-        public async Task<User> GetUserByNameOrEmail(string nameOrEmail)
+        public async Task<User> GetUserByEmail(string email)
         {
             var result = await _db.LoadData<User, dynamic>(
-                storedProcedure: "spUser_GetUserByNameOrEmail", new { NameOrEmail = nameOrEmail });
+                storedProcedure: "spUser_GetUserByEmail", new { Email = email });
 
             return result.FirstOrDefault();
         }
-           
+
+        public async Task<User> GetUserByUsername(string username)
+        {
+            var result = await _db.LoadData<User, dynamic>(
+                storedProcedure: "spUser_GetUserByUsername", new { Username = username });
+
+            return result.FirstOrDefault();
+        }
+
     }
 }
