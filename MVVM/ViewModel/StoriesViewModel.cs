@@ -20,7 +20,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     public class StoriesViewModel : ObservableObject, IViewModel
     {
-        #region Fields
+        #region ----------Fields----------
         private ObservableCollection<StoryDisplayModel> _stories;
         private StoryDisplayModel _selectedStory;
         private readonly IMapper _mapper;
@@ -39,10 +39,12 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _apiHelper = apiHelper;
             _storyEndpoint = storyEndpoint;
             _eventAggregator = eventAggregator;
+
             ChangeToReadView += StoriesViewModel_ChangeToReadView;
 
             SetStories();
 
+            //Event fires when a new story is added from the search view
             _eventAggregator.GetEvent<RefreshStoriesEvent>().Subscribe(() => 
             {
                 ComingFromSearch = true;
@@ -50,7 +52,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             });
         }
 
-        #region Properties
+        #region ----------Properties----------
         private bool ComingFromSearch { get; set; } = false;
 
         public string Name => "Stories";
@@ -77,13 +79,16 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         }
         #endregion
 
-        #region Methods
+        #region ----------Methods----------
         private async void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
         {
-            await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
-            _storyEndpoint.StoryForCache = _mapper.Map<StoryModel>(SelectedStory);
+            var story = _mapper.Map<StoryModel>(SelectedStory);
 
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, SelectedStory, _eventAggregator));
+            await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
+            _storyEndpoint.StoryForCache = story;
+
+            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
+            _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
         }
 
         private async void SetStories()

@@ -95,9 +95,6 @@ namespace FictionUI_Library.API
                 }
             }
 
-            //TODO - Cache doesn't retrieve new story's Id
-            //TODO - Figure out if 'spStory_get' change is worth it
-
             //Find former story position for removal
             var match = output.Find(s => s.Id == StoryForCache.Id);
             output.Remove(match);
@@ -147,6 +144,12 @@ namespace FictionUI_Library.API
                     throw new Exception(response.ReasonPhrase);
                 }
             }
+        }
+
+        public void ClearCache()
+        {
+            _memoryCache.Remove(_historyCacheKey);
+            _memoryCache.Remove(_storyCacheKey);
         }
     }
 }

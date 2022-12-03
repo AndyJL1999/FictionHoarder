@@ -35,9 +35,10 @@
         </StackPanel>
 
         <Button Content="Edit" HorizontalAlignment="Right" FontSize="16" 
-                    Width="75" Height="50" Margin="15" Grid.Column="0" Grid.Row="1"/>
+                Width="75" Height="50" Margin="15" Grid.Column="0" Grid.Row="1"/>
 
         <Button Content="Log Out" HorizontalAlignment="Left" FontSize="16" 
-                    Width="75" Height="50" Margin="15" Grid.Column="1" Grid.Row="1"/>
+                Width="75" Height="50" Margin="15" Grid.Column="1" Grid.Row="1"
+                Command="{Binding LogOutCommand}"/>
     </Grid>
 </UserControl>

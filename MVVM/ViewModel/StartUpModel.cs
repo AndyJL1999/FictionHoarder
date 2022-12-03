@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,7 +19,6 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #region Fields
         private bool _onLoginForm = false;
         private string _username;
-        private string _password;
         private string _email;
         private string _errorMessage;
         private ICommand _showHiddenFormCommand;
@@ -55,15 +55,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
-        public string Password
-        {
-            get { return _password; }
-            set
-            {
-                _password = value;
-                OnPropertyChanged(nameof(Password));
-            }
-        }
+        public string Password { private get; set; }
 
         public string Email
         {
@@ -154,6 +146,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 if(_onLoginForm)
                 {
+                    ErrorMessage = string.Empty;
                     var result = await _apiHelper.Authenticate(Email, Password);
 
                     await _apiHelper.GetUserInfo(result.Token);
@@ -163,14 +156,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 }
                 else
                 {
-                    await _apiHelper.Register(Username, Password, Email);
+                    await _apiHelper.Register(Username, Password.ToString(), Email);
                     ShowForm();
                 }
                 
             }
             catch(Exception ex)
             {
-                ErrorMessage = ex.Message;
+                if(ex.Message == "Unauthorized")
+                    ErrorMessage = "Wrong Email or Password";
             }
             
         }
@@ -185,7 +179,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 LoginVisibility = Visibility.Visible;
                 ErrorMessage = string.Empty;
                 Username = string.Empty;
-                Password = string.Empty;
+                //Password = string.Empty;
                 Email = string.Empty;
             }
             else
@@ -194,7 +188,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 LoginVisibility = Visibility.Collapsed;
                 ErrorMessage = string.Empty;
                 Username = string.Empty;
-                Password = string.Empty;
+                //Password = string.Empty;
                 Email = string.Empty;
             }
         }

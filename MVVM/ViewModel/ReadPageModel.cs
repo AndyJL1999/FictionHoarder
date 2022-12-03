@@ -2,6 +2,7 @@
 using EpubSharp;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.MVVM.Model;
+using FictionUI_Library;
 using FictionUI_Library.API;
 using HTMLConverter;
 using Prism.Events;
@@ -27,8 +28,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
-        private readonly StoryDisplayModel _storyInfo;
         private readonly IEventAggregator _eventAggregator;
+        private StoryDisplayModel _storyInfo;
         private EpubBook _book;
         private FlowDocument _storyDocument;
         private ICommand _goToHomeCommand;
@@ -38,15 +39,18 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #endregion
 
         public ReadPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, 
-            StoryDisplayModel storyInfo, IEventAggregator eventAggregator)
+            IEventAggregator eventAggregator)
         {
             _mapper = mapper;
             _apiHelper = apiHelper;
             _storyEndpoint = storyEndpoint;
-            _storyInfo = storyInfo;
             _eventAggregator = eventAggregator;
 
-            SetBook();
+            _eventAggregator.GetEvent<StorySelectionEvent>().Subscribe((story) =>
+            {
+                StoryInfo = _mapper.Map<StoryDisplayModel>(story);
+                SetBook();
+            });
         }
 
         #region -----------Properties----------
@@ -54,6 +58,10 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         public StoryDisplayModel StoryInfo
         {
             get { return _storyInfo; }
+            set
+            {
+                _storyInfo = value;
+            }
         }
 
         public FlowDocument StoryDocument

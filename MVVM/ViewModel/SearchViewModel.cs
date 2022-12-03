@@ -22,6 +22,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class SearchViewModel : ObservableObject, IViewModel
     {
+        #region ----------Fields----------
         private readonly IMapper _mapper;
         private readonly IStoryEndpoint _storyEndpoint;
         private readonly IEventAggregator _eventAggregator;
@@ -31,6 +32,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private EpubBook _book;
         private StoryDisplayModel _story;
         private Visibility _storyConfirmationVisibility;
+        #endregion
 
         public SearchViewModel(IMapper mapper, IStoryEndpoint storyEndpoint, IEventAggregator eventAggregator)
         {

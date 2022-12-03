@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="Themes/SearchBoxTheme.xaml"/>
                 <ResourceDictionary Source="Themes/RegularTextBoxTheme.xaml"/>
                 <ResourceDictionary Source="Themes/ButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/PasswordBoxTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
