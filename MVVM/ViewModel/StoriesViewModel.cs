@@ -14,7 +14,7 @@ using Microsoft.IdentityModel.Protocols;
 using FictionUI_Library.API;
 using FictionUI_Library.Models;
 using Prism.Events;
-using FictionUI_Library;
+using FictionUI_Library.EventAggregators;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -45,7 +45,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             SetStories();
 
             //Event fires when a new story is added from the search view
-            _eventAggregator.GetEvent<RefreshStoriesEvent>().Subscribe(() => 
+            _eventAggregator.GetEvent<UpdateEvent>().Subscribe(() => 
             {
                 ComingFromSearch = true;
                 SetStories();

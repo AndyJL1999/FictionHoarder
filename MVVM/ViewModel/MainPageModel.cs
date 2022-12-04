@@ -4,6 +4,7 @@ using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
 using FictionUI_Library;
 using FictionUI_Library.API;
+using FictionUI_Library.EventAggregators;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 {
     class MainPageModel : ObservableObject
     {
+        #region ----------Fields----------
         private readonly IApiHelper _apiHelper;
         private readonly IEventAggregator _eventAggregator;
         private ICommand _changeViewCommand;
         private IViewModel _currentSubViewModel;
         private List<IViewModel> _viewModels;
+        private string _userWelcome;
+        #endregion
 
         public MainPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
             IEventAggregator eventAggregator)
@@ -36,9 +40,22 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             
 
             CurrentSubViewModel = ViewModels.FirstOrDefault();
+
+            _userWelcome = _apiHelper.LoggedInUser.Username;
+
+            _eventAggregator.GetEvent<UsernameCarrierEvent>().Subscribe((username) => { UserWelcome = username; });
         }
 
-        public string UserWelcome { get => $"Welcome! {_apiHelper.LoggedInUser.Username}"; }
+        #region ----------Properties----------
+        public string UserWelcome 
+        { 
+            get => $"Welcome! {_userWelcome}"; 
+            set
+            {
+                _userWelcome = value;
+                OnPropertyChanged(nameof(UserWelcome));
+            }
+        }
 
         public ICommand ChangeViewCommand
         {
@@ -78,7 +95,9 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 }
             }
         }
+        #endregion
 
+        #region ----------Methods----------
         private void ChangeViewModel(IViewModel viewModel)
         {
             if(!ViewModels.Contains(viewModel))
@@ -88,5 +107,6 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
             CurrentSubViewModel = ViewModels.FirstOrDefault(vm => vm == viewModel);
         }
+        #endregion
     }
 }

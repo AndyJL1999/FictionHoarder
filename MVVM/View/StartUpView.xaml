@@ -38,28 +38,28 @@
                     
                     
                     <TextBlock Text="Username" Foreground="White" FontSize="16" 
-                           Margin="5" HorizontalAlignment="Center"/>
+                               Margin="5" HorizontalAlignment="Center"/>
                     <TextBox Text="{Binding Username}" Margin="5, 0" Style="{StaticResource RegularTextBox}" 
-                         HorizontalAlignment="Center"/>
+                             HorizontalAlignment="Center"/>
 
                     <TextBlock Text="Password" Foreground="White" FontSize="16" 
-                           Margin="5" HorizontalAlignment="Center"/>
+                               Margin="5" HorizontalAlignment="Center"/>
                     <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"
                                  HorizontalAlignment="Center" Margin="5, 0"
                                  Style="{StaticResource PasswordStyle}"/>
 
                     <TextBlock Text="Email" Foreground="White" FontSize="16" 
-                           Margin="5" HorizontalAlignment="Center"/>
+                               Margin="5" HorizontalAlignment="Center"/>
                     <TextBox Text="{Binding Email}" Margin="5, 0" Style="{StaticResource RegularTextBox}" 
-                         HorizontalAlignment="Center"/>
+                             HorizontalAlignment="Center"/>
 
                     <Button HorizontalAlignment="Center" Height="35" 
-                        Width="75" Margin="0,25,0,5" Content="Sign Up" 
-                        Command="{Binding EnterMainPageCommand}" CommandParameter="{Binding}"/>
+                            Width="75" Margin="0,25,0,5" Content="Sign Up" 
+                            Command="{Binding EnterMainPageCommand}" CommandParameter="{Binding}"/>
 
                     <TextBlock Text="Login" Foreground="DodgerBlue" 
-                           TextDecorations="Underline"
-                           HorizontalAlignment="Center">
+                               TextDecorations="Underline"
+                               HorizontalAlignment="Center">
                         
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">

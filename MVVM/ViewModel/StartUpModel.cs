@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FictionHoarderWPF.Core;
 using FictionUI_Library.API;
+using FictionUI_Library.EventAggregators;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -153,8 +154,10 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
                     p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator);
                     App.Current.MainWindow.DataContext = new MainViewModel(p);
+
+                    _eventAggregator.GetEvent<PasswordCarrierEvent>().Publish(Password);
                 }
-                else
+                else //on register form
                 {
                     await _apiHelper.Register(Username, Password.ToString(), Email);
                     ShowForm();

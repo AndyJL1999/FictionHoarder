@@ -16,7 +16,7 @@ using AutoMapper;
 using FictionUI_Library.API;
 using FictionUI_Library.Models;
 using Prism.Events;
-using FictionUI_Library;
+using FictionUI_Library.EventAggregators;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -129,7 +129,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 await _storyEndpoint.InsertNewStory(story);
                 _storyEndpoint.StoryForCache = story;
-                _eventAggregator.GetEvent<RefreshStoriesEvent>().Publish();
+                _eventAggregator.GetEvent<UpdateEvent>().Publish();
             }
 
             ClearStoryInfo();

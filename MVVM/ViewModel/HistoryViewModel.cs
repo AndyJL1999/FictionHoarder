@@ -2,8 +2,8 @@
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
 using FictionHoarderWPF.MVVM.Model;
-using FictionUI_Library;
 using FictionUI_Library.API;
+using FictionUI_Library.EventAggregators;
 using FictionUI_Library.Models;
 using Prism.Events;
 using System;

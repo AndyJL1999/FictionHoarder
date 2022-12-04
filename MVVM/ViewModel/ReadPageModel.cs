@@ -2,8 +2,8 @@
 using EpubSharp;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.MVVM.Model;
-using FictionUI_Library;
 using FictionUI_Library.API;
+using FictionUI_Library.EventAggregators;
 using HTMLConverter;
 using Prism.Events;
 using System;

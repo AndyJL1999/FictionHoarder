@@ -29,13 +29,56 @@
                      HorizontalAlignment="Left" IsHitTestVisible="False"/>
             
             <TextBlock Text="Password:" Foreground="White" FontSize="16" Margin="5"/>
-            <TextBox Text="********" Margin="5,0" Style="{StaticResource RegularTextBox}" 
-                     HorizontalAlignment="Left" IsHitTestVisible="False"/>
+            <PasswordBox x:Name="CurrentPasswordBox" Margin="5,0" Style="{StaticResource PasswordStyle}" 
+                         HorizontalAlignment="Left" IsHitTestVisible="False"/>
+
+            <TextBlock Text="{Binding UpdateText}" Foreground="{Binding UpdateColor}" HorizontalAlignment="Center"
+                       Margin="0,10"/>
+
+        </StackPanel>
+
+        <StackPanel Visibility="{Binding EditVisibility}" Grid.Column="1" Grid.Row="0" Margin="0,50,0,0">
+
+            <TextBlock Text="New Username:" Foreground="White" FontSize="16" Margin="5"/>
+            <TextBox Text="{Binding NewUsername}" Margin="5,0" Style="{StaticResource RegularTextBox}" 
+                     HorizontalAlignment="Left"/>
+
+            <TextBlock Text="New Email:" Foreground="White" FontSize="16" Margin="5"/>
+            <TextBox Text="{Binding NewEmail}" Margin="5,0" Style="{StaticResource RegularTextBox}" 
+                     HorizontalAlignment="Left"/>
+
+            <TextBlock Text="Current Password:" Foreground="White" FontSize="16" Margin="5"/>
+            <PasswordBox x:Name="PasswordCheckBox" Margin="5,0" Style="{StaticResource PasswordStyle}" 
+                         IsEnabled="{Binding EnablePasswordBox}"
+                         HorizontalAlignment="Left"
+                         PasswordChanged="PasswordBox_PasswordChanged"
+                         IsEnabledChanged="PasswordBox_IsEnabledChanged"/>
+
+            <TextBlock Text="New Password:" Foreground="White" FontSize="16" Margin="5"/>
+            <PasswordBox x:Name="NewPasswordBox" Margin="5,0" Style="{StaticResource PasswordStyle}" 
+                         HorizontalAlignment="Left" 
+                         IsEnabled="{Binding EnablePasswordBox}"
+                         PasswordChanged="PasswordBox_PasswordChanged"
+                         IsEnabledChanged="PasswordBox_IsEnabledChanged"/>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                
+                <Button Content="Cancel" HorizontalAlignment="Right" FontSize="16" 
+                        Width="60" Height="30" Margin="15" Grid.Column="0" Grid.Row="1"
+                        Command="{Binding ShowEditCommand}"/>
+
+                <Button Content="Update" HorizontalAlignment="Left" FontSize="16" 
+                        Width="60" Height="30" Margin="15" Grid.Column="1" Grid.Row="1"
+                        Command="{Binding UpdateCommand}"/>
+                
+            </StackPanel>
 
         </StackPanel>
 
         <Button Content="Edit" HorizontalAlignment="Right" FontSize="16" 
-                Width="75" Height="50" Margin="15" Grid.Column="0" Grid.Row="1"/>
+                Width="75" Height="50" Margin="15" Grid.Column="0" Grid.Row="1"
+                IsEnabled="{Binding EnableEdit}"
+                Command="{Binding ShowEditCommand}"/>
 
         <Button Content="Log Out" HorizontalAlignment="Left" FontSize="16" 
                 Width="75" Height="50" Margin="15" Grid.Column="1" Grid.Row="1"
