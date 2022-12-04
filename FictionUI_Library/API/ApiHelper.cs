@@ -120,5 +120,27 @@ namespace FictionUI_Library.API
             }
         }
 
+        public async Task<string> UpdateUser(string username, string email, string password)
+        {
+            var data = JsonContent.Create(new UpdateUserDto
+            {
+                Username = username,
+                Password = password,
+                Email = email
+            });
+
+            using (HttpResponseMessage response = await _apiClient.PutAsync(_apiClient.BaseAddress + "User", data))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    return "Updated Successfully!";
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
     }
 }

@@ -12,6 +12,7 @@ namespace FictionUI_Library.API
         Task<AuthenticatedUser> Authenticate(string email, string password);
         Task Register(string username, string password, string email);
         Task GetUserInfo(string token);
+        Task<string> UpdateUser(string username, string email, string password);
         ILoggedInUser LoggedInUser { get; set; }
         HttpClient ApiClient { get; }
     }

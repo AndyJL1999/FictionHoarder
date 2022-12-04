@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FictionUI_Library
+namespace FictionUI_Library.EventAggregators
 {
     public class StorySelectionEvent : PubSubEvent<StoryModel>
     {

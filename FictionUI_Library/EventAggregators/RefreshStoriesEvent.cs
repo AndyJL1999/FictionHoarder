@@ -5,9 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FictionUI_Library
+namespace FictionUI_Library.EventAggregators
 {
-    public class RefreshStoriesEvent : PubSubEvent
+    //Used to update modules after the event is fired
+    public class UpdateEvent : PubSubEvent
     {
 
     }
