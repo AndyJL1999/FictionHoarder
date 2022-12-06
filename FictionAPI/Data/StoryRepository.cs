@@ -57,5 +57,15 @@ namespace FictionAPI.Data
             var story = _mapper.Map<UpdateStoryDto, Story>(storyDto);
             await _storyData.UpdateStory(story);
         }
+
+        public async Task RemoveStoryUser(int storyId, int userId)
+        {
+            await _storyUserData.DeleteStoryUser(storyId, userId);
+        }
+
+        public async Task RemoveStoryFromUserHistory(int storyId, int userId)
+        {
+            await _historyData.DeleteStoryFromHistory(storyId, userId);
+        }
     }
 }

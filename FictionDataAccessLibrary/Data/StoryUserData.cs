@@ -20,5 +20,8 @@ namespace FictionDataAccessLibrary.Data
 
         public Task InsertStoryUser(int storyId, int userId) =>
             _db.SaveData(storedProcedure: "spStoryUser_InsertRelationship", new { StoryId = storyId, UserId = userId });
+
+        public Task DeleteStoryUser(int storyId, int userId) =>
+            _db.SaveData(storedProcedure: "spStoryUser_DeleteRelationship", new { StoryId = storyId, UserId = userId });
     }
 }

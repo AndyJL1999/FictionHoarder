@@ -12,6 +12,8 @@ namespace FictionAPI.Interfaces
         Task InsertStoryUser(int storyId, int userId);
         Task InsertIntoHistory(int storyId, int userId);
         Task UpdateStory(UpdateStoryDto story);
+        Task RemoveStoryUser(int storyId, int userId);
+        Task RemoveStoryFromUserHistory(int storyId, int userId);
 
     }
 }

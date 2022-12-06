@@ -73,5 +73,21 @@ namespace FictionAPI.Controllers
 
             return Ok();
         }
+
+        [HttpDelete("User/{storyId}")]
+        public async Task<ActionResult> DeleteStoryFromUser(int storyId)
+        {
+            int userId = User.GetUserId();
+            await _storyRepo.RemoveStoryUser(storyId, userId);
+            return Ok();
+        }
+
+        [HttpDelete("User/History/{storyId}")]
+        public async Task<ActionResult> DeleteStoryFromUserHistory(int storyId)
+        {
+            int userId = User.GetUserId();
+            await _storyRepo.RemoveStoryFromUserHistory(storyId, userId);
+            return Ok();
+        }
     }
 }

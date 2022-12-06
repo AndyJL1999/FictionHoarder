@@ -9,5 +9,6 @@ namespace FictionDataAccessLibrary.Interfaces
     {
         Task<IEnumerable<Story>> GetHistoryForUser(int userId);
         Task InsertStoryIntoHistory(int viewedStoryId, int userId);
+        Task DeleteStoryFromHistory(int viewedStoryId, int userId);
     }
 }
