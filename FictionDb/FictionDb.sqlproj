@@ -84,6 +84,8 @@
     <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_GetHistory.sql" />
     <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_Update.sql" />
     <Build Include="dbo\StoredProcedure\User_Procedures\spUser_GetUserByUsername.sql" />
+    <Build Include="dbo\StoredProcedure\StoryUser_Procedures\spStoryUser_DeleteRelationship.sql" />
+    <Build Include="dbo\StoredProcedure\UserStoryHistory_Procedures\spUserStoryHistory_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="FictionDb.publish.xml" />

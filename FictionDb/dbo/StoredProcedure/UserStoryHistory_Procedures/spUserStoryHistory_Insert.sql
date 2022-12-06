@@ -10,9 +10,7 @@ if exists
 	where ViewedStoryId = @ViewedStoryId and UserId = @UserId
 ) 
 begin
-	declare @RecordId int
-	set @RecordId = (select Id from dbo.[UserStoryHistory] where ViewedStoryId = @ViewedStoryId and UserId = @UserId)
-	exec spUserStoryHistory_Update @RecordId, @ViewedStoryId, @UserId, @TimeViewed
+	exec spUserStoryHistory_Update @ViewedStoryId, @UserId, @TimeViewed
 end
 
 else
