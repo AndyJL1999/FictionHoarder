@@ -3,13 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:FictionHoarderWPF.MVVM.View" 
+             xmlns:local="clr-namespace:FictionHoarderWPF.Core" 
              xmlns:i="http://schemas.microsoft.com/xaml/behaviors" 
              xmlns:viewmodel="clr-namespace:FictionHoarderWPF.MVVM.ViewModel" 
              xmlns:uc="clr-namespace:FictionHoarderWPF.MVVM.View.UserControls"
              d:DataContext="{d:DesignInstance Type=viewmodel:StoriesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
+
+    <UserControl.Resources>
+        <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+    </UserControl.Resources>
+
 
     <Grid Name="MainGrid">
         <Grid.RowDefinitions>
@@ -24,11 +29,21 @@
                   ScrollViewer.VerticalScrollBarVisibility="Auto" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Grid.Row="1" BorderThickness="0" x:Name="MainListView"
-                  SelectedValue="{Binding SelectedStory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                  SelectedValue="{Binding SelectedStory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseRightButtonDown="ListItemControl_PreviewMouseRightButtonDown">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <uc:ListItemControl Story="{Binding}"/>
+                    <uc:ListItemControl Story="{Binding}">
+                        <uc:ListItemControl.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove from history"
+                                          Command="{Binding Source={StaticResource proxy},
+                                                            Path=Data.RemoveFromHistoryCommand}"
+                                          CommandParameter="{Binding Id}"/>
+                            </ContextMenu>
+                        </uc:ListItemControl.ContextMenu>
+                    </uc:ListItemControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
 

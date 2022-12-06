@@ -29,7 +29,7 @@ namespace FictionUI_Library.API
             _memoryCache = memoryCache;
         }
 
-        public async Task<IEnumerable<StoryModel>> GetUserStories(bool comingFromSearch)
+        public async Task<IEnumerable<StoryModel>> GetUserStories(bool comingFromSearch = false)
         {
             List<StoryModel> output;
 
@@ -57,9 +57,6 @@ namespace FictionUI_Library.API
                     }
                 }
             }
-
-            //Update the cache list
-            output.Add(StoryForCache);
 
             return output;
             
@@ -137,6 +134,50 @@ namespace FictionUI_Library.API
             {
                 if (response.IsSuccessStatusCode)
                 {
+                    Console.WriteLine("Success!");
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task RemoveUserStory(int storyId)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync(_apiHelper.ApiClient.BaseAddress + $"Story/User/{storyId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var output = _memoryCache.Get<List<StoryModel>>(_storyCacheKey);
+
+                    StoryModel storyToRemove = output.Find(o => o.Id == storyId);
+                    output.Remove(storyToRemove);
+
+                    _memoryCache.Set(_storyCacheKey, output);
+
+                    Console.WriteLine("Success!");
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
+        public async Task RemoveFromUserStoryHistory(int storyId)
+        {
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.DeleteAsync(_apiHelper.ApiClient.BaseAddress + $"Story/User/History/{storyId}"))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var output = _memoryCache.Get<List<StoryModel>>(_historyCacheKey);
+
+                    StoryModel storyToRemove = output.Find(o => o.Id == storyId);
+                    output.Remove(storyToRemove);
+
+                    _memoryCache.Set(_historyCacheKey, output);
+
                     Console.WriteLine("Success!");
                 }
                 else

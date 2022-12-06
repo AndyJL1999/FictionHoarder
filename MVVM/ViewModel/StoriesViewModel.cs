@@ -15,6 +15,8 @@ using FictionUI_Library.API;
 using FictionUI_Library.Models;
 using Prism.Events;
 using FictionUI_Library.EventAggregators;
+using System.Windows.Input;
+using System.Linq;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -23,6 +25,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #region ----------Fields----------
         private ObservableCollection<StoryDisplayModel> _stories;
         private StoryDisplayModel _selectedStory;
+        private ICommand _removeFromStoriesCommand;
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
@@ -77,18 +80,35 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 ChangeToReadView?.Invoke(this, new EventArgs());
             } 
         }
+
+        public ICommand RemoveFromStoriesCommand 
+        {
+            get
+            {
+                if (_removeFromStoriesCommand is null)
+                {
+                    _removeFromStoriesCommand = new RelayCommand(p => RemoveStory((int)p), p => true);
+                }
+
+                return _removeFromStoriesCommand;
+            }
+
+        }
         #endregion
 
         #region ----------Methods----------
         private async void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
         {
-            var story = _mapper.Map<StoryModel>(SelectedStory);
+            if(SelectedStory != null)
+            {
+                var story = _mapper.Map<StoryModel>(SelectedStory);
 
-            await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
-            _storyEndpoint.StoryForCache = story;
+                await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
+                _storyEndpoint.StoryForCache = story;
 
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
-            _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
+                App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
+                _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
+            }
         }
 
         private async void SetStories()
@@ -99,6 +119,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
 
             Stories = new ObservableCollection<StoryDisplayModel>(stories);
+        }
+
+        private async void RemoveStory(int storyId)
+        {
+            await _storyEndpoint.RemoveUserStory(storyId);
+
+            var storyToRemove = Stories.Where(s => s.Id == storyId).First();
+
+            Stories.Remove(storyToRemove);
         }
         #endregion
     }

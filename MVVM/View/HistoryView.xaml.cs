@@ -25,9 +25,9 @@ namespace FictionHoarderWPF.MVVM.View
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ListItemControl_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Console.WriteLine("hi");
+            e.Handled = true;
         }
     }
 }

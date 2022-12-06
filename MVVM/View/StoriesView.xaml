@@ -5,11 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModel="clr-namespace:FictionHoarderWPF.MVVM.ViewModel"
              xmlns:uc="clr-namespace:FictionHoarderWPF.MVVM.View.UserControls"
+             xmlns:local="clr-namespace:FictionHoarderWPF.Core"
              d:DataContext="{d:DesignInstance Type=viewModel:StoriesViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="700">
 
-    <Grid Name="MainGrid">
+    <UserControl.Resources>
+        <local:BindingProxy x:Key="proxy" Data="{Binding}"/>
+    </UserControl.Resources>
+
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
             <RowDefinition Height="0.9*"/>
@@ -22,11 +27,21 @@
                   ScrollViewer.VerticalScrollBarVisibility="Auto" 
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   Grid.Row="1" BorderThickness="0" x:Name="MainListView"
-                  SelectedValue="{Binding SelectedStory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                  SelectedValue="{Binding SelectedStory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  PreviewMouseRightButtonDown="ListItemControl_PreviewRightMouseDown">
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <uc:ListItemControl Story="{Binding}"/>
+                    <uc:ListItemControl Story="{Binding}">
+                        <uc:ListItemControl.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Remove"
+                                          Command="{Binding Source={StaticResource proxy},
+                                                            Path=Data.RemoveFromStoriesCommand}"
+                                          CommandParameter="{Binding Id}"/>
+                            </ContextMenu>
+                        </uc:ListItemControl.ContextMenu>
+                    </uc:ListItemControl>
                 </DataTemplate>
             </ListView.ItemTemplate>
             

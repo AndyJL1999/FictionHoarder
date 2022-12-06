@@ -26,6 +26,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private readonly IEventAggregator _eventAggregator;
         private ObservableCollection<StoryDisplayModel> _storiesRead;
         private StoryDisplayModel _selectedStory;
+        private ICommand _removeFromHistoryCommand;
         #endregion
 
         public event EventHandler? ChangeToReadView;
@@ -66,6 +67,21 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 ChangeToReadView?.Invoke(this, new EventArgs());
             }
         }
+
+        public ICommand RemoveFromHistoryCommand
+        {
+            get
+            {
+                if (_removeFromHistoryCommand is null)
+                {
+                    _removeFromHistoryCommand = new RelayCommand(p => RemoveStory((int)p), p => true);
+                }
+
+                return _removeFromHistoryCommand;
+            }
+
+        }
+
         #endregion
 
         #region ----------Methods----------
@@ -89,6 +105,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             StoriesRead = new ObservableCollection<StoryDisplayModel>(stories);
         }
 
+        private async void RemoveStory(int storyId)
+        {
+            await _storyEndpoint.RemoveFromUserStoryHistory(storyId);
+
+            var storyToRemove = StoriesRead.Where(s => s.Id == storyId).First();
+
+            StoriesRead.Remove(storyToRemove);
+        }
         #endregion
     }
 }
