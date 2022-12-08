@@ -28,5 +28,10 @@ begin
 				and Summary = @Summary 
 				and Chapters = @Chapters)
 
-	exec spStoryUser_InsertRelationship @storyId, @UserId
+	if not exists (select 1 from [StoryUser]
+					where StoryId = @storyId
+					and UserId = @UserId)
+	begin
+		exec spStoryUser_InsertRelationship @storyId, @UserId
+	end
 end
