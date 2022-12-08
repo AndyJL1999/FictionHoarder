@@ -11,55 +11,52 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.1*"/>
-            <RowDefinition Height="0.9*"/>
+            <RowDefinition Height="0.6*"/>
+            <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
 
         <TextBlock Text="Last Viewed" Foreground="White" FontSize="30" 
                    HorizontalAlignment="Left" Margin="0,0,0,5" Grid.Row="0"/>
 
-        <Grid Grid.Row="1">
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0.70*"/>
-                <RowDefinition Height="0.30*"/>
-            </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.ColumnSpan="4">
+            <Border Width="{Binding ElementName=HomeViewControl, Path=ActualWidth}"
+                    Margin="5,5,0,5" >
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
+                        <GradientStop Color="Black" Offset="0.0"/>
+                        <GradientStop Color="Gray" Offset="1"/>
+                    </LinearGradientBrush>
+                </Border.Background>
 
-            <StackPanel Orientation="Horizontal" Grid.Row="0">
-                <Border Width="{Binding ElementName=HomeViewControl, Path=ActualWidth}"
-                        Margin="5,5,0,5" >
-                    <Border.Background>
-                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,2">
-                            <GradientStop Color="Black" Offset="0.0"/>
-                            <GradientStop Color="Gray" Offset="1"/>
-                        </LinearGradientBrush>
-                    </Border.Background>
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="Nothing to see here..." Foreground="White"
+                               FontSize="34" Margin="20,10,10,0" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Start looking!" Foreground="White"
+                               FontSize="24" Margin="20,10,10,0" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </StackPanel>
 
-                    <Grid>
-                        <StackPanel>
-                            <TextBlock Text="Nothing to see here..." Foreground="White"
-                                   FontSize="34" Margin="20,10,10,0" HorizontalAlignment="Center"/>
-                            <TextBlock Text="Start looking!" Foreground="White"
-                                   FontSize="24" Margin="20,10,10,0" HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Grid>
-                </Border>
-            </StackPanel>
 
-            <StackPanel Grid.Row="1">
-                <StackPanel.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="Margin" Value="20,20,0,0"/>
-                    </Style>
-                </StackPanel.Resources>
+        <Border Width="auto" Height="auto" Background="Black" CornerRadius="10" 
+                Grid.Column="0" Grid.Row="2" Margin="20"/>
+        <Border Width="auto" Height="auto" Background="Black" CornerRadius="10"
+                Grid.Column="1" Grid.Row="2" Margin="20"/>
+        <Border Width="auto" Height="auto" Background="Black" CornerRadius="10"
+                Grid.Column="2" Grid.Row="2" Margin="20"/>
+        <Border Width="auto" Height="auto" Background="Black" CornerRadius="10"
+                Grid.Column="3" Grid.Row="2" Margin="20"/>
 
-                <StackPanel Orientation="Horizontal" Width="{Binding ElementName=HomeViewControl, Path=ActualWidth}">
-                    <Border Width="150" Height="100" Background="Black" CornerRadius="10"/>
-                    <Border Width="150" Height="100" Background="Black" CornerRadius="10"/>
-                    <Border Width="150" Height="100" Background="Black" CornerRadius="10"/>
-                    <Border Width="150" Height="100" Background="Black" CornerRadius="10"/>
-                </StackPanel>
-            </StackPanel>
-        </Grid>
     </Grid>
 
 </UserControl>

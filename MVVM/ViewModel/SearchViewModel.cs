@@ -17,6 +17,7 @@ using FictionUI_Library.API;
 using FictionUI_Library.Models;
 using Prism.Events;
 using FictionUI_Library.EventAggregators;
+using System.Windows.Media;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -29,9 +30,11 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private ICommand _browseFilesCommand;
         private ICommand _saveStoryCommand;
         private ICommand _clearInfoCommand;
+        private Brush _resultColor;
         private EpubBook _book;
         private StoryDisplayModel _story;
         private Visibility _storyConfirmationVisibility;
+        private string _resultText;
         #endregion
 
         public SearchViewModel(IMapper mapper, IStoryEndpoint storyEndpoint, IEventAggregator eventAggregator)
@@ -57,6 +60,25 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
+        public Brush ResultColor 
+        {
+            get { return _resultColor; }
+            set
+            {
+                _resultColor = value;
+                OnPropertyChanged(nameof(ResultColor));
+            }
+        }
+
+        public string ResultText 
+        { 
+            get { return _resultText; }
+            set
+            {
+                _resultText = value;
+                OnPropertyChanged(nameof(ResultText));
+            }
+        }
 
         public ICommand BrowseFilesCommand
         {
@@ -124,18 +146,29 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private async void AddToLibrary()
         {
             var story = _mapper.Map<StoryModel>(Story);
+            var stories = await _storyEndpoint.GetUserStories(false);
 
-            if (story != null)
+            var comparer = stories.Where(s => s.Title == Story.Title && s.Author == Story.Author
+                && s.Chapters == Story.Chapters && s.EpubFile == Story.EpubFile
+                && s.Summary == Story.Summary).FirstOrDefault();
+
+            ResultColor = new SolidColorBrush(Colors.Red);
+            ResultText = "Story may already exist in your library";
+
+            if (story != null && comparer is null)
             {
                 await _storyEndpoint.InsertNewStory(story);
                 _storyEndpoint.StoryForCache = story;
                 _eventAggregator.GetEvent<UpdateEvent>().Publish();
+
+                ResultColor = new SolidColorBrush(Colors.LimeGreen);
+                ResultText = "Upload Successful!";
             }
 
             ClearStoryInfo();
         }
 
-        private void SearchFiles()
+        private async void SearchFiles()
         {
             //Opens file explorer
             OpenFileDialog dialog = new OpenFileDialog();

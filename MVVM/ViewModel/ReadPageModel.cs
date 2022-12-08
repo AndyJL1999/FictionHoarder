@@ -156,7 +156,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
                 SetDoc(xamlForFlowDoc);
             }
-            else if(movingForward == false && ChapterNumber > 1)
+            else if(movingForward == false && ChapterNumber > 0)
             {
                 ChapterNumber--;
                 var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(_book.Resources.Html.ElementAt(ChapterNumber).TextContent, true);
@@ -170,9 +170,11 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void SetDoc(string xaml)
         {
+            //TODO - '###%' for fontsize conversion giving same issue as '#em'
+
             //Replace all '#em' values in the xaml
             //'#em' values won't allow the xaml reader to load
-            xaml = Regex.Replace(xaml, "[0-9]em", "1");
+            xaml = Regex.Replace(xaml, @"([0-9]em)|([0-9]%)", "1");
 
             StringReader stringReader = new StringReader(xaml);
 
