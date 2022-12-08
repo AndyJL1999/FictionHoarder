@@ -22,18 +22,21 @@ namespace FictionAPI.Controllers
             _authRepo = auth;
         }
 
-
-
         [HttpPost("register")]
         public async Task<ActionResult> Register(RegisterDto user)
         {
-            await _authRepo.Register(new User
+            var result = await _authRepo.Register(new User
             {
                 Username = user.Username,
                 Email = user.Email,
             }, user.Password);
-            
-            return Ok();
+
+            if (result != "User has been registered")
+            {
+                return BadRequest(result.ToString());
+            }
+
+            return Ok(result);
         }
 
        [HttpPost("login")]
@@ -42,7 +45,9 @@ namespace FictionAPI.Controllers
             var userLogin = await _authRepo.Login(user);
 
             if (userLogin == null)
+            {
                 return Unauthorized("Invalid user");
+            }
 
             return Ok(userLogin);
        }

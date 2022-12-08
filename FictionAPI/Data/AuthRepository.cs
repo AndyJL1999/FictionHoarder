@@ -9,6 +9,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using FictionDataAccessLibrary.Interfaces;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
 
 namespace FictionAPI.Data
 {
@@ -27,6 +29,26 @@ namespace FictionAPI.Data
 
         public async Task<string> Register(User registerUser, string password)
         {
+            if (registerUser.Username.IsNullOrEmpty())
+            {
+                return "Please enter a username";
+            }
+
+            if ((ValidateEmail(registerUser.Email) == false) && (password.Length < 8))
+            {
+                return "Invalid email and password";
+            }
+
+            if (ValidateEmail(registerUser.Email) == false)
+            {
+                return "Invalid email";
+            }
+
+            if (password.Length < 8)
+            {
+                return "Password must be at least 8 characters";
+            }
+
             if(await DoesUserExist(registerUser.Username))
             {
                 return "User already exists";
@@ -66,6 +88,13 @@ namespace FictionAPI.Data
                 passwordSalt = hmac.Key;
                 passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
             }
+        }
+
+        public bool ValidateEmail(string email)
+        {
+            Regex rx = new Regex(@"^[-!#$%&'*+/0-9=?A-Z^_a-z{|}~](\.?[-!#$%&'*+/0-9=?A-Z^_a-z{|}~])*@[a-zA-Z](-?[a-zA-Z0-9])*(\.[a-zA-Z](-?[a-zA-Z0-9])*)+$");
+
+            return rx.IsMatch(email);
         }
 
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)

@@ -13,5 +13,6 @@ namespace FictionAPI.Interfaces
         Task<UserDto> Login(LoginDto login);
         Task<string> Register(User user, string password);
         void CreatePasswordHash(string password, out byte[] passwordHash, out byte[] passwordSalt);
+        bool ValidateEmail(string email);
     }
 }

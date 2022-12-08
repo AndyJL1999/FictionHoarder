@@ -34,8 +34,14 @@ namespace FictionAPI.Controllers
         public async Task<ActionResult> UpdateUser(UpdateUserDto user)
         {
             var id = User.GetUserId();
-            await _userRepo.UpdateUser(user, id);
-            return Ok();
+            var result = await _userRepo.UpdateUser(user, id);
+
+            if(result != "Updated Successfully!")
+            {
+                return BadRequest(result);
+            }
+
+            return Ok(result);
         }
 
     }
