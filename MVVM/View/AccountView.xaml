@@ -29,7 +29,7 @@
                      HorizontalAlignment="Left" IsHitTestVisible="False"/>
             
             <TextBlock Text="Password:" Foreground="White" FontSize="16" Margin="5"/>
-            <PasswordBox x:Name="CurrentPasswordBox" Margin="5,0" Style="{StaticResource PasswordStyle}" 
+            <PasswordBox Password="Password" Margin="5,0" Style="{StaticResource PasswordStyle}" 
                          HorizontalAlignment="Left" IsHitTestVisible="False"/>
 
             <TextBlock Text="{Binding UpdateText}" Foreground="{Binding UpdateColor}" HorizontalAlignment="Center"

@@ -54,7 +54,7 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 
-                <TextBlock Grid.Column="1" Text="{Binding Title}" HorizontalAlignment="Center" 
+                <TextBlock Grid.ColumnSpan="3" Text="{Binding Title}" HorizontalAlignment="Center" 
                            Foreground="White" FontSize="30" FontWeight="Bold"/>
                 <TextBlock Grid.Column="1" Text="{Binding Author}" HorizontalAlignment="Center" 
                            VerticalAlignment="Bottom" Foreground="White" FontSize="15" Margin="0,35,0,0"/>

@@ -13,11 +13,13 @@ using System.IO;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
+using System.Xml;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
@@ -34,7 +36,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private FlowDocument _storyDocument;
         private ICommand _goToHomeCommand;
         private ICommand _changeChapterCommand;
-        private int _chapterNumber = 1;
+        private int _chapterNumber = 0;
 
         #endregion
 
@@ -168,9 +170,13 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void SetDoc(string xaml)
         {
+            //Replace all '#em' values in the xaml
+            //'#em' values won't allow the xaml reader to load
+            xaml = Regex.Replace(xaml, "[0-9]em", "1");
+
             StringReader stringReader = new StringReader(xaml);
-            System.Xml.XmlReader xmlReader = System.Xml.XmlReader.Create(stringReader);
-            StoryDocument = XamlReader.Load(xmlReader) as FlowDocument;
+
+            StoryDocument = XamlReader.Load(XmlReader.Create(stringReader)) as FlowDocument;
         }
 
         #endregion

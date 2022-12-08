@@ -45,7 +45,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _storyEndpoint = storyEndpoint;
             _eventAggregator = eventAggregator;
 
-            _eventAggregator.GetEvent<PasswordCarrierEvent>().Subscribe((password) => { Password = password; });
+            _eventAggregator.GetEvent<PasswordCarrierEvent>().Subscribe((password) => { Password = password; PasswordHolder = password; });
 
             _editVisibility = Visibility.Collapsed;
             _enableEdit = true;
@@ -54,6 +54,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _email = apiHelper.LoggedInUser.Email;
             _newUsername = Username;
             _newEmail = Email;
+
+            Password = PasswordHolder;
         }
 
         #region ----------Properties----------
@@ -201,6 +203,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 return _logOutCommand;
             }
         }
+
+        private static string PasswordHolder { get; set; }
         #endregion
 
         #region ----------Methods----------
@@ -221,16 +225,33 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 PasswordCheck = string.Empty;
                 NewPassword = string.Empty;
                 EnablePasswordBox = false;
+                UpdateText = string.Empty;
             }
         }
 
         private async void UpdateAccount()
         {
-            if(PasswordCheck == Password)//if Current Password == User Password
+            try
             {
+                //Check if confirm password matches current password
+                if (PasswordCheck != Password)
+                {
+                    UpdateColor = new SolidColorBrush(Colors.Red);
+                    PasswordCheck = string.Empty;
+                    NewPassword = string.Empty;
+
+                    throw new Exception("Password confirmation was incorrect");
+                }
+
+                if(NewPassword !is null)
+                {
+                    NewPassword = string.Empty;
+                }
+
                 var response = await _apiHelper.UpdateUser(NewUsername, NewEmail, NewPassword);
 
                 UpdateColor = new SolidColorBrush(Colors.LimeGreen);
+
                 UpdateText = response;
 
                 Username = NewUsername;
@@ -242,16 +263,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 EnableEdit = true;
                 EnablePasswordBox = false;
 
+                //Notify subscribers this event of username change
                 _eventAggregator.GetEvent<UsernameCarrierEvent>().Publish(Username);
             }
-            else
+            catch(Exception ex)
             {
                 UpdateColor = new SolidColorBrush(Colors.Red);
-                UpdateText = "Incorrect password";
-                PasswordCheck = string.Empty;
-                NewPassword = string.Empty;
+                UpdateText = ex.Message.Trim('"');
             }
-
         }
 
         private void LogOut()

@@ -32,7 +32,7 @@
                        VerticalAlignment="Top" FontSize="50"/>
 
 
-                    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="14"
+                    <TextBlock Text="{Binding ResultMessage}" Foreground="{Binding ResultColor}" FontSize="14"
                                HorizontalAlignment="Center" MaxWidth="250" TextWrapping="Wrap"
                                Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     
@@ -44,7 +44,8 @@
 
                     <TextBlock Text="Password" Foreground="White" FontSize="16" 
                                Margin="5" HorizontalAlignment="Center"/>
-                    <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"
+                    <PasswordBox Name="RegisterPasswordBox"
+                                 PasswordChanged="PasswordBox_PasswordChanged"
                                  HorizontalAlignment="Center" Margin="5, 0"
                                  Style="{StaticResource PasswordStyle}"/>
 
@@ -63,7 +64,8 @@
                         
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding ShowHiddenFormCommand}"/>
+                            <i:InvokeCommandAction Command="{Binding ShowHiddenFormCommand}"
+                                                   CommandParameter="{Binding ElementName=RegisterPasswordBox}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     </TextBlock>
@@ -78,7 +80,7 @@
                        HorizontalAlignment="Center" Margin="0,0,0,5"
                        VerticalAlignment="Top" FontSize="50"/>
 
-                    <TextBlock Text="{Binding ErrorMessage}" Foreground="Red" FontSize="14"
+                    <TextBlock Text="{Binding ResultMessage}" Foreground="Red" FontSize="14"
                                HorizontalAlignment="Center" MaxWidth="250" TextWrapping="Wrap"
                                Visibility="{Binding IsErrorVisible, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                     
@@ -91,7 +93,8 @@
 
                     <TextBlock Text="Password" Foreground="White" FontSize="16" 
                            Margin="5" HorizontalAlignment="Center"/>
-                    <PasswordBox PasswordChanged="PasswordBox_PasswordChanged"
+                    <PasswordBox Name="LoginPasswordBox"
+                                 PasswordChanged="PasswordBox_PasswordChanged"
                                  HorizontalAlignment="Center" Margin="5, 0"
                                  Style="{StaticResource PasswordStyle}"/>
 
@@ -105,7 +108,8 @@
                         
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseLeftButtonDown">
-                            <i:InvokeCommandAction Command="{Binding ShowHiddenFormCommand}"/>
+                            <i:InvokeCommandAction Command="{Binding ShowHiddenFormCommand}"
+                                                   CommandParameter="{Binding ElementName=LoginPasswordBox}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TextBlock>

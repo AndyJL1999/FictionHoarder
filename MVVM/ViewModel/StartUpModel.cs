@@ -11,21 +11,24 @@ using System.Security;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace FictionHoarderWPF.MVVM.ViewModel
 {
     public class StartUpModel : ObservableObject
     {
-        #region Fields
+        #region ----------Fields----------
         private bool _onLoginForm = false;
         private string _username;
         private string _email;
-        private string _errorMessage;
+        private string _resultMessage;
         private ICommand _showHiddenFormCommand;
         private ICommand _enterMainPageCommand;
         private Visibility _signUpVisibility;
         private Visibility _loginVisibility;
+        private Brush _resultColor;
         private readonly IMapper _mapper;
         private readonly IApiHelper _apiHelper;
         private readonly IStoryEndpoint _storyEndpoint;
@@ -45,7 +48,17 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _loginVisibility = Visibility.Collapsed;
         }
 
-        #region Properties
+        #region ----------Properties----------
+        public Brush ResultColor
+        {
+            get { return _resultColor; }
+            set
+            {
+                _resultColor = value;
+                OnPropertyChanged(nameof(ResultColor));
+            }
+        }
+
         public string Username 
         {
             get { return _username; }
@@ -74,7 +87,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 bool output = false;
 
-                if(ErrorMessage?.Length > 0)
+                if(ResultMessage?.Length > 0)
                 {
                     output = true;
                 }
@@ -82,13 +95,13 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
-        public string ErrorMessage 
+        public string ResultMessage 
         { 
-            get { return _errorMessage; }
+            get { return _resultMessage; }
             set
             {
-                _errorMessage = value;
-                OnPropertyChanged(nameof(ErrorMessage));
+                _resultMessage = value;
+                OnPropertyChanged(nameof(ResultMessage));
                 OnPropertyChanged(nameof(IsErrorVisible));
             }
         }
@@ -119,7 +132,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 if (_showHiddenFormCommand is null)
                 {
-                    _showHiddenFormCommand = new RelayCommand(p => ShowForm(), p => true);
+                    _showHiddenFormCommand = new RelayCommand(p => ShowForm(p as PasswordBox), p => true);
                 }
 
                 return _showHiddenFormCommand;
@@ -147,7 +160,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 if(_onLoginForm)
                 {
-                    ErrorMessage = string.Empty;
+                    ResultMessage = string.Empty;
                     var result = await _apiHelper.Authenticate(Email, Password);
 
                     await _apiHelper.GetUserInfo(result.Token);
@@ -159,20 +172,32 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 }
                 else //on register form
                 {
-                    await _apiHelper.Register(Username, Password.ToString(), Email);
-                    ShowForm();
+                    var result = await _apiHelper.Register(Username, Password.ToString(), Email);
+
+                    ResultColor = new SolidColorBrush(Colors.LimeGreen);
+
+                    ResultMessage = result.Trim('"');
                 }
                 
             }
+            catch(NullReferenceException ex)
+            {
+                ResultColor = new SolidColorBrush(Colors.Red);
+                ResultMessage = "Please don't leave any fields blank";
+            }
             catch(Exception ex)
             {
-                if(ex.Message == "Unauthorized")
-                    ErrorMessage = "Wrong Email or Password";
+                ResultColor = new SolidColorBrush(Colors.Red);
+
+                if (ex.Message == "Unauthorized")
+                    ResultMessage = "Wrong Email or Password";
+
+                ResultMessage = ex.Message.Trim('"');
             }
             
         }
 
-        private void ShowForm()
+        private void ShowForm(PasswordBox passwordBox)
         {
             _onLoginForm = !_onLoginForm;
 
@@ -180,20 +205,22 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 SignUpVisibility = Visibility.Collapsed;
                 LoginVisibility = Visibility.Visible;
-                ErrorMessage = string.Empty;
+                ResultMessage = string.Empty;
                 Username = string.Empty;
-                //Password = string.Empty;
+                Password = string.Empty;
                 Email = string.Empty;
             }
             else
             {
                 SignUpVisibility = Visibility.Visible;
                 LoginVisibility = Visibility.Collapsed;
-                ErrorMessage = string.Empty;
+                ResultMessage = string.Empty;
                 Username = string.Empty;
-                //Password = string.Empty;
+                Password = string.Empty;
                 Email = string.Empty;
             }
+
+            passwordBox.Password = Password;
         }
     }
 }

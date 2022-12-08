@@ -23,17 +23,6 @@ namespace FictionHoarderWPF.MVVM.View
         public AccountView()
         {
             InitializeComponent();
-
-            DataContextChanged += AccountView_DataContextChanged;
-        }
-
-        private void AccountView_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (DataContext != null)
-            {
-                //Set password form
-                CurrentPasswordBox.Password = ((dynamic)this.DataContext).Password;
-            }
         }
 
         private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
