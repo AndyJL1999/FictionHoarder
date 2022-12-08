@@ -72,7 +72,7 @@ namespace FictionUI_Library.API
             }
         }
 
-        public async Task Register(string username, string password, string email)
+        public async Task<string> Register(string username, string password, string email)
         {
             var data = JsonContent.Create(new RegisterDto
             {
@@ -85,13 +85,11 @@ namespace FictionUI_Library.API
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadAsStringAsync();
-
-                    //return result;
+                    return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    throw new Exception(await response.Content.ReadAsStringAsync());
                 }
             }
         }
@@ -133,11 +131,11 @@ namespace FictionUI_Library.API
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    return "Updated Successfully!";
+                    return await response.Content.ReadAsStringAsync();
                 }
                 else
                 {
-                    throw new Exception(response.ReasonPhrase);
+                    throw new Exception(await response.Content.ReadAsStringAsync());
                 }
             }
         }
