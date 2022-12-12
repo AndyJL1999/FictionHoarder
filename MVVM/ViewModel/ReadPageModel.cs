@@ -170,8 +170,6 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void SetDoc(string xaml)
         {
-            //TODO - '###%' for fontsize conversion giving same issue as '#em'
-
             //Replace all '#em' values in the xaml
             //'#em' values won't allow the xaml reader to load
             xaml = Regex.Replace(xaml, @"([0-9]em)|([0-9]%)", "1");

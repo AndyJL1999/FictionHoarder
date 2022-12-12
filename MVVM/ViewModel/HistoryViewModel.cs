@@ -39,7 +39,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _storyEndpoint = storyEndpoint;
             _eventAggregator = eventAggregator;
 
-            ChangeToReadView += StoriesViewModel_ChangeToReadView;
+            ChangeToReadView += HistoryViewModel_ChangeToReadView;
 
             SetHistory();
         }
@@ -85,24 +85,39 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #endregion
 
         #region ----------Methods----------
-        private async void StoriesViewModel_ChangeToReadView(object sender, EventArgs e)
+        private async void HistoryViewModel_ChangeToReadView(object sender, EventArgs e)
         {
-           var story = _mapper.Map<StoryModel>(SelectedStory);
+            if (SelectedStory != null)
+            {
+                var story = _mapper.Map<StoryModel>(SelectedStory);
 
-            await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
-            _storyEndpoint.StoryForCache = story;
+                await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
+                _storyEndpoint.StoryForCache = story;
 
-            App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
-            _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
+                App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
+
+                //Send selected story info to reading view model subscriber
+                _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
+            }
         }
 
         private async void SetHistory()
         {
-            var payload = await _storyEndpoint.GetUserStoryHistory();
+            List<StoryModel> payload = (List<StoryModel>)await _storyEndpoint.GetUserStoryHistory();
 
             var stories = _mapper.Map<IEnumerable<StoryDisplayModel>>(payload);
 
             StoriesRead = new ObservableCollection<StoryDisplayModel>(stories);
+
+            //Send the first 4 stories to the home view model subscriber
+            if(payload.Count < 4)
+            {
+                _eventAggregator.GetEvent<GetRecentHistoryEvent>().Publish(payload.GetRange(0, payload.Count));
+            }
+            else
+            {
+                _eventAggregator.GetEvent<GetRecentHistoryEvent>().Publish(payload.GetRange(0, 4));
+            }
         }
 
         private async void RemoveStory(int storyId)

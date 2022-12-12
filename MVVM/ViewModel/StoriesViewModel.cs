@@ -107,6 +107,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 _storyEndpoint.StoryForCache = story;
 
                 App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
+
+                //Send selected story info to reading view model subscriber
                 _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
             }
         }

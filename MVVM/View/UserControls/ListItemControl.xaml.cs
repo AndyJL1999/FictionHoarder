@@ -1,4 +1,4 @@
-﻿using FictionDataAccessLibrary.Models;
+﻿using FictionHoarderWPF.MVVM.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,21 +21,21 @@ namespace FictionHoarderWPF.MVVM.View.UserControls
     /// </summary>
     public partial class ListItemControl : UserControl
     {
-        public Story Story
+        public StoryDisplayModel Story
         {
-            get { return (Story)GetValue(StoryProperty); }
+            get { return (StoryDisplayModel)GetValue(StoryProperty); }
             set { SetValue(StoryProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty StoryProperty =
-            DependencyProperty.Register("Story", typeof(Story), typeof(ListItemControl), new PropertyMetadata(null, SetValues));
+            DependencyProperty.Register("Story", typeof(StoryDisplayModel), typeof(ListItemControl), new PropertyMetadata(null, SetValues));
 
         private static void SetValues(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ListItemControl noteCtrl = d as ListItemControl;
-            if (noteCtrl != null)
-                noteCtrl.DataContext = noteCtrl.Story;
+            ListItemControl listCtrl = d as ListItemControl;
+            if (listCtrl != null)
+                listCtrl.DataContext = listCtrl.Story;
         }
 
 

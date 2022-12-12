@@ -32,7 +32,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _apiHelper = apiHelper;
             _eventAggregator = eventAggregator;
 
-            ViewModels.Add(new HomeViewModel());
+            ViewModels.Add(new HomeViewModel(mapper, apiHelper, storyEndpoint, eventAggregator));
             ViewModels.Add(new SearchViewModel(mapper, storyEndpoint, eventAggregator));
             ViewModels.Add(new StoriesViewModel(mapper, apiHelper, storyEndpoint, eventAggregator));
             ViewModels.Add(new HistoryViewModel(mapper, apiHelper, storyEndpoint, eventAggregator));
