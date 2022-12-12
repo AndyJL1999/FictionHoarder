@@ -21,21 +21,16 @@
 
             <StackPanel Orientation="Horizontal">
 
-                <TextBlock Text="Enter a URL: " Foreground="White" FontSize="24" Margin="0,5"
+                <TextBlock Text="Search computer: " Foreground="White" FontSize="24" Margin="0,5"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                <TextBox Height="40" Width="450" Margin="0,5"
-                     HorizontalAlignment="Left" Style="{StaticResource SearchBox}" />
 
-            </StackPanel>
-
-            <TextBlock Text="OR" FontSize="24" Foreground="White" HorizontalAlignment="Center"/>
-
-            <Button HorizontalAlignment="Center" Height="35" Width="75" Margin="5"
+                <Button HorizontalAlignment="Center" Height="35" Width="75" Margin="5"
                 Content="Browse" Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
                                             AncestorType=local:SearchView}, 
                                             Path=DataContext.(viewModel:SearchViewModel.BrowseFilesCommand)}"/>
+            </StackPanel>
 
-            <TextBlock Text="Title:" Foreground="White" FontSize="24"/>
+            <TextBlock Text="Title:" Foreground="White" FontSize="24" Margin="0,10,0,0"/>
             <TextBox Text="{Binding Title}" Style="{StaticResource RegularTextBox}" 
                      HorizontalAlignment="Left" IsHitTestVisible="False" Margin="0,0,0,5"/>
 
