@@ -10,23 +10,45 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System.Reflection.Metadata;
 using FictionAPI.DTOs;
+using Firebase.Storage;
+using System.IO;
+using System.Net.Sockets;
+using FictionDataAccessLibrary.Models;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace FictionUI_Library.API
 {
     public class StoryEndpoint : IStoryEndpoint
     {
+        #region ----------Fields----------
         private readonly IApiHelper _apiHelper;
         private readonly IMemoryCache _memoryCache;
         private readonly string _storyCacheKey = "Stories";
         private readonly string _historyCacheKey = "History";
+        private string _bucket = "fictionhoarder-9fc9c.appspot.com";
+        #endregion
 
-        //Used to append the cache lists of stories (stories & history)
-        public StoryModel StoryForCache { get; set; }
-
+        //Constructor
         public StoryEndpoint(IApiHelper apiHelper, IMemoryCache memoryCache)
         {
             _apiHelper = apiHelper;
             _memoryCache = memoryCache;
+        }
+
+        //Used to append the cache lists of stories (stories & history)
+        public StoryModel StoryForCache { get; set; }
+
+        #region ----------Methods----------
+        public async Task<byte[]> GetStoryForReading(int storyId)
+        {
+            var storyDownload = await new FirebaseStorage(_bucket).Child(storyId + ".epub").GetDownloadUrlAsync();
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(storyDownload))
+            {
+                byte[] output = await response.Content.ReadAsByteArrayAsync();
+                
+                return output;
+            }
         }
 
         public async Task<IEnumerable<StoryModel>> GetUserStories(bool comingFromSearch = false)
@@ -37,7 +59,7 @@ namespace FictionUI_Library.API
 
             if(output is null || comingFromSearch == true)
             {
-                using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(_apiHelper.ApiClient.BaseAddress + "Story"))
+                using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(_apiHelper.ApiClient.BaseAddress + "Story/GetAllUserStories"))
                 {
                     if (response.IsSuccessStatusCode)
                     {
@@ -121,20 +143,31 @@ namespace FictionUI_Library.API
 
         public async Task InsertNewStory(StoryModel story)
         {
-            var content = JsonContent.Create(new AddStoryDto
+            var newStory = (new AddStoryDto
             {
                 Title = story.Title,
                 Author = story.Author,
                 Chapters = story.Chapters,
                 Summary = story.Summary,
-                EpubFile = story.EpubFile
+                EpubFile = $"{_bucket}/{story.Title}.epub"
             });
+
+            var content = JsonContent.Create(newStory);
 
             using (HttpResponseMessage response = await _apiHelper.ApiClient.PostAsync(_apiHelper.ApiClient.BaseAddress + "Story", content))
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    Console.WriteLine("Success!");
+                    //Check for newly added story and get its id
+                    int? storyId = await CheckStory(story);
+
+                    if (storyId != null)
+                    {
+                        //use the story id as the fileName in Firebase Storage
+                        await SendToStorage(story.EpubFile, storyId + ".epub");
+                        //update epubfile in database
+                        await UpdateStory(storyId, story);
+                    }
                 }
                 else
                 {
@@ -187,10 +220,82 @@ namespace FictionUI_Library.API
             }
         }
 
+        public async Task UpdateStory(int? storyId, StoryModel story)
+        {
+            var newStory = (new UpdateStoryDto
+            {
+                Id = (int)storyId,
+                Title = story.Title,
+                Author = story.Author,
+                Chapters = story.Chapters,
+                Summary = story.Summary,
+                EpubFile = $"{_bucket}/{storyId}.epub"
+
+            });
+
+            var content = JsonContent.Create(newStory);
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.PutAsync(_apiHelper.ApiClient.BaseAddress + "Story", content))
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    //Success
+                }
+                else
+                {
+                    throw new Exception(response.ReasonPhrase);
+                }
+            }
+        }
+
         public void ClearCache()
         {
             _memoryCache.Remove(_historyCacheKey);
             _memoryCache.Remove(_storyCacheKey);
         }
+
+        private async Task SendToStorage(string filePath, string fileName)
+        {
+            using (FileStream fileStream = new FileStream(filePath, FileMode.Open))
+            {
+                //Add file to firebase storage
+                await new FirebaseStorage(_bucket).Child(fileName).PutAsync(fileStream);
+            }
+        }
+
+        private async Task<int?> CheckStory(StoryModel story)
+        {
+            var storyForCheck = new Dictionary<string, string>()
+            {
+                ["Title"] = story.Title,
+                ["Author"] = story.Author,
+                ["EpubFile"] = $"{_bucket}/{story.Title}.epub"
+            };
+
+            var uri = QueryHelpers.AddQueryString(_apiHelper.ApiClient.BaseAddress + $"Story", storyForCheck);
+
+            using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(uri))
+            {
+                try
+                {
+                    if (response.IsSuccessStatusCode)
+                    {
+                        //Get the story and return it's id
+                        var result = await response.Content.ReadFromJsonAsync<StoryModel>();
+
+                        return result.Id;
+                    }
+                    else
+                    {
+                        throw new Exception(response.ReasonPhrase);
+                    }
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+        }
+        #endregion
     }
 }
