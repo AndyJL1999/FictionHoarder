@@ -21,6 +21,12 @@ namespace FictionAPI.Controllers
         }
 
         [HttpGet]
+        public async Task<ActionResult<Story>> GetStory([FromQuery]GetStoryDto storyDto)
+        {
+            return Ok(await _storyRepo.GetStory(storyDto));
+        }
+
+        [HttpGet("GetAllUserStories")]
         public async Task<ActionResult<IEnumerable<Story>>> GetStories()
         {
             var id = User.GetUserId();

@@ -6,6 +6,7 @@ namespace FictionAPI.Interfaces
 {
     public interface IStoryRepository
     {
+        Task<Story> GetStory(GetStoryDto storyDto);
         Task<IEnumerable<Story>> GetStories(int userId);
         Task<IEnumerable<Story>> GetHistory(int userId);
         Task InsertStory(int userId, AddStoryDto story);

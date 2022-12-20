@@ -21,10 +21,10 @@ namespace FictionDataAccessLibrary.Data
         public Task<IEnumerable<Story>> GetStoriesForUser(int userId) =>
              _db.LoadData<Story, dynamic>(storedProcedure: "spStory_GetAllForUser", new { UserId = userId });
 
-        public async Task<Story?> GetStory(int id)
+        public async Task<Story?> GetStory(string title, string author, string epubFile)
         {
             var result = await _db.LoadData<Story, dynamic>(
-                storedProcedure: "spStory_Get", new { Id = id });
+                storedProcedure: "spStory_Get", new { Title = title, Author = author, EpubFile = epubFile });
 
             return result.FirstOrDefault();
         }
@@ -33,7 +33,7 @@ namespace FictionDataAccessLibrary.Data
             _db.SaveData(storedProcedure: "spStory_Insert", new { userId, story.Title, story.Author, story.Summary, story.Chapters, story.EpubFile });
 
         public Task UpdateStory(Story story) => 
-            _db.SaveData(storedProcedure: "spStory_Update", new { story.Id, story.Title, story.Author, story.Summary, story.Chapters});
+            _db.SaveData(storedProcedure: "spStory_Update", new { story.Id, story.Title, story.Author, story.Summary, story.Chapters, story.EpubFile});
 
         public Task DeleteStory(int id) =>
             _db.SaveData(storedProcedure: "spStory_Delete", new { Id = id });

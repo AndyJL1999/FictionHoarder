@@ -26,6 +26,11 @@ namespace FictionAPI.Data
             _config = config;
         }
 
+        public async Task<Story> GetStory(GetStoryDto storyDto)
+        {
+            return await _storyData.GetStory(storyDto.Title, storyDto.Author, storyDto.EpubFile);
+        }
+
         public async Task<IEnumerable<Story>> GetStories(int userId)
         {
             return await _storyData.GetStoriesForUser(userId);
