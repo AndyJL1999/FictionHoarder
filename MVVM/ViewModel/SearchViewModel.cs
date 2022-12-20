@@ -34,7 +34,9 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private EpubBook _book;
         private StoryDisplayModel _story;
         private Visibility _storyConfirmationVisibility;
+        private Visibility _spinnerVisibility;
         private string _resultText;
+        
         #endregion
 
         public SearchViewModel(IMapper mapper, IStoryEndpoint storyEndpoint, IEventAggregator eventAggregator)
@@ -45,6 +47,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
             _story = new StoryDisplayModel();
             _storyConfirmationVisibility = Visibility.Collapsed;
+            _spinnerVisibility = Visibility.Collapsed;
         }
 
         #region ----------Properties-----------
@@ -129,6 +132,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
+        public Visibility SpinnerVisibility
+        {
+            get { return _spinnerVisibility; }
+            set
+            {
+                _spinnerVisibility = value;
+                OnPropertyChanged(nameof(SpinnerVisibility));
+            }
+        }
         #endregion
 
         #region ----------Methods----------
@@ -139,21 +151,20 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             Story.Chapters = string.Empty;
             Story.Summary = string.Empty;
             Story.EpubFile = string.Empty;
-
-            StoryConfirmationVisibility = Visibility.Collapsed;
         }
 
         private async void AddToLibrary()
         {
+            SpinnerVisibility = Visibility.Visible;
+            StoryConfirmationVisibility = Visibility.Collapsed;
+
             var story = _mapper.Map<StoryModel>(Story);
+
+            //Get stories for comparison
             var stories = await _storyEndpoint.GetUserStories(false);
 
             var comparer = stories.Where(s => s.Title == Story.Title && s.Author == Story.Author
-                && s.Chapters == Story.Chapters && s.EpubFile == Story.EpubFile
-                && s.Summary == Story.Summary).FirstOrDefault();
-
-            ResultColor = new SolidColorBrush(Colors.Red);
-            ResultText = "Story may already exist in your library";
+                && s.Chapters == Story.Chapters && s.Summary == Story.Summary).FirstOrDefault();
 
             if (story != null && comparer is null)
             {
@@ -164,6 +175,14 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 ResultColor = new SolidColorBrush(Colors.LimeGreen);
                 ResultText = "Upload Successful!";
             }
+            else
+            {
+                ResultColor = new SolidColorBrush(Colors.Red);
+                ResultText = "Story may already exist in your library";
+
+            }
+
+            SpinnerVisibility = Visibility.Collapsed;
 
             ClearStoryInfo();
         }

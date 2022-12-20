@@ -15,6 +15,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -34,6 +35,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private StoryDisplayModel _storyInfo;
         private EpubBook _book;
         private FlowDocument _storyDocument;
+        private Visibility _spinnerVisivility;
         private ICommand _goToHomeCommand;
         private ICommand _changeChapterCommand;
         private int _chapterNumber = 0;
@@ -92,6 +94,16 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
+        public Visibility SpinnerVisibility
+        {
+            get { return _spinnerVisivility; }
+            set
+            {
+                _spinnerVisivility = value;
+                OnPropertyChanged(nameof(SpinnerVisibility));
+            }
+        }
+
         public ICommand GoToHomeCommand
         {
             get 
@@ -122,11 +134,11 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         #region ----------Methods----------
 
-        private void SetBook()
+        private async void SetBook()
         {
             if (StoryInfo != null)
             {
-                _book = EpubReader.Read(StoryInfo.EpubFile);
+                _book = EpubReader.Read(await _storyEndpoint.GetStoryForReading(StoryInfo.Id));
 
                 //Gets all html files in epub file
                 var chapters = _book.Resources.Html;
@@ -135,6 +147,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(chapters.ElementAt(ChapterNumber).TextContent, true);
 
                 SetDoc(xamlForFlowDoc);
+
+                SpinnerVisibility = Visibility.Collapsed;
             }
         }
 
