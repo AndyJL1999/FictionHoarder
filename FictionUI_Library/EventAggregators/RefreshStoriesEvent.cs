@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FictionUI_Library.EventAggregators
 {
     //Used to update modules after the event is fired
-    public class UpdateEvent : PubSubEvent
+    public class RefreshStoriesEvent : PubSubEvent
     {
 
     }
