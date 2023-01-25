@@ -16,7 +16,7 @@ When returning to this project I was contemplating using Entity Framework Core, 
 
 I manually created a database in Visual Studio and used stored procedures that would be accessed by a seperate project that acted as a class library. The class library would be accessed by the API and used to return data to various API endpoints. 
   
-This project works with many-to-many relationships.
+This project works with many-to-many relationships and all of the stories' file paths are held in cloud storage using Google's Firebase storage. 
 </p>
 
 <h2>Structure</h2>
