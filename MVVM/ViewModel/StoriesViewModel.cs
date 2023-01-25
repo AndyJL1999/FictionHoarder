@@ -48,7 +48,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             SetStories();
 
             //Event fires when a new story is added from the search view
-            _eventAggregator.GetEvent<UpdateEvent>().Subscribe(() => 
+            _eventAggregator.GetEvent<RefreshStoriesEvent>().Subscribe(() => 
             {
                 ComingFromSearch = true;
                 SetStories();

@@ -170,7 +170,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 await _storyEndpoint.InsertNewStory(story);
                 _storyEndpoint.StoryForCache = story;
-                _eventAggregator.GetEvent<UpdateEvent>().Publish();
+                _eventAggregator.GetEvent<RefreshStoriesEvent>().Publish();
 
                 ResultColor = new SolidColorBrush(Colors.LimeGreen);
                 ResultText = "Upload Successful!";

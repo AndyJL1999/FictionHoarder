@@ -21,8 +21,14 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="FictionHoarder" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="24"/>
+
+            <TextBox Text="{Binding StoryTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Grid.Column="1" HorizontalAlignment="Left" Margin="10, 5"
+                     Style="{StaticResource SearchBox}" Visibility="{Binding SearchVisibility}"/>
+
             <TextBlock Text="{Binding UserWelcome}" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="White"
-                       FontSize="21" Margin="15,0"/>
+                   FontSize="21" Margin="15,0"/>
+
 
             <StackPanel Grid.Row="1" >
                 <ListView ItemsSource="{Binding ViewModels}" Background="Transparent" BorderThickness="0">
