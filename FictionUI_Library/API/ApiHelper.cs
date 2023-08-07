@@ -1,29 +1,26 @@
-﻿using FictionAPI.DTOs;
-using FictionUI_Library.Models;
+﻿using FictionUI_Library.Models;
+using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-using System.Text;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using System.Windows.Markup;
+
 
 namespace FictionUI_Library.API
 {
     public class ApiHelper : IApiHelper
     {
         private HttpClient _apiClient;
+        private readonly IConfiguration _config;
         private ILoggedInUser _loggedInUser;
 
-        public ApiHelper(ILoggedInUser loggedInUser)
+        public ApiHelper(IConfiguration config, ILoggedInUser loggedInUser)
         {
-            InitializeClient();
+            _config = config;
             _loggedInUser = loggedInUser;
+
+            InitializeClient();
         }
 
         public ILoggedInUser LoggedInUser 
@@ -41,7 +38,7 @@ namespace FictionUI_Library.API
 
         private void InitializeClient()
         {
-            string api = ConfigurationManager.AppSettings["ApiUrl"];
+            string? api = _config.GetSection("AppSettings:ApiUrl").Value;
 
             _apiClient = new HttpClient();
             _apiClient.BaseAddress = new Uri(api);
@@ -51,7 +48,7 @@ namespace FictionUI_Library.API
 
         public async Task<AuthenticatedUser> Authenticate(string email, string password)
         {
-            var data = JsonContent.Create(new LoginDto
+            var data = JsonContent.Create(new
             {
                 Email = email,
                 Password = password
@@ -74,7 +71,7 @@ namespace FictionUI_Library.API
 
         public async Task<string> Register(string username, string password, string email)
         {
-            var data = JsonContent.Create(new RegisterDto
+            var data = JsonContent.Create(new
             {
                 Username = username,
                 Password = password,
@@ -120,7 +117,7 @@ namespace FictionUI_Library.API
 
         public async Task<string> UpdateUser(string username, string email, string password)
         {
-            var data = JsonContent.Create(new UpdateUserDto
+            var data = JsonContent.Create(new
             {
                 Username = username,
                 Password = password,

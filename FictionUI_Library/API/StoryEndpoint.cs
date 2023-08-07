@@ -1,19 +1,12 @@
 ﻿using FictionUI_Library.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Json;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Options;
-using System.Reflection.Metadata;
-using FictionAPI.DTOs;
 using Firebase.Storage;
 using System.IO;
-using System.Net.Sockets;
-using FictionDataAccessLibrary.Models;
 using Microsoft.AspNetCore.WebUtilities;
 
 namespace FictionUI_Library.API
@@ -143,7 +136,7 @@ namespace FictionUI_Library.API
 
         public async Task InsertNewStory(StoryModel story)
         {
-            var newStory = (new AddStoryDto
+            var newStory = (new
             {
                 Title = story.Title,
                 Author = story.Author,
@@ -222,7 +215,7 @@ namespace FictionUI_Library.API
 
         public async Task UpdateStory(int? storyId, StoryModel story)
         {
-            var newStory = (new UpdateStoryDto
+            var newStory = (new
             {
                 Id = (int)storyId,
                 Title = story.Title,
