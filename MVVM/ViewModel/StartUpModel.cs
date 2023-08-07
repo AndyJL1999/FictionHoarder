@@ -20,7 +20,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
     public class StartUpModel : ObservableObject
     {
         #region ----------Fields----------
-        private bool _onLoginForm = false;
+        private bool _onLoginForm = true;
         private string _username;
         private string _email;
         private string _resultMessage;
@@ -44,8 +44,12 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             _storyEndpoint = storyEndpoint;
             _eventAggregator = eventAggregator;
 
-            _signUpVisibility = Visibility.Visible;
-            _loginVisibility = Visibility.Collapsed;
+            _signUpVisibility = Visibility.Collapsed;
+            _loginVisibility = Visibility.Visible;
+
+            Username = string.Empty;
+            Email = string.Empty;
+            Password = string.Empty;
         }
 
         #region ----------Properties----------
@@ -180,7 +184,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 }
                 
             }
-            catch(NullReferenceException ex)
+            catch(NullReferenceException)
             {
                 ResultColor = new SolidColorBrush(Colors.Red);
                 ResultMessage = "Please don't leave any fields blank";

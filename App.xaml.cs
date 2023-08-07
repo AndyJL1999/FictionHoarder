@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using FictionDataAccessLibrary.Data;
-using FictionDataAccessLibrary.DbAccess;
-using FictionDataAccessLibrary.Models;
 using FictionHoarder;
 using FictionHoarderWPF.Core;
 using FictionUI_Library.API;
@@ -20,6 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using FictionUI_Library.Models;
 using Prism.Events;
+using System.IO;
 
 namespace FictionHoarderWPF
 {
@@ -32,7 +30,13 @@ namespace FictionHoarderWPF
 
         public App()
         {
+
             AppHost = Host.CreateDefaultBuilder()
+                .ConfigureHostConfiguration(configuration =>
+                {
+                    configuration.SetBasePath(Directory.GetCurrentDirectory());
+                    configuration.AddJsonFile("appsettings.json");
+                })
                 .ConfigureServices((hostContext, services) =>
                 {
                     var config = new MapperConfiguration(myConfig =>

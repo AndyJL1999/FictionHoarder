@@ -11,7 +11,7 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "FictionDb", "FictionDb\Fict
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FictionAPI", "FictionAPI\FictionAPI.csproj", "{0B618C57-6C38-4193-8388-BE08EC116AF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FictionUI_Library", "FictionUI_Library\FictionUI_Library.csproj", "{290ED300-6D33-442F-8DAC-E312F230FB4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FictionUI_Library", "FictionUI_Library\FictionUI_Library.csproj", "{290ED300-6D33-442F-8DAC-E312F230FB4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

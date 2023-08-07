@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using FictionDataAccessLibrary.Data;
 using FictionHoarderWPF.Core;
 using FictionHoarderWPF.Core.Interfaces;
 using FictionHoarderWPF.MVVM.Model;

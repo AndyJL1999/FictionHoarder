@@ -38,9 +38,15 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private Visibility _spinnerVisivility;
         private ICommand _goToHomeCommand;
         private ICommand _changeChapterCommand;
+        private ICommand _toggleMenuCommand;
+        private List<string> _chapterTitles;
         private int _chapterNumber = 0;
+        private int _selectedChapterIndex = 0;
+        private bool _isburgerMenuOpen;
 
         #endregion
+
+        public event EventHandler? ChangeChapterFromMenu;
 
         public ReadPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, 
             IEventAggregator eventAggregator)
@@ -55,6 +61,11 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 StoryInfo = _mapper.Map<StoryDisplayModel>(story);
                 SetBook();
             });
+
+            ChangeChapterFromMenu += SelectChapter;
+
+            ChapterTitles = new List<string>();
+            IsBurgerMenuOpen = false;
         }
 
         #region -----------Properties----------
@@ -80,7 +91,27 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         public string ChapterHeader
         {
-            get { return $"Chapter {ChapterNumber}"; }
+            get { return $"Page {ChapterNumber}"; }
+        }
+
+        public List<string> ChapterTitles 
+        { 
+            get { return _chapterTitles; }
+            set
+            {
+                _chapterTitles = value;
+                OnPropertyChanged(nameof(ChapterTitles));
+            }
+        }
+
+        public bool IsBurgerMenuOpen 
+        { 
+            get { return _isburgerMenuOpen; }
+            set
+            {
+                _isburgerMenuOpen = value;
+                OnPropertyChanged(nameof(IsBurgerMenuOpen));
+            }
         }
 
         public int ChapterNumber
@@ -92,6 +123,17 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 OnPropertyChanged(nameof(ChapterNumber));
                 OnPropertyChanged(nameof(ChapterHeader));
             }
+        }
+
+        public int SelectedChapterIndex 
+        { 
+            get { return _selectedChapterIndex; }
+            set
+            {
+                _selectedChapterIndex = value;
+                OnPropertyChanged(nameof(SelectedChapterIndex));
+                ChangeChapterFromMenu.Invoke(this, new EventArgs());
+            } 
         }
 
         public Visibility SpinnerVisibility
@@ -130,6 +172,22 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
         }
 
+        public ICommand ToggleMenuCommand
+        {
+            get
+            {
+                if (_toggleMenuCommand is null)
+                {
+                    _toggleMenuCommand = new RelayCommand(p =>
+                    {
+                        IsBurgerMenuOpen = !IsBurgerMenuOpen;
+                    }, p => true);
+                }
+
+                return _toggleMenuCommand;
+            }
+        }
+
         #endregion
 
         #region ----------Methods----------
@@ -140,10 +198,16 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             {
                 _book = EpubReader.Read(await _storyEndpoint.GetStoryForReading(StoryInfo.Id));
 
-                //Gets all html files in epub file
+                // Gets all html files in epub file
                 var chapters = _book.Resources.Html;
+                var titles = _book.TableOfContents;
+                
+                foreach(var title in titles)
+                {
+                    ChapterTitles.Add(title.Title);
+                }
 
-                //Converting html to xaml for flow document
+                // Converting html to xaml for flow document
                 var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(chapters.ElementAt(ChapterNumber).TextContent, true);
 
                 SetDoc(xamlForFlowDoc);
@@ -162,30 +226,26 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         {
             bool movingForward = Convert.ToBoolean(isMovingForward);
 
-            //Logic for moving forward or backward in chapters
+            // Logic for moving forward or backward in chapters
             if (_book.Resources.Html.Count - 1 != ChapterNumber && movingForward == true)
             {
                 ChapterNumber++;
-                var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(_book.Resources.Html.ElementAt(ChapterNumber).TextContent, true);
-
-                SetDoc(xamlForFlowDoc);
+                SelectedChapterIndex = ChapterNumber;
             }
             else if(movingForward == false && ChapterNumber > 0)
             {
                 ChapterNumber--;
-                var xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(_book.Resources.Html.ElementAt(ChapterNumber).TextContent, true);
-
-                SetDoc(xamlForFlowDoc);
+                SelectedChapterIndex = ChapterNumber;
             }
 
-            //Go to the top of the document when chapter changes
+            // Go to the top of the document when chapter changes
             StoryDocument.BringIntoView();
         }
 
         private void SetDoc(string xaml)
         {
-            //Replace all '#em' values in the xaml
-            //'#em' values won't allow the xaml reader to load
+            // Replace all '#em' values in the xaml
+            // '#em' values won't allow the xaml reader to load
             xaml = Regex.Replace(xaml, @"([0-9]em)|([0-9]%)", "1");
 
             StringReader stringReader = new StringReader(xaml);
@@ -193,6 +253,29 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             StoryDocument = XamlReader.Load(XmlReader.Create(stringReader)) as FlowDocument;
         }
 
+        //This changes chapters and sets the doc after the selected chapter index changes
+        private void SelectChapter(object sender, EventArgs e)
+        {
+            // _book.Resource.Html.Count has all available pages of the eBook
+            // ChapterTitles.Count has all the chapters that are available in the table of contents
+            // The difference between them will indicate whether there is an extra page that the table of contents doesn't account for
+            var diff = _book.Resources.Html.Count - ChapterTitles.Count;
+            var xamlForFlowDoc = string.Empty;
+
+            // If chapter was selected from chapter menu, the chapter number must be updated
+            ChapterNumber = SelectedChapterIndex;
+
+            // Some stories might have an extra page that isn't accounted for within the chapter list, so an offset must be used to accurately switch between chapters
+            if(diff != 0)
+                xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(_book.Resources.Html.ElementAt(ChapterNumber + 1).TextContent, true);
+            else
+                xamlForFlowDoc = HtmlToXamlConverter.ConvertHtmlToXaml(_book.Resources.Html.ElementAt(ChapterNumber).TextContent, true);
+            
+            
+            SetDoc(xamlForFlowDoc);
+
+            IsBurgerMenuOpen = false;
+        }
         #endregion
     }
 }

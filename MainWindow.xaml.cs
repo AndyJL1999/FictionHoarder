@@ -13,8 +13,6 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using AutoMapper;
-using FictionDataAccessLibrary.Data;
-using FictionDataAccessLibrary.DbAccess;
 using FictionHoarderWPF.Core;
 using FictionUI_Library.API;
 using FictionHoarderWPF.MVVM.View;

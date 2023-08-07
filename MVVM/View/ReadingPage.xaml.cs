@@ -1,6 +1,5 @@
 ﻿using EpubSharp;
 using HTMLConverter;
-using Microsoft.AspNetCore.Html;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

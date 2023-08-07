@@ -1,5 +1,4 @@
 ﻿using FictionHoarderWPF.Core;
-using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -10,7 +9,6 @@ using System.Net.Http.Json;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using System.Configuration;
-using Microsoft.IdentityModel.Protocols;
 using FictionUI_Library.API;
 using FictionUI_Library.Models;
 using Prism.Events;

@@ -12,17 +12,17 @@
     <Border>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width=".2*"/>
+                <ColumnDefinition Width=".16*"/>
+                <ColumnDefinition Width=".16*"/>
+                <ColumnDefinition Width=".16*"/>
+                <ColumnDefinition Width=".16*"/>
+                <ColumnDefinition Width=".16*"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition/>
+                <RowDefinition Height=".05*"/>
+                <RowDefinition Height=".95*"/>
             </Grid.RowDefinitions>
 
             <TextBlock Text="FictionHoarder" HorizontalAlignment="Center" VerticalAlignment="Center"
@@ -43,6 +43,16 @@
                     Margin="40,0,40,0" Content="▶" FontSize="18" BorderThickness="0"
                     Command="{Binding ChangeChapterCommand}" CommandParameter="true"/>
 
+            <ToggleButton Grid.Column="5" Background="Transparent"
+                          BorderThickness="0"
+                          Command="{Binding ToggleMenuCommand}">
+                <StackPanel>
+                    <Line Stroke="AliceBlue" X1="0" X2="50" StrokeThickness="2" Margin="2"/>
+                    <Line Stroke="AliceBlue" X1="0" X2="50" StrokeThickness="2" Margin="2"/>
+                    <Line Stroke="AliceBlue" X1="0" X2="50" StrokeThickness="2" Margin="2"/>
+                </StackPanel>
+            </ToggleButton>
+
 
             <Grid Grid.Row="1" Grid.ColumnSpan="6" Visibility="{Binding SpinnerVisibility}">
                 <fa:ImageAwesome Icon="Spinner" Spin="True" Height="48" Width="48" Foreground="White"/>
@@ -58,13 +68,13 @@
                     <RowDefinition Height="auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                
+
                 <TextBlock Grid.ColumnSpan="3" Text="{Binding Title}" HorizontalAlignment="Center" 
                            Foreground="White" FontSize="30" FontWeight="Bold"/>
                 <TextBlock Grid.Column="1" Text="{Binding Author}" HorizontalAlignment="Center" 
                            VerticalAlignment="Bottom" Foreground="White" FontSize="15" Margin="0,35,0,0"/>
 
-                    
+
                 <FlowDocumentReader x:Name="flowDoc" ViewingMode="Scroll" IsFindEnabled="False"
                                     Grid.Row="1" Grid.ColumnSpan="3" IsPageViewEnabled="False"
                                     IsTwoPageViewEnabled="False" Foreground="White"
@@ -73,7 +83,22 @@
                                                 Path=DataContext.(viewmodel:ReadPageModel.StoryDocument)}" />
 
             </Grid>
-            
+
+            <ListView ItemsSource="{Binding ChapterTitles}"
+                      Grid.Column="5" Grid.Row="1"
+                      Background="#272528" BorderThickness="0"
+                      SelectedIndex="{Binding SelectedChapterIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                      Visibility="{Binding IsBurgerMenuOpen, Converter={StaticResource BooleanToVisibilityConverter}}">
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding}" HorizontalAlignment="Center"
+                                   Foreground="AliceBlue"
+                                   Margin="0,5"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
         </Grid>
     </Border>
 </UserControl>

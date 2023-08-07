@@ -1,6 +1,5 @@
 ﻿using FictionHoarderWPF.Core;
 using FictionHoarderWPF.MVVM.ViewModel;
-using FictionDataAccessLibrary.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
