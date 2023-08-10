@@ -45,6 +45,7 @@
 
             <ToggleButton Grid.Column="5" Background="Transparent"
                           BorderThickness="0"
+                          Style="{StaticResource ToggleButtonTheme}"
                           Command="{Binding ToggleMenuCommand}">
                 <StackPanel>
                     <Line Stroke="AliceBlue" X1="0" X2="50" StrokeThickness="2" Margin="2"/>
