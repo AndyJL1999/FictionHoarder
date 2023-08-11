@@ -46,7 +46,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         #endregion
 
-        public event EventHandler? ChangeChapterFromMenu;
+        public event EventHandler ChangeChapterFromMenu;
 
         public ReadPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, 
             IEventAggregator eventAggregator)
@@ -218,8 +218,9 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
         private void ChangeViewModel(ObservableObject p)
         {
+            // Set the main CurrentViewModel from ReadingPageModel to the MainPageModel
             p = new MainPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator);
-            App.Current.MainWindow.DataContext = new MainViewModel(p);
+            ((MainViewModel)App.Current.MainWindow.DataContext).CurrentViewModel = p;
         }
 
         private void ChangeChapter(string isMovingForward)

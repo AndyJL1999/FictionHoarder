@@ -32,7 +32,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private string _storyTitle;
         #endregion
 
-        public event EventHandler? SearchBoxTextChanged;
+        public event EventHandler SearchBoxTextChanged;
 
         public MainPageModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
             IEventAggregator eventAggregator)
@@ -130,6 +130,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         #endregion
 
         #region ----------Methods----------
+        // This is used for making search queries with in the Stories and History views
         public void MakeStoryQuery(object? sender, EventArgs e)
         {
 
@@ -157,11 +158,11 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
             if(viewModel.Name == "Stories")
             {
-                //Remove a previous search and make search box visible
+                // Remove a previous search and make search box visible
                 StoryTitle = string.Empty;
                 SearchVisibility = Visibility.Visible;
 
-                //Set stories if it hasn't been set already
+                // Set stories if it hasn't been set already
                 if (_stories == null)
                 {
                     _stories = ((StoriesViewModel)viewModel).Stories;
@@ -169,22 +170,22 @@ namespace FictionHoarderWPF.MVVM.ViewModel
             }
             else if(viewModel.Name == "History")
             {
-                //Remove a previous search and make search box visible
+                // Remove a previous search and make search box visible
                 StoryTitle = string.Empty;
                 SearchVisibility = Visibility.Visible;
 
-                //Set history if it hasn't been set already
+                // Set history if it hasn't been set already
                 if (_history == null)
                 {
                     _history = ((HistoryViewModel)viewModel).StoriesRead;
                 }
             }
-            else //if the view model isn't History or Stories collapse the search box
+            else // if the view model isn't History or Stories collapse the search box
             {
                 SearchVisibility = Visibility.Collapsed;
             }
 
-            //Set chosen view model
+            // Set chosen view model
             CurrentSubViewModel = ViewModels.FirstOrDefault(vm => vm == viewModel);
         }
         #endregion

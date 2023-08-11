@@ -29,7 +29,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private ObservableCollection<StoryDisplayModel> _storiesViewed;
         private StoryDisplayModel _selectedStory;
 
-        public event EventHandler? ChangeToReadView;
+        public event EventHandler ChangeToReadView;
 
         public HomeViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint, IEventAggregator eventAggregator)
         {

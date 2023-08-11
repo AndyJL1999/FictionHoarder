@@ -29,7 +29,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private ICommand _removeFromHistoryCommand;
         #endregion
 
-        public event EventHandler? ChangeToReadView;
+        public event EventHandler ChangeToReadView;
 
         public HistoryViewModel(IMapper mapper, IApiHelper apiHelper, IStoryEndpoint storyEndpoint,
             IEventAggregator eventAggregator)
@@ -94,9 +94,10 @@ namespace FictionHoarderWPF.MVVM.ViewModel
                 await _storyEndpoint.AddToStoryHistory(SelectedStory.Id);
                 _storyEndpoint.StoryForCache = story;
 
-                App.Current.MainWindow.DataContext = new MainViewModel(new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
+                // Set the main CurrentViewModel from MainPageModel to the ReadingPageModel
+                ((MainViewModel)App.Current.MainWindow.DataContext).CurrentViewModel = new ReadPageModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator);
 
-                //Send selected story info to reading view model subscriber
+                // Send selected story info to reading view model subscriber
                 _eventAggregator.GetEvent<StorySelectionEvent>().Publish(story);
             }
         }
@@ -109,7 +110,7 @@ namespace FictionHoarderWPF.MVVM.ViewModel
 
             StoriesRead = new ObservableCollection<StoryDisplayModel>(stories);
 
-            //Send the first 4 stories to the home view model subscriber
+            // Send the first 4 stories to the home view model subscriber
             if(payload.Count < 4)
             {
                 _eventAggregator.GetEvent<GetRecentHistoryEvent>().Publish(payload.GetRange(0, payload.Count));
