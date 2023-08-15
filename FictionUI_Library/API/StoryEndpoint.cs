@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Net.Http.Json;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Caching.Memory;
 using Firebase.Storage;
 using System.IO;
 using Microsoft.AspNetCore.WebUtilities;
@@ -15,17 +14,13 @@ namespace FictionUI_Library.API
     {
         #region ----------Fields----------
         private readonly IApiHelper _apiHelper;
-        private readonly IMemoryCache _memoryCache;
-        private readonly string _storyCacheKey = "Stories";
-        private readonly string _historyCacheKey = "History";
         private string _bucket = "fictionhoarder-9fc9c.appspot.com";
         #endregion
 
         //Constructor
-        public StoryEndpoint(IApiHelper apiHelper, IMemoryCache memoryCache)
+        public StoryEndpoint(IApiHelper apiHelper)
         {
             _apiHelper = apiHelper;
-            _memoryCache = memoryCache;
         }
 
         //Used to append the cache lists of stories (stories & history)
@@ -48,21 +43,16 @@ namespace FictionUI_Library.API
         {
             List<StoryModel> output;
 
-            output = _memoryCache.Get<List<StoryModel>>(_storyCacheKey);
+            output = _apiHelper.LoggedInUser.StoryData["Stories"];
 
-            if(output is null || comingFromSearch == true)
+            if(output.Count == 0 || comingFromSearch == true)
             {
                 using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(_apiHelper.ApiClient.BaseAddress + "Story/GetAllUserStories"))
                 {
                     if (response.IsSuccessStatusCode)
                     {
                         output = await response.Content.ReadFromJsonAsync<List<StoryModel>>();
-
-                        _memoryCache.Set(_storyCacheKey, output, new MemoryCacheEntryOptions
-                        {
-                            SlidingExpiration = TimeSpan.FromHours(1),
-                            AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
-                        });
+                        _apiHelper.LoggedInUser.StoryData["Stories"] = output;
 
                         return output;
                     }
@@ -82,21 +72,16 @@ namespace FictionUI_Library.API
             List<StoryModel> output;
 
             //Get stories from cache if they exist
-            output = _memoryCache.Get<List<StoryModel>>(_historyCacheKey);
+            output = _apiHelper.LoggedInUser.StoryData["History"];
 
-            if (output is null)
+            if (output.Count == 0)
             {
                 using (HttpResponseMessage response = await _apiHelper.ApiClient.GetAsync(_apiHelper.ApiClient.BaseAddress + "Story/History"))
                 {
                     if (response.IsSuccessStatusCode)
                     {
                         output = await response.Content.ReadFromJsonAsync<List<StoryModel>>();
-
-                        _memoryCache.Set(_historyCacheKey, output, new MemoryCacheEntryOptions
-                        {
-                            SlidingExpiration = TimeSpan.FromHours(1),
-                            AbsoluteExpiration = DateTime.UtcNow.AddDays(1)
-                        });
+                        _apiHelper.LoggedInUser.StoryData["History"] = output;
 
                         return output;
                     }
@@ -175,12 +160,12 @@ namespace FictionUI_Library.API
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var output = _memoryCache.Get<List<StoryModel>>(_storyCacheKey);
+                    var output = _apiHelper.LoggedInUser.StoryData["Stories"];
 
                     StoryModel storyToRemove = output.Find(o => o.Id == storyId);
                     output.Remove(storyToRemove);
 
-                    _memoryCache.Set(_storyCacheKey, output);
+                    _apiHelper.LoggedInUser.StoryData["Stories"] = output;
 
                     Console.WriteLine("Success!");
                 }
@@ -197,12 +182,12 @@ namespace FictionUI_Library.API
             {
                 if (response.IsSuccessStatusCode)
                 {
-                    var output = _memoryCache.Get<List<StoryModel>>(_historyCacheKey);
+                    var output = _apiHelper.LoggedInUser.StoryData["History"];
 
                     StoryModel storyToRemove = output.Find(o => o.Id == storyId);
                     output.Remove(storyToRemove);
 
-                    _memoryCache.Set(_historyCacheKey, output);
+                    _apiHelper.LoggedInUser.StoryData["History"] = output;
 
                     Console.WriteLine("Success!");
                 }
@@ -239,12 +224,6 @@ namespace FictionUI_Library.API
                     throw new Exception(response.ReasonPhrase);
                 }
             }
-        }
-
-        public void ClearCache()
-        {
-            _memoryCache.Remove(_historyCacheKey);
-            _memoryCache.Remove(_storyCacheKey);
         }
 
         private async Task SendToStorage(string filePath, string fileName)

@@ -12,7 +12,6 @@ namespace FictionUI_Library.API
         Task AddToStoryHistory(int storyId);
         Task<IEnumerable<StoryModel>> GetUserStories(bool comingFromSearch);
         Task<IEnumerable<StoryModel>> GetUserStoryHistory();
-        void ClearCache();
         Task InsertNewStory(StoryModel story);
         Task RemoveUserStory(int storyId);
         Task RemoveFromUserStoryHistory(int storyId);

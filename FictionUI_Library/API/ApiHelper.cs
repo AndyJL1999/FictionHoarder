@@ -1,6 +1,7 @@
 ﻿using FictionUI_Library.Models;
 using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
@@ -18,7 +19,7 @@ namespace FictionUI_Library.API
         public ApiHelper(IConfiguration config, ILoggedInUser loggedInUser)
         {
             _config = config;
-            _loggedInUser = loggedInUser;
+            LoggedInUser = loggedInUser;
 
             InitializeClient();
         }
@@ -34,16 +35,17 @@ namespace FictionUI_Library.API
         public HttpClient ApiClient 
         { 
             get { return _apiClient; } 
+            private set { _apiClient = value; }
         }
 
         private void InitializeClient()
         {
             string? api = _config.GetSection("AppSettings:ApiUrl").Value;
 
-            _apiClient = new HttpClient();
-            _apiClient.BaseAddress = new Uri(api);
-            _apiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            ApiClient = new HttpClient();
+            ApiClient.BaseAddress = new Uri(api);
+            ApiClient.DefaultRequestHeaders.Accept.Clear();
+            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
         public async Task<AuthenticatedUser> Authenticate(string email, string password)
@@ -93,20 +95,20 @@ namespace FictionUI_Library.API
 
         public async Task GetUserInfo(string token)
         {
-            _apiClient.DefaultRequestHeaders.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Clear();
-            _apiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            _apiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
+            ApiClient.DefaultRequestHeaders.Clear();
+            ApiClient.DefaultRequestHeaders.Accept.Clear();
+            ApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            ApiClient.DefaultRequestHeaders.Add("Authorization", $"Bearer {token}");
 
             using (HttpResponseMessage response = await _apiClient.GetAsync(_apiClient.BaseAddress + "User"))
             {
                 if (response.IsSuccessStatusCode)
                 {
                     var result = await response.Content.ReadFromJsonAsync<LoggedInUser>();
-                    _loggedInUser.Username = result.Username;
-                    _loggedInUser.Email = result.Email;
-                    _loggedInUser.Id = result.Id;
-                    _loggedInUser.Token = token;
+                    LoggedInUser.Username = result.Username;
+                    LoggedInUser.Email = result.Email;
+                    LoggedInUser.Id = result.Id;
+                    LoggedInUser.Token = token;
                 }
                 else
                 {
