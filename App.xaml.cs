@@ -53,7 +53,6 @@ namespace FictionHoarderWPF
                     services.AddSingleton<ILoggedInUser, LoggedInUser>();
                     services.AddSingleton<IApiHelper, ApiHelper>();
                     services.AddScoped<IStoryEndpoint, StoryEndpoint>();
-                    services.AddMemoryCache();
 
                 }).Build();
         }

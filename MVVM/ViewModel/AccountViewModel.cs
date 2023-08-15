@@ -276,8 +276,8 @@ namespace FictionHoarderWPF.MVVM.ViewModel
         private void LogOut()
         {
             _apiHelper.ApiClient.DefaultRequestHeaders.Clear();
-            _storyEndpoint.ClearCache();
-            App.Current.MainWindow.DataContext = new MainViewModel(new StartUpModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator));
+            _apiHelper.LoggedInUser.ClearUser();
+            ((MainViewModel)App.Current.MainWindow.DataContext).CurrentViewModel = new StartUpModel(_mapper, _apiHelper, _storyEndpoint, _eventAggregator);
         }
         #endregion
     }
